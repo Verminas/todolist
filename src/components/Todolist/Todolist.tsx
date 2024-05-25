@@ -1,44 +1,80 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button} from "../Button/Button";
+import {v1} from "uuid";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
-type TaskPropsType = {
-  id: number
+export type FilterValueType = 'all' | 'active' | 'completed';
+
+export type TaskPropsType = {
+  id: string
   title: string
   isDone: boolean
 }
 
 type TodolistPropsType = {
-  title: string
-  tasks: Array<TaskPropsType>
+  data: {
+    title: string
+    tasks: Array<TaskPropsType>
+  }
+
+  changeFilter: (value: FilterValueType, setFunc: (value: FilterValueType) => void) => void
+  removeTask: (id: string, array: Array<TaskPropsType>, setFunc: (value: Array<TaskPropsType>) => void) => void
 }
 
-export const Todolist = ({title, tasks}: TodolistPropsType) => {
+export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: TodolistPropsType) => {
   const [currentTasks, setCurrentTasks] = useState(tasks);
   const [filter, setFilter] = useState('all');
+  const [inputValue, setInputValue] = useState('');
+  // animation for list tasks
+  const [listRef] = useAutoAnimate<HTMLUListElement>()
 
-  function removeTask(id: number) {
-    let filteredTasks = currentTasks.filter((t) => t.id !== id);
-    setCurrentTasks(filteredTasks);
+  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>){
+    setInputValue(e.currentTarget.value)
+  }
+  function changeInputCheckedTask() {
+
   }
 
-  function changeFilter(value: string) {
-    setFilter(value);
+  function addTask() {
+    if (inputValue.trim().length > 0) {
+      let newTask: TaskPropsType = {
+        id: v1(),
+        title: inputValue,
+        isDone: false,
+      }
+      setCurrentTasks([newTask, ...currentTasks])
+      setInputValue('');
+    }
   }
 
-  let filteredTasks = currentTasks;
+  function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
+      if(e.key === 'Enter') {
+        addTask();
+      }
+  }
+
+  let todolistTasks = currentTasks;
   if (filter === 'active') {
-    filteredTasks = currentTasks.filter((t) => !t.isDone);
+    todolistTasks = currentTasks.filter((t) => !t.isDone);
   }
   if (filter === 'completed') {
-    filteredTasks = currentTasks.filter((t) => t.isDone);
+    todolistTasks = currentTasks.filter((t) => t.isDone);
   }
 
-  const tasksElements = filteredTasks.map((t) => {
+  const changeFilterHandler = (value: FilterValueType) => {
+    changeFilter(value, setFilter)
+  }
+
+  const tasksElements = todolistTasks.map((t) => {
+    const removeTaskHandler = () => {
+      removeTask(t.id, currentTasks, setCurrentTasks)
+    }
+
     return (
       <li key={t.id}>
-        <input type="checkbox" checked={t.isDone}/>
+        <input type="checkbox" checked={t.isDone} onChange={() =>console.log(t.id)}/>
         <span>{t.title}</span>
-        <Button title={'x'} onClick={() => removeTask(t.id)}/>
+        <Button title={'x'} onClick={removeTaskHandler}/>
       </li>
     )
   })
@@ -47,19 +83,23 @@ export const Todolist = ({title, tasks}: TodolistPropsType) => {
     <div>
       <h3>{title}</h3>
       <div>
-        <input/>
-        <Button title={'+'}/>
+        <input
+          value={inputValue}
+          onChange={changeInputValueTitle}
+          onKeyUp={onKeyUpEnter}
+        />
+        <Button title={'+'} onClick={addTask}/>
       </div>
-      {currentTasks.length === 0
+      {todolistTasks.length === 0
         ? <span>There are not tasks</span>
-        : <ul>
+        : <ul ref={listRef}>
           {tasksElements}
         </ul>
       }
       <div>
-        <Button title={'All'} onClick={() => changeFilter('all')}/>
-        <Button title={'Active'} onClick={() => changeFilter('active')}/>
-        <Button title={'Completed'} onClick={() => changeFilter('completed')}/>
+        <Button title={'All'} onClick={() => changeFilterHandler('all')}/>
+        <Button title={'Active'} onClick={() => changeFilterHandler('active')}/>
+        <Button title={'Completed'} onClick={() => changeFilterHandler('completed')}/>
       </div>
     </div>
   );
