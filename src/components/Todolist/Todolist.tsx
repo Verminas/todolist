@@ -27,12 +27,17 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
   const [inputValue, setInputValue] = useState('');
   // animation for list tasks
   const [listRef] = useAutoAnimate<HTMLUListElement>()
+  let todolistTasks = currentTasks;
 
   function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>){
     setInputValue(e.currentTarget.value)
   }
-  function changeInputCheckedTask() {
-
+  function changeInputCheckedTask(e: ChangeEvent<HTMLInputElement>, taskId: string) {
+    let task = currentTasks.find((t) => t.id === taskId);
+    if(task) {
+      task.isDone = e.currentTarget.checked;
+    }
+    setCurrentTasks([...currentTasks]);
   }
 
   function addTask() {
@@ -53,7 +58,6 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
       }
   }
 
-  let todolistTasks = currentTasks;
   if (filter === 'active') {
     todolistTasks = currentTasks.filter((t) => !t.isDone);
   }
@@ -72,7 +76,7 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
 
     return (
       <li key={t.id}>
-        <input type="checkbox" checked={t.isDone} onChange={() =>console.log(t.id)}/>
+        <input type="checkbox" checked={t.isDone} onChange={(e) => changeInputCheckedTask(e, t.id)}/>
         <span>{t.title}</span>
         <Button title={'x'} onClick={removeTaskHandler}/>
       </li>
@@ -97,10 +101,12 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
         </ul>
       }
       <div>
-        <Button title={'All'} onClick={() => changeFilterHandler('all')}/>
-        <Button title={'Active'} onClick={() => changeFilterHandler('active')}/>
-        <Button title={'Completed'} onClick={() => changeFilterHandler('completed')}/>
+        <Button title={'All'} onClick={() => changeFilterHandler('all')} className={filter === 'all' ? 'active-filter' : ''}/>
+        <Button title={'Active'} onClick={() => changeFilterHandler('active')} className={filter === 'active' ? 'active-filter' : ''}/>
+        <Button title={'Completed'} onClick={() => changeFilterHandler('completed')} className={filter === 'completed' ? 'active-filter' : ''}/>
       </div>
     </div>
   );
 };
+
+
