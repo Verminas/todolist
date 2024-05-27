@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent} from 'react';
 import './App.css';
 import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/Todolist";
 import { v1 } from 'uuid';
@@ -52,6 +52,33 @@ function App() {
     setFunc([...tasks]);
   }
 
+  function addTask(
+    inputValue: string,
+    tasks: Array<TaskPropsType>,
+    setTasksFunc: (value: Array<TaskPropsType>) => void,
+    setInputFunc: (value: string) => void,
+    setErrorFunc: (value: string | null) => void,
+    ) {
+    if (inputValue.trim().length > 0) {
+      let newTask: TaskPropsType = {
+        id: v1(),
+        title: inputValue,
+        isDone: false,
+      }
+      setTasksFunc([newTask, ...tasks])
+      setInputFunc('');
+    } else {
+      setErrorFunc('Title is required')
+    }
+  }
+
+  function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>, setErrorFunc: (value: string | null) => void, addHandler: () => void) {
+    setErrorFunc(null);
+    if (e.key === 'Enter') {
+      addHandler();
+    }
+  }
+
   return (
     <div className="App">
       <Todolist
@@ -60,6 +87,8 @@ function App() {
         removeTask={removeTask}
         changeInputValueTitle={changeInputValueTitle}
         changeInputCheckedTask={changeInputCheckedTask}
+        addTask={addTask}
+        onKeyUpEnter={onKeyUpEnter}
       />
       <Todolist
         data={tasksList2}
@@ -67,6 +96,8 @@ function App() {
         removeTask={removeTask}
         changeInputValueTitle={changeInputValueTitle}
         changeInputCheckedTask={changeInputCheckedTask}
+        addTask={addTask}
+        onKeyUpEnter={onKeyUpEnter}
       />
       <Todolist
         data={tasksList3}
@@ -74,6 +105,8 @@ function App() {
         removeTask={removeTask}
         changeInputValueTitle={changeInputValueTitle}
         changeInputCheckedTask={changeInputCheckedTask}
+        addTask={addTask}
+        onKeyUpEnter={onKeyUpEnter}
       />
     </div>
   );
