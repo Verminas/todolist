@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button} from "../Button/Button";
 import {v1} from "uuid";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
+import styled from "styled-components";
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -25,16 +26,18 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
   const [currentTasks, setCurrentTasks] = useState(tasks);
   const [filter, setFilter] = useState('all');
   const [inputValue, setInputValue] = useState('');
+  const [errorInputTitle, setErrorInputTitle] = useState<string | null>(null);
   // animation for list tasks
   const [listRef] = useAutoAnimate<HTMLUListElement>()
   let todolistTasks = currentTasks;
 
-  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>){
+  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>) {
     setInputValue(e.currentTarget.value)
   }
+
   function changeInputCheckedTask(e: ChangeEvent<HTMLInputElement>, taskId: string) {
     let task = currentTasks.find((t) => t.id === taskId);
-    if(task) {
+    if (task) {
       task.isDone = e.currentTarget.checked;
     }
     setCurrentTasks([...currentTasks]);
@@ -49,13 +52,16 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
       }
       setCurrentTasks([newTask, ...currentTasks])
       setInputValue('');
+    } else {
+      setErrorInputTitle('Title is required')
     }
   }
 
   function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
-      if(e.key === 'Enter') {
-        addTask();
-      }
+    setErrorInputTitle(null);
+    if (e.key === 'Enter') {
+      addTask();
+    }
   }
 
   if (filter === 'active') {
@@ -75,11 +81,11 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
     }
 
     return (
-      <li key={t.id}>
+      <Task key={t.id} className={t.isDone ? 'is-done' : ''}>
         <input type="checkbox" checked={t.isDone} onChange={(e) => changeInputCheckedTask(e, t.id)}/>
         <span>{t.title}</span>
         <Button title={'x'} onClick={removeTaskHandler}/>
-      </li>
+      </Task>
     )
   })
 
@@ -87,13 +93,15 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
     <div>
       <h3>{title}</h3>
       <div>
-        <input
+        <StyledInputTitle
           value={inputValue}
           onChange={changeInputValueTitle}
           onKeyUp={onKeyUpEnter}
+          className={errorInputTitle ? 'input-error' : ''}
         />
         <Button title={'+'} onClick={addTask}/>
       </div>
+      {errorInputTitle && <ErrorMessage>{errorInputTitle}</ErrorMessage>}
       {todolistTasks.length === 0
         ? <span>There are not tasks</span>
         : <ul ref={listRef}>
@@ -101,12 +109,30 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
         </ul>
       }
       <div>
-        <Button title={'All'} onClick={() => changeFilterHandler('all')} className={filter === 'all' ? 'active-filter' : ''}/>
-        <Button title={'Active'} onClick={() => changeFilterHandler('active')} className={filter === 'active' ? 'active-filter' : ''}/>
-        <Button title={'Completed'} onClick={() => changeFilterHandler('completed')} className={filter === 'completed' ? 'active-filter' : ''}/>
+        <Button title={'All'} onClick={() => changeFilterHandler('all')}
+                className={filter === 'all' ? 'active-filter' : ''}/>
+        <Button title={'Active'} onClick={() => changeFilterHandler('active')}
+                className={filter === 'active' ? 'active-filter' : ''}/>
+        <Button title={'Completed'} onClick={() => changeFilterHandler('completed')}
+                className={filter === 'completed' ? 'active-filter' : ''}/>
       </div>
     </div>
   );
 };
 
+const StyledInputTitle = styled.input`
+    &.input-error {
+        outline: 1px solid red;
+    }
+`
+
+const ErrorMessage = styled.span`
+    color: red;
+`
+
+const Task = styled.li`
+    &.is-done{
+        opacity: 0.5;
+    }
+`
 
