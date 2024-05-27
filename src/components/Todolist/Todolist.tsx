@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from 'react';
 import {Button} from "../Button/Button";
 import {v1} from "uuid";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
@@ -20,9 +20,11 @@ type TodolistPropsType = {
 
   changeFilter: (value: FilterValueType, setFunc: (value: FilterValueType) => void) => void
   removeTask: (id: string, array: Array<TaskPropsType>, setFunc: (value: Array<TaskPropsType>) => void) => void
+  changeInputValueTitle: (e: ChangeEvent<HTMLInputElement>, setFunc: (value: string) => void) => void
+  changeInputCheckedTask: (e: ChangeEvent<HTMLInputElement>, taskId: string, tasks:Array<TaskPropsType>, setFunc: (value: Array<TaskPropsType>) => void) => void
 }
 
-export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: TodolistPropsType) => {
+export const Todolist = ({data: {title, tasks}, changeFilter, removeTask, changeInputValueTitle, changeInputCheckedTask}: TodolistPropsType) => {
   const [currentTasks, setCurrentTasks] = useState(tasks);
   const [filter, setFilter] = useState('all');
   const [inputValue, setInputValue] = useState('');
@@ -31,17 +33,6 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
   const [listRef] = useAutoAnimate<HTMLUListElement>()
   let todolistTasks = currentTasks;
 
-  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.currentTarget.value)
-  }
-
-  function changeInputCheckedTask(e: ChangeEvent<HTMLInputElement>, taskId: string) {
-    let task = currentTasks.find((t) => t.id === taskId);
-    if (task) {
-      task.isDone = e.currentTarget.checked;
-    }
-    setCurrentTasks([...currentTasks]);
-  }
 
   function addTask() {
     if (inputValue.trim().length > 0) {
@@ -74,15 +65,22 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
   const changeFilterHandler = (value: FilterValueType) => {
     changeFilter(value, setFilter)
   }
+  const changeInputValueTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    changeInputValueTitle(e, setInputValue);
+  }
+
 
   const tasksElements = todolistTasks.map((t) => {
     const removeTaskHandler = () => {
       removeTask(t.id, currentTasks, setCurrentTasks)
     }
+    const changeInputCheckedTaskHandler = (e: ChangeEvent<HTMLInputElement>, taskId: string) => {
+      changeInputCheckedTask(e, taskId, currentTasks, setCurrentTasks);
+    }
 
     return (
       <Task key={t.id} className={t.isDone ? 'is-done' : ''}>
-        <input type="checkbox" checked={t.isDone} onChange={(e) => changeInputCheckedTask(e, t.id)}/>
+        <input type="checkbox" checked={t.isDone} onChange={(e) => changeInputCheckedTaskHandler(e, t.id)}/>
         <span>{t.title}</span>
         <Button title={'x'} onClick={removeTaskHandler}/>
       </Task>
@@ -95,7 +93,7 @@ export const Todolist = ({data: {title, tasks}, changeFilter, removeTask}: Todol
       <div>
         <StyledInputTitle
           value={inputValue}
-          onChange={changeInputValueTitle}
+          onChange={changeInputValueTitleHandler}
           onKeyUp={onKeyUpEnter}
           className={errorInputTitle ? 'input-error' : ''}
         />
@@ -135,4 +133,3 @@ const Task = styled.li`
         opacity: 0.5;
     }
 `
-

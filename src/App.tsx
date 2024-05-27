@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css';
 import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/Todolist";
 import { v1 } from 'uuid';
@@ -40,22 +40,40 @@ function App() {
     setFunc(value);
   }
 
+  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>, setFunc: (value: string) => void) {
+    setFunc(e.currentTarget.value)
+  }
+
+  function changeInputCheckedTask(e: ChangeEvent<HTMLInputElement>, taskId: string, tasks:Array<TaskPropsType>, setFunc: (value: Array<TaskPropsType>) => void) {
+    let task = tasks.find((t) => t.id === taskId);
+    if (task) {
+      task.isDone = e.currentTarget.checked;
+    }
+    setFunc([...tasks]);
+  }
+
   return (
     <div className="App">
       <Todolist
         data={tasksList1}
         changeFilter={changeFilter}
         removeTask={removeTask}
+        changeInputValueTitle={changeInputValueTitle}
+        changeInputCheckedTask={changeInputCheckedTask}
       />
       <Todolist
         data={tasksList2}
         changeFilter={changeFilter}
         removeTask={removeTask}
+        changeInputValueTitle={changeInputValueTitle}
+        changeInputCheckedTask={changeInputCheckedTask}
       />
       <Todolist
         data={tasksList3}
         changeFilter={changeFilter}
         removeTask={removeTask}
+        changeInputValueTitle={changeInputValueTitle}
+        changeInputCheckedTask={changeInputCheckedTask}
       />
     </div>
   );
