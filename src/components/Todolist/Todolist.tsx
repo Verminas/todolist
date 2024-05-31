@@ -18,47 +18,43 @@ type TodolistPropsType = {
 
   changeFilter: (value: FilterValueType) => void
   removeTask: (id: string) => void
-  changeInputCheckedTask: (e: ChangeEvent<HTMLInputElement>, taskId: string) => void
+  changeTaskStatus: (e: ChangeEvent<HTMLInputElement>, taskId: string) => void
   addTask: (inputValue: string) => void
   filter: FilterValueType
 }
 
 export const Todolist = ({
-                           title, tasks,
+                           title,
+                           tasks,
                            changeFilter,
                            removeTask,
-                           changeInputCheckedTask,
+                           changeTaskStatus,
                            addTask,
                            filter
                          }: TodolistPropsType) => {
 
-  const [inputValue, setInputValue] = useState('');
-  const [errorInputTitle, setErrorInputTitle] = useState<string | null>(null);
+  const [titleTask, setTitleTask] = useState('');
+  const [errorTitleTask, setErrorTitleTask] = useState<string | null>(null);
   // animation for list tasks
   const [listRef] = useAutoAnimate<HTMLUListElement>()
 
   function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.currentTarget.value)
+    setTitleTask(e.currentTarget.value)
   }
 
   function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
-    setErrorInputTitle(null);
+    setErrorTitleTask(null);
     if (e.key === 'Enter') {
       addTaskHandler();
     }
   }
 
-  const changeFilterHandler = (value: FilterValueType) => {
-    changeFilter(value)
-  }
-
-
   const addTaskHandler = () => {
-    if (inputValue.trim().length > 0) {
-      addTask(inputValue);
-      setInputValue('');
+    if (titleTask.trim().length > 0) {
+      addTask(titleTask);
+      setTitleTask('');
     } else {
-      setErrorInputTitle('Title is required')
+      setErrorTitleTask('Title is required')
     }
   }
 
@@ -66,13 +62,13 @@ export const Todolist = ({
     const removeTaskHandler = () => {
       removeTask(t.id)
     }
-    const changeInputCheckedTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      changeInputCheckedTask(e, t.id);
+    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      changeTaskStatus(e, t.id);
     }
 
     return (
       <Task key={t.id} className={t.isDone ? 'is-done' : ''}>
-        <input type="checkbox" checked={t.isDone} onChange={changeInputCheckedTaskHandler}/>
+        <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
         <span>{t.title}</span>
         <Button title={'x'} onClick={removeTaskHandler}/>
       </Task>
@@ -84,14 +80,14 @@ export const Todolist = ({
       <h3>{title}</h3>
       <div>
         <StyledInputTitle
-          value={inputValue}
+          value={titleTask}
           onChange={changeInputValueTitle}
           onKeyUp={onKeyUpEnter}
-          className={errorInputTitle ? 'input-error' : ''}
+          className={errorTitleTask ? 'input-error' : ''}
         />
         <Button title={'+'} onClick={addTaskHandler}/>
       </div>
-      {errorInputTitle && <ErrorMessage>{errorInputTitle}</ErrorMessage>}
+      {errorTitleTask && <ErrorMessage>{errorTitleTask}</ErrorMessage>}
       {tasks.length === 0
         ? <span>There are not tasks</span>
         : <ul ref={listRef}>
@@ -99,11 +95,11 @@ export const Todolist = ({
         </ul>
       }
       <div>
-        <Button title={'All'} onClick={() => changeFilterHandler('all')}
+        <Button title={'All'} onClick={() => changeFilter('all')}
                 className={filter === 'all' ? 'active-filter' : ''}/>
-        <Button title={'Active'} onClick={() => changeFilterHandler('active')}
+        <Button title={'Active'} onClick={() => changeFilter('active')}
                 className={filter === 'active' ? 'active-filter' : ''}/>
-        <Button title={'Completed'} onClick={() => changeFilterHandler('completed')}
+        <Button title={'Completed'} onClick={() => changeFilter('completed')}
                 className={filter === 'completed' ? 'active-filter' : ''}/>
       </div>
     </div>
