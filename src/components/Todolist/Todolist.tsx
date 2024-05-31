@@ -13,100 +13,117 @@ export type TaskPropsType = {
 }
 
 type TodolistPropsType = {
+  id: string
   title: string
   tasks: Array<TaskPropsType>
 
-  changeFilter: (value: FilterValueType) => void
-  removeTask: (id: string) => void
-  changeTaskStatus: (e: ChangeEvent<HTMLInputElement>, taskId: string) => void
-  addTask: (inputValue: string) => void
+  changeFilter: (value: FilterValueType, todoId: string) => void
+  removeTask: (id: string, todoId: string) => void
+  removeTodolist: (todoId: string) => void
+  changeTaskStatus: (e: ChangeEvent<HTMLInputElement>, taskId: string, todoId: string) => void
+  addTask: (inputValue: string, todoId: string) => void
   filter: FilterValueType
 }
 
 export const Todolist = ({
+                           id,
                            title,
                            tasks,
                            changeFilter,
                            removeTask,
+                           removeTodolist,
                            changeTaskStatus,
                            addTask,
                            filter
-                         }: TodolistPropsType) => {
+                         }:
+                           TodolistPropsType
+  ) => {
 
-  const [titleTask, setTitleTask] = useState('');
-  const [errorTitleTask, setErrorTitleTask] = useState<string | null>(null);
-  // animation for list tasks
-  const [listRef] = useAutoAnimate<HTMLUListElement>()
+    const [titleTask, setTitleTask] = useState('');
+    const [errorTitleTask, setErrorTitleTask] = useState<string | null>(null);
+    // animation for list tasks
+    const [listRef] = useAutoAnimate<HTMLUListElement>()
 
-  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>) {
-    setTitleTask(e.currentTarget.value)
-  }
-
-  function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
-    setErrorTitleTask(null);
-    if (e.key === 'Enter') {
-      addTaskHandler();
+    function changeTitleTask(e: ChangeEvent<HTMLInputElement>) {
+      setTitleTask(e.currentTarget.value)
     }
-  }
 
-  const addTaskHandler = () => {
-    if (titleTask.trim().length > 0) {
-      addTask(titleTask);
-      setTitleTask('');
-    } else {
-      setErrorTitleTask('Title is required')
+    function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
+      setErrorTitleTask(null);
+      if (e.key === 'Enter') {
+        addTaskHandler();
+      }
     }
-  }
 
-  const tasksElements = tasks.map((t) => {
-    const removeTaskHandler = () => {
-      removeTask(t.id)
+    const addTaskHandler = () => {
+      if (titleTask.trim().length > 0) {
+        addTask(titleTask, id);
+        setTitleTask('');
+      } else {
+        setErrorTitleTask('Title is required')
+      }
     }
-    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      changeTaskStatus(e, t.id);
+
+    const changeFilterHandler = (value: FilterValueType) => {
+      changeFilter(value, id);
     }
+
+    const removeTodolistHandler = () => {
+      removeTodolist(id);
+    }
+
+    const tasksElements = tasks.map((t) => {
+      const removeTaskHandler = () => {
+        removeTask(t.id, id)
+      }
+      const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        changeTaskStatus(e, t.id, id);
+      }
+
+      return (
+        <Task key={t.id} className={t.isDone ? 'is-done' : ''}>
+          <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
+          <span>{t.title}</span>
+          <Button title={'x'} onClick={removeTaskHandler}/>
+        </Task>
+      )
+    })
 
     return (
-      <Task key={t.id} className={t.isDone ? 'is-done' : ''}>
-        <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
-        <span>{t.title}</span>
-        <Button title={'x'} onClick={removeTaskHandler}/>
-      </Task>
-    )
-  })
-
-  return (
-    <div>
-      <h3>{title}</h3>
       <div>
-        <StyledInputTitle
-          value={titleTask}
-          onChange={changeInputValueTitle}
-          onKeyUp={onKeyUpEnter}
-          className={errorTitleTask ? 'input-error' : ''}
-        />
-        <Button title={'+'} onClick={addTaskHandler}/>
+        <h3>{title}
+          <Button title={'x'} onClick={removeTodolistHandler}/>
+        </h3>
+        <div>
+          <StyledTitleTask
+            value={titleTask}
+            onChange={changeTitleTask}
+            onKeyUp={onKeyUpEnter}
+            className={errorTitleTask ? 'input-error' : ''}
+          />
+          <Button title={'+'} onClick={addTaskHandler}/>
+        </div>
+        {errorTitleTask && <ErrorMessage>{errorTitleTask}</ErrorMessage>}
+        {tasks.length === 0
+          ? <span>There are not tasks</span>
+          : <ul ref={listRef}>
+            {tasksElements}
+          </ul>
+        }
+        <div>
+          <Button title={'All'} onClick={() => changeFilterHandler('all')}
+                  className={filter === 'all' ? 'active-filter' : ''}/>
+          <Button title={'Active'} onClick={() => changeFilterHandler('active')}
+                  className={filter === 'active' ? 'active-filter' : ''}/>
+          <Button title={'Completed'} onClick={() => changeFilterHandler('completed')}
+                  className={filter === 'completed' ? 'active-filter' : ''}/>
+        </div>
       </div>
-      {errorTitleTask && <ErrorMessage>{errorTitleTask}</ErrorMessage>}
-      {tasks.length === 0
-        ? <span>There are not tasks</span>
-        : <ul ref={listRef}>
-          {tasksElements}
-        </ul>
-      }
-      <div>
-        <Button title={'All'} onClick={() => changeFilter('all')}
-                className={filter === 'all' ? 'active-filter' : ''}/>
-        <Button title={'Active'} onClick={() => changeFilter('active')}
-                className={filter === 'active' ? 'active-filter' : ''}/>
-        <Button title={'Completed'} onClick={() => changeFilter('completed')}
-                className={filter === 'completed' ? 'active-filter' : ''}/>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+;
 
-const StyledInputTitle = styled.input`
+const StyledTitleTask = styled.input`
     &.input-error {
         outline: 1px solid red;
     }
