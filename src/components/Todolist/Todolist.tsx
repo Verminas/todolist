@@ -13,68 +13,61 @@ export type TaskPropsType = {
 }
 
 type TodolistPropsType = {
-  data: {
-    title: string
-    tasks: Array<TaskPropsType>
-  }
+  title: string
+  tasks: Array<TaskPropsType>
 
-  changeFilter: (value: FilterValueType, setFunc: (value: FilterValueType) => void) => void
-  removeTask: (id: string, array: Array<TaskPropsType>, setFunc: (value: Array<TaskPropsType>) => void) => void
-  changeInputValueTitle: (e: ChangeEvent<HTMLInputElement>, setFunc: (value: string) => void) => void
-  changeInputCheckedTask: (e: ChangeEvent<HTMLInputElement>,
-                           taskId: string,
-                           tasks:Array<TaskPropsType>,
-                           setFunc: (value: Array<TaskPropsType>) => void) => void
-  addTask: (inputValue: string,
-            tasks: Array<TaskPropsType>,
-            setTasksFunc: (value: Array<TaskPropsType>) => void,
-            setInputFunc: (value: string) => void,
-            setErrorFunc: (value: string | null) => void) => void
-  onKeyUpEnter: (e: KeyboardEvent<HTMLInputElement>, setErrorFunc: (value: string | null) => void, addHandler: () => void) => void
+  changeFilter: (value: FilterValueType) => void
+  removeTask: (id: string) => void
+  changeInputCheckedTask: (e: ChangeEvent<HTMLInputElement>, taskId: string) => void
+  addTask: (inputValue: string) => void
+  filter: FilterValueType
 }
 
-export const Todolist = ({data: {title, tasks},
+export const Todolist = ({
+                           title, tasks,
                            changeFilter,
                            removeTask,
-                           changeInputValueTitle,
                            changeInputCheckedTask,
                            addTask,
-                           onKeyUpEnter}: TodolistPropsType) => {
-  const [currentTasks, setCurrentTasks] = useState(tasks);
-  const [filter, setFilter] = useState('all');
+                           filter
+                         }: TodolistPropsType) => {
+
   const [inputValue, setInputValue] = useState('');
   const [errorInputTitle, setErrorInputTitle] = useState<string | null>(null);
   // animation for list tasks
   const [listRef] = useAutoAnimate<HTMLUListElement>()
 
-  let todolistTasks = currentTasks;
-
-  if (filter === 'active') {
-    todolistTasks = currentTasks.filter((t) => !t.isDone);
+  function changeInputValueTitle(e: ChangeEvent<HTMLInputElement>) {
+    setInputValue(e.currentTarget.value)
   }
-  if (filter === 'completed') {
-    todolistTasks = currentTasks.filter((t) => t.isDone);
+
+  function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
+    setErrorInputTitle(null);
+    if (e.key === 'Enter') {
+      addTaskHandler();
+    }
   }
 
   const changeFilterHandler = (value: FilterValueType) => {
-    changeFilter(value, setFilter)
-  }
-  const changeInputValueTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    changeInputValueTitle(e, setInputValue);
-  }
-  const addTaskHandler = () => {
-    addTask(inputValue, currentTasks, setCurrentTasks, setInputValue, setErrorInputTitle);
-  }
-  const onKeyUpEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    onKeyUpEnter(e, setErrorInputTitle, addTaskHandler);
+    changeFilter(value)
   }
 
-  const tasksElements = todolistTasks.map((t) => {
+
+  const addTaskHandler = () => {
+    if (inputValue.trim().length > 0) {
+      addTask(inputValue);
+      setInputValue('');
+    } else {
+      setErrorInputTitle('Title is required')
+    }
+  }
+
+  const tasksElements = tasks.map((t) => {
     const removeTaskHandler = () => {
-      removeTask(t.id, currentTasks, setCurrentTasks)
+      removeTask(t.id)
     }
     const changeInputCheckedTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      changeInputCheckedTask(e, t.id, currentTasks, setCurrentTasks);
+      changeInputCheckedTask(e, t.id);
     }
 
     return (
@@ -92,14 +85,14 @@ export const Todolist = ({data: {title, tasks},
       <div>
         <StyledInputTitle
           value={inputValue}
-          onChange={changeInputValueTitleHandler}
-          onKeyUp={onKeyUpEnterHandler}
+          onChange={changeInputValueTitle}
+          onKeyUp={onKeyUpEnter}
           className={errorInputTitle ? 'input-error' : ''}
         />
         <Button title={'+'} onClick={addTaskHandler}/>
       </div>
       {errorInputTitle && <ErrorMessage>{errorInputTitle}</ErrorMessage>}
-      {todolistTasks.length === 0
+      {tasks.length === 0
         ? <span>There are not tasks</span>
         : <ul ref={listRef}>
           {tasksElements}
@@ -128,7 +121,7 @@ const ErrorMessage = styled.span`
 `
 
 const Task = styled.li`
-    &.is-done{
+    &.is-done {
         opacity: 0.5;
     }
 `
