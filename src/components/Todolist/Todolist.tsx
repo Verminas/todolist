@@ -91,9 +91,10 @@ export const Todolist = ({
 
     return (
       <div>
-        <h3>{title}
+        <WrapperTitle>
+          <h3>{title}</h3>
           <Button title={'x'} onClick={removeTodolistHandler}/>
-        </h3>
+        </WrapperTitle>
         <div>
           <StyledTitleTask
             value={titleTask}
@@ -137,4 +138,10 @@ const Task = styled.li`
     &.is-done {
         opacity: 0.5;
     }
+`
+
+const WrapperTitle = styled.div`
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
 `
