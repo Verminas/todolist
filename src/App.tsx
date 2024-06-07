@@ -15,7 +15,11 @@ function App() {
   const todolistId1 = v1();
   const todolistId2 = v1();
 
-  const tasksObj = {
+  const [todoLists, setTodoLists] = useState<TodolistType[]>([
+    {id: todolistId1, title: 'What to learn', filter: 'all'},
+    {id: todolistId2, title: 'What to buy', filter: 'all'},
+  ])
+  const [tasks, setTasks] = useState({
     [todolistId1]: [
       {id: v1(), title: 'HTML&CSS', isDone: true},
       {id: v1(), title: 'JS', isDone: true},
@@ -28,18 +32,10 @@ function App() {
       {id: v1(), title: 'Water', isDone: true},
       {id: v1(), title: 'Apples', isDone: false},
     ],
-  }
-
-
-  const [todoLists, setTodoLists] = useState<TodolistType[]>([
-    {id: todolistId1, title: 'What to learn', filter: 'active'},
-    {id: todolistId2, title: 'What to buy', filter: 'completed'},
-  ])
-  const [tasks, setTasks] = useState(tasksObj);
+  });
 
   function removeTask(id: string, todoId: string) {
-    tasks[todoId] = tasks[todoId].filter((t) => t.id !== id);
-    setTasks({...tasks});
+    setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== id)})
   }
 
   function removeTodolist(todoId: string) {
@@ -56,20 +52,12 @@ function App() {
     setTodoLists([])
   }
 
-  function changeFilter(value: FilterValueType, todoId: string) {
-    let tl = todoLists.find(t => t.id === todoId);
-    if (tl) {
-      tl.filter = value;
-      setTodoLists([...todoLists])
-    }
+  function changeFilter(filter: FilterValueType, todoId: string) {
+    setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter} : tl))
   }
 
-  function changeTaskStatus(e: ChangeEvent<HTMLInputElement>, taskId: string, todoId: string) {
-    let task = tasks[todoId].find((t) => t.id === taskId);
-    if (task) {
-      task.isDone = e.currentTarget.checked;
-    }
-    setTasks({...tasks});
+  function changeTaskStatus(checked: boolean, taskId: string, todoId: string) {
+    setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, isDone: checked} : t)})
   }
 
   function addTask(titleTask: string, todoId: string) {
@@ -78,12 +66,12 @@ function App() {
       title: titleTask.trim(),
       isDone: false,
     }
-    tasks[todoId] = [newTask, ...tasks[todoId]]
-    setTasks({...tasks})
+
+    setTasks({...tasks, [todoId]: [newTask, ...tasks[todoId]]})
   }
 
 
-  const todolistsElements = todoLists.length === 0
+  const todoListsElements = todoLists.length === 0
     ? <span>There are no todolists</span>
     : todoLists.map(tl => {
     let filteredTasks = tasks[tl.id];
@@ -113,7 +101,7 @@ function App() {
   return (
     <div className="App">
       <Button title={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists}/>
-      <StyledWrapper>{todolistsElements}</StyledWrapper>
+      <StyledWrapper>{todoListsElements}</StyledWrapper>
     </div>
   );
 }
