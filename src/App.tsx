@@ -4,6 +4,7 @@ import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/To
 import {v1} from 'uuid';
 import {Button} from "./components/Button/Button";
 import styled from "styled-components";
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 
 type TodolistType = {
   id: string
@@ -74,6 +75,17 @@ function App() {
     setTasks({...tasks, [todoId]: [newTask, ...tasks[todoId]]})
   }
 
+  function addTodoList(titleTodoList: string) {
+    const newTodoList: TodolistType = {
+      id: v1(),
+      title: titleTodoList,
+      filter: 'all',
+    }
+    tasks[newTodoList.id] = [];
+    setTasks({...tasks})
+    setTodoLists([newTodoList, ...todoLists])
+  }
+
 
   const todoListsElements = todoLists.length === 0
     ? <span>There are no todolists</span>
@@ -104,8 +116,9 @@ function App() {
 
   return (
     <div className="App">
-      <Button title={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists}/>
+      <AddItemForm addItem={addTodoList} placeholder={'Add new todolist...'}/>
       <StyledWrapper>{todoListsElements}</StyledWrapper>
+      <Button title={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists}/>
     </div>
   );
 }

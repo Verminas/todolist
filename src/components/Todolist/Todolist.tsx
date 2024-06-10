@@ -1,8 +1,8 @@
-import React, {ChangeEvent, ChangeEventHandler, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {Button} from "../Button/Button";
-import {v1} from "uuid";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import styled from "styled-components";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -21,7 +21,7 @@ type TodolistPropsType = {
   removeTask: (id: string, todoId: string) => void
   removeTodolist: (todoId: string) => void
   changeTaskStatus: (checked: boolean, taskId: string, todoId: string) => void
-  addTask: (inputValue: string, todoId: string) => void
+  addTask: (value: string, todoId: string) => void
   filter: FilterValueType
 }
 
@@ -39,29 +39,11 @@ export const Todolist = ({
                            TodolistPropsType
   ) => {
 
-    const [titleTask, setTitleTask] = useState('');
-    const [errorTitleTask, setErrorTitleTask] = useState<string | null>(null);
     // animation for list tasks
     const [listRef] = useAutoAnimate<HTMLUListElement>()
 
-    function changeTitleTask(e: ChangeEvent<HTMLInputElement>) {
-      setTitleTask(e.currentTarget.value)
-    }
-
-    function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
-      setErrorTitleTask(null);
-      if (e.key === 'Enter') {
-        addTaskHandler();
-      }
-    }
-
-    const addTaskHandler = () => {
-      if (titleTask.trim().length > 0) {
-        addTask(titleTask, id);
-        setTitleTask('');
-      } else {
-        setErrorTitleTask('Title is required')
-      }
+    const addTaskHandler = (value: string) => {
+      addTask(value, id)
     }
 
     const changeFilterHandler = (value: FilterValueType) => {
@@ -95,16 +77,7 @@ export const Todolist = ({
           <h3>{title}</h3>
           <Button title={'x'} onClick={removeTodolistHandler}/>
         </WrapperTitle>
-        <div>
-          <StyledTitleTask
-            value={titleTask}
-            onChange={changeTitleTask}
-            onKeyUp={onKeyUpEnter}
-            className={errorTitleTask ? 'input-error' : ''}
-          />
-          <Button title={'+'} onClick={addTaskHandler}/>
-        </div>
-        {errorTitleTask && <ErrorMessage>{errorTitleTask}</ErrorMessage>}
+        <AddItemForm addItem={addTaskHandler}/>
         {tasks.length === 0
           ? <span>There are not tasks</span>
           : <ul ref={listRef}>
@@ -123,16 +96,6 @@ export const Todolist = ({
     );
   }
 ;
-
-const StyledTitleTask = styled.input`
-    &.input-error {
-        outline: 1px solid red;
-    }
-`
-
-const ErrorMessage = styled.span`
-    color: red;
-`
 
 const Task = styled.li`
     &.is-done {
