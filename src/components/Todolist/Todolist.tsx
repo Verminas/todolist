@@ -3,6 +3,7 @@ import {Button} from "../Button/Button";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import styled from "styled-components";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -17,6 +18,8 @@ type TodolistPropsType = {
   title: string
   tasks: Array<TaskPropsType>
 
+  changeTitleTodolist: (value: string, todoId: string) => void
+  changeTitleTask: (value : string, taskId: string, todoId: string) => void
   changeFilter: (value: FilterValueType, todoId: string) => void
   removeTask: (id: string, todoId: string) => void
   removeTodolist: (todoId: string) => void
@@ -33,6 +36,8 @@ export const Todolist = ({
                            removeTask,
                            removeTodolist,
                            changeTaskStatus,
+                           changeTitleTodolist,
+                           changeTitleTask,
                            addTask,
                            filter
                          }:
@@ -50,6 +55,10 @@ export const Todolist = ({
       changeFilter(value, id);
     }
 
+    const changeTitleTodolistHandler = (value : string) => {
+      changeTitleTodolist(value, id)
+    }
+
     const removeTodolistHandler = () => {
       removeTodolist(id);
     }
@@ -61,11 +70,14 @@ export const Todolist = ({
       const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
         changeTaskStatus(e.currentTarget.checked, t.id, id);
       }
+      const changeTitleTaskHandler = (value: string) => {
+        changeTitleTask(value, t.id, id)
+      }
 
       return (
         <Task key={t.id} className={t.isDone ? 'is-done' : ''}>
           <input type="checkbox" checked={t.isDone} onChange={changeTaskStatusHandler}/>
-          <span>{t.title}</span>
+          <EditableSpan title={t.title} changeTitle={changeTitleTaskHandler}/>
           <Button title={'x'} onClick={removeTaskHandler}/>
         </Task>
       )
@@ -74,7 +86,7 @@ export const Todolist = ({
     return (
       <div>
         <WrapperTitle>
-          <h3>{title}</h3>
+          <h3><EditableSpan title={title} changeTitle={changeTitleTodolistHandler}/></h3>
           <Button title={'x'} onClick={removeTodolistHandler}/>
         </WrapperTitle>
         <AddItemForm addItem={addTaskHandler}/>
