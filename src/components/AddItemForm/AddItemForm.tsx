@@ -1,13 +1,18 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "../Button/Button";
-import styled from "styled-components";
+import {IconButton, TextField} from "@mui/material";
+
+// different variants for icons add
+import AddIcon from '@mui/icons-material/Add';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 type AddItemFormPropsType = {
   addItem: (value: string) => void
   placeholder?: string
+  textFieldLabel?: string
 }
-export const AddItemForm = ({addItem, placeholder}: AddItemFormPropsType) => {
+export const AddItemForm = ({addItem, placeholder, textFieldLabel}: AddItemFormPropsType) => {
   const [title, setTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -34,25 +39,21 @@ export const AddItemForm = ({addItem, placeholder}: AddItemFormPropsType) => {
   return (
     <>
       <div>
-        <StyledTitle
-          value={title}
-          onChange={changeTitle}
-          onKeyUp={onKeyUpEnter}
-          placeholder={placeholder ? placeholder : 'Add new task...'}
-          className={error ? 'input-error' : ''}
+        <TextField label={textFieldLabel}
+                   variant="outlined"
+                   placeholder={placeholder ? placeholder : ''}
+                   size={'small'}
+                   error={!!error}
+                   helperText={error}
+
+                   value={title}
+                   onChange={changeTitle}
+                   onKeyUp={onKeyUpEnter}
         />
-        <Button title={'+'} onClick={addItemHandler}/>
+        <IconButton onClick={addItemHandler} aria-label="add item" color={error ? 'error' : 'primary'}>
+          <AddBoxIcon />
+        </IconButton>
       </div>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
     </>
   )
 }
-
-const StyledTitle = styled.input`
-    &.input-error {
-        outline: 1px solid red;
-    }
-`
-const ErrorMessage = styled.span`
-    color: red;
-`
