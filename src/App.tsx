@@ -2,13 +2,16 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './App.css';
 import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from 'uuid';
-import styled from "styled-components";
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import {AppBar, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from "@mui/icons-material/Delete";
+
+import Switch from '@mui/material/Switch'
+import CssBaseline from '@mui/material/CssBaseline'
 
 import Container from '@mui/material/Container'
 //❗С релизом новой версии import Grid скорее всего изменится (см. документацию)
@@ -20,6 +23,8 @@ type TodolistType = {
   filter: FilterValueType
 }
 
+type ThemeMode = 'dark' | 'light'
+
 export type TasksStateType = {
   [key: string]: TaskPropsType[]
 }
@@ -30,6 +35,7 @@ function App() {
 
   // for style
   const [listRef] = useAutoAnimate<HTMLUnknownElement>()
+  const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
   const [todoLists, setTodoLists] = useState<TodolistType[]>([
     {id: todolistId1, title: 'What to learn', filter: 'all'},
@@ -104,6 +110,23 @@ function App() {
     setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: value} : t)})
   }
 
+  const changeModeHandler = () => {
+    setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+  }
+
+
+  const theme = createTheme({
+    palette: {
+      mode: themeMode === 'light' ? 'light' : 'dark',
+      primary: {
+        main: '#087EA4',
+      },
+      secondary: {
+        main: '#ad5eaf',
+      },
+    },
+  })
+
 
   const todoListsElements = todoLists.length === 0
     ? <span>There are no todolists</span>
@@ -141,35 +164,39 @@ function App() {
 
   return (
     <div className="App">
-      <AppBar position="static" sx={{ mb: '30px' }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{mr: 2}}
-          >
-            <MenuIcon/>
-          </IconButton>
-          <div>
-            <Button color="inherit">Login</Button>
-            <Button color="inherit">Logout</Button>
-            <Button color="inherit">Faq</Button>
-          </div>
-        </Toolbar>
-      </AppBar>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppBar position="static" sx={{ mb: '30px' }}>
+          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{mr: 2}}
+            >
+              <MenuIcon/>
+            </IconButton>
+            <div>
+              <Button color="inherit">Login</Button>
+              <Button color="inherit">Logout</Button>
+              <Button color="inherit">Faq</Button>
+              <Switch color={'default'} onChange={changeModeHandler} />
+            </div>
+          </Toolbar>
+        </AppBar>
 
-      <Container fixed>
-        <Grid container sx={{ mb: '30px', flexDirection: 'column', alignItems: 'baseline'}}>
-          <AddItemForm addItem={addTodoList} placeholder={'Add a new todolist...'} textFieldLabel={'New todolist'}/>
-          <Button children={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists} variant="outlined"
-                  endIcon={<DeleteIcon/>} color={'primary'} sx={{mt: '10px'}}/>
-        </Grid>
-        <Grid container spacing={4} ref={listRef}>
-          {todoListsElements}
-        </Grid>
-      </Container>
+        <Container fixed>
+          <Grid container sx={{ mb: '30px', flexDirection: 'column', alignItems: 'baseline'}}>
+            <AddItemForm addItem={addTodoList} placeholder={'Add a new todolist...'} textFieldLabel={'New todolist'}/>
+            <Button children={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists} variant="outlined"
+                    endIcon={<DeleteIcon/>} color={'primary'} sx={{mt: '10px'}}/>
+          </Grid>
+          <Grid container spacing={4} ref={listRef}>
+            {todoListsElements}
+          </Grid>
+        </Container>
+      </ThemeProvider>
     </div>
   );
 }
