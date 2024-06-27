@@ -83,7 +83,6 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
       return state.filter(tl => tl.id !== action.payload.todoId);
 
     case "REMOVE-ALL-TODOLISTS":
-      state.length = 0;
       return [];
 
     case "CHANGE-FILTER":

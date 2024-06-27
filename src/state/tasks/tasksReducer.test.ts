@@ -1,7 +1,12 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../../App";
 import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
-import {addNewTodolistAC, removeTodolistAC} from "../todolists/todolistsReducer";
+import {
+  addNewTodolistAC,
+  removeAllTodoListsAC,
+  removeTodolistAC,
+  todolistsReducer
+} from "../todolists/todolistsReducer";
 
 const todoId1 = v1();
 const todoId2 = v1();
@@ -101,4 +106,15 @@ test('delete array of tasks when todolist is removed should be correct', () => {
   expect(keys.length).toBe(1);
   expect(endState[todoId1]).toBeFalsy();
 
+})
+
+test('delete all tasks when todoLists are removed should be correct', () => {
+
+  const action = removeAllTodoListsAC();
+  const endState = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(0);
+  expect(endState).toEqual({});
 })

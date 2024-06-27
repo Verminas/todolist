@@ -35,7 +35,7 @@ test('remove all todolists should be correct', () => {
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(0);
-  expect(endState[0]).toBe(undefined);
+  expect(endState[0]).toBeUndefined();
 })
 
 test('change filter in todolist should be correct', () => {

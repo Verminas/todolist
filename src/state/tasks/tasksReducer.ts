@@ -1,7 +1,11 @@
 import {TasksStateType, TodolistType} from "../../App";
 import {TaskPropsType} from "../../components/Todolist/Todolist";
 import {v1} from "uuid";
-import {AddNewTodolistActionType, RemoveTodolistActionType} from "../todolists/todolistsReducer";
+import {
+  AddNewTodolistActionType,
+  RemoveAllTodoListsActionType,
+  RemoveTodolistActionType
+} from "../todolists/todolistsReducer";
 
 type TasksReducerActionType =
   RemoveTaskActionType
@@ -10,6 +14,7 @@ type TasksReducerActionType =
   | ChangeTaskTitleActionType
   | AddNewTodolistActionType
   | RemoveTodolistActionType
+  | RemoveAllTodoListsActionType
 
 export type RemoveTaskActionType = {
   type: 'REMOVE-TASK'
@@ -123,6 +128,9 @@ export const tasksReducer = (state: TasksStateType, action: TasksReducerActionTy
       const stateCopy = {...state}
       delete stateCopy[action.payload.todoId];
       return stateCopy;
+
+    case "REMOVE-ALL-TODOLISTS":
+      return {};
 
     default:
       throw new Error(`Unknown tasks action type: ${action}`);

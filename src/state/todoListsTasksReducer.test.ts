@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {TasksStateType, TodolistType} from "../App";
-import {addNewTodolistAC, removeTodolistAC, todolistsReducer} from "./todolists/todolistsReducer";
+import {addNewTodolistAC, removeAllTodoListsAC, removeTodolistAC, todolistsReducer} from "./todolists/todolistsReducer";
 import {tasksReducer} from "./tasks/tasksReducer";
 
 const tdId1 = v1();
@@ -45,10 +45,25 @@ test('remove todolist and array with tasks should be correct', () => {
   const action = removeTodolistAC(tdId1 )
   const endTodoLists = todolistsReducer(initialTodoLists, action);
   const endTasks = tasksReducer(initialTasks, action);
+
   const keys = Object.keys(endTasks)
 
   expect(endTodoLists.length).toBe(1);
-  expect(endTodoLists.find(tl => tl.id === tdId1)).toBeFalsy()
+  expect(endTodoLists.find(tl => tl.id === tdId1)).toBeUndefined()
   expect(keys.length).toBe(1);
-  expect(endTasks[tdId1]).toBeFalsy();
+  expect(endTasks[tdId1]).toBeUndefined();
+})
+
+test('remove all todoLists and array with tasks should be correct', () => {
+
+  const action = removeAllTodoListsAC()
+  const endTodoLists = todolistsReducer(initialTodoLists, action);
+  const endTasks = tasksReducer(initialTasks, action);
+
+  const keys = Object.keys(endTasks)
+
+  expect(endTodoLists.length).toBe(0);
+  expect(keys.length).toBe(0);
+  expect(endTodoLists).toEqual([]);
+  expect(endTasks).toEqual({});
 })
