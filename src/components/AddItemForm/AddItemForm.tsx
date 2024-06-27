@@ -1,11 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {IconButton, TextField} from "@mui/material";
-
-// different variants for icons add
-import AddIcon from '@mui/icons-material/Add';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
 
 type AddItemFormPropsType = {
   addItem: (value: string) => void

@@ -1,11 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, { useState} from 'react';
 import './App.css';
 import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from 'uuid';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
-import {AppBar, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {AppBar, IconButton, Paper, Toolbar} from "@mui/material";
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -108,10 +108,10 @@ function App() {
 
   function changeTitleTask(value: string, taskId: string, todoId: string) {
     setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: value} : t)})
-  }
+  } // + tests
 
   const changeModeHandler = () => {
-    setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+    setThemeMode(themeMode === 'light' ? 'dark' : 'light')
   }
 
 
