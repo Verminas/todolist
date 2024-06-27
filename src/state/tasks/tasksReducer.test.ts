@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../../App";
-import {AddNewTaskAC, ChangeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
+import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
 import {addNewTodolistAC, removeTodolistAC} from "../todolists/todolistsReducer";
 
 const todoId1 = v1();
@@ -39,7 +39,7 @@ test('remove task should be correct', () => {
 
 test('change task status should be correct', () => {
 
-  const action = ChangeTaskStatusAC(todoId1, taskTL1Id1, false)
+  const action = changeTaskStatusAC(todoId1, taskTL1Id1, false)
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(4);
@@ -53,7 +53,7 @@ test('change task status should be correct', () => {
 
 test('add new task should be correct', () => {
 
-  const action = AddNewTaskAC(todoId1, 'New Task')
+  const action = addNewTaskAC(todoId1, 'New Task')
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(5);
