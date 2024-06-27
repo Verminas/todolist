@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../../App";
-import {AddNewTaskAC, ChangeTaskStatusAC, ChangeTaskTitleAC, RemoveTaskAC, tasksReducer} from "./tasksReducer";
+import {AddNewTaskAC, ChangeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
+import {addNewTodolistAC, removeTodolistAC} from "../todolists/todolistsReducer";
 
 const todoId1 = v1();
 const todoId2 = v1();
@@ -26,7 +27,7 @@ beforeEach(() => {
 
 test('remove task should be correct', () => {
 
-  const action = RemoveTaskAC(todoId1, taskTL1Id1)
+  const action = removeTaskAC(todoId1, taskTL1Id1)
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(3);
@@ -65,7 +66,7 @@ test('add new task should be correct', () => {
 
 test('change task title should be correct', () => {
 
-  const action = ChangeTaskTitleAC(todoId1, taskTL1Id1, 'New title')
+  const action = changeTaskTitleAC(todoId1, taskTL1Id1, 'New title')
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(4);
@@ -74,5 +75,30 @@ test('change task title should be correct', () => {
   expect(endState[todoId1][0].id).toBe(taskTL1Id1);
   expect(endState[todoId1][0].title).toBe('New title');
   expect(endState[todoId1][1].title).toBe('JS');
+
+})
+
+test('add empty array of tasks for new todolist should be correct', () => {
+
+  const newId = v1();
+  const action = addNewTodolistAC('New title', newId)
+  const endState = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(3);
+  expect(endState[newId]).toEqual([]);
+
+})
+
+test('delete array of tasks when todolist is removed should be correct', () => {
+
+  const action = removeTodolistAC(todoId1)
+  const endState = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(1);
+  expect(endState[todoId1]).toBeFalsy();
 
 })

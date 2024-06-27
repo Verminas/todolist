@@ -100,7 +100,7 @@ function App() {
     }
     setTasks({...tasks, [newTodoList.id]: []})
     setTodoLists([newTodoList, ...todoLists])
-  } // + tests, but id need to fix in todolistsReducer for tasks !!!
+  } // + tests
 
   function changeTitleTodolist(title: string, todoId: string) {
     setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title} : tl))

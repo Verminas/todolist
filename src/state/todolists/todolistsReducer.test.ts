@@ -1,11 +1,11 @@
 import {TodolistType} from "../../App";
 import {v1} from "uuid";
 import {
-  AddNewTodolistAC,
-  ChangeFilterAC,
-  ChangeTitleAC,
-  RemoveAllTodoListsAC,
-  RemoveTodolistAC,
+  addNewTodolistAC,
+  changeFilterAC,
+  changeTitleAC,
+  removeAllTodoListsAC,
+  removeTodolistAC,
   todolistsReducer
 } from "./todolistsReducer";
 
@@ -22,7 +22,7 @@ beforeEach(() => {
 
 test('remove todolist should be correct', () => {
 
-  const action = RemoveTodolistAC(todoId1)
+  const action = removeTodolistAC(todoId1)
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(1);
@@ -31,7 +31,7 @@ test('remove todolist should be correct', () => {
 
 test('remove all todolists should be correct', () => {
 
-  const action = RemoveAllTodoListsAC();
+  const action = removeAllTodoListsAC();
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(0);
@@ -40,7 +40,7 @@ test('remove all todolists should be correct', () => {
 
 test('change filter in todolist should be correct', () => {
 
-  const action = ChangeFilterAC(todoId1, 'active')
+  const action = changeFilterAC(todoId1, 'active')
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(2);
@@ -51,7 +51,7 @@ test('change filter in todolist should be correct', () => {
 
 test('add new todolist should be correct', () => {
 
-  const action = AddNewTodolistAC('New Todolist');
+  const action = addNewTodolistAC('New Todolist', v1());
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(3);
@@ -61,7 +61,7 @@ test('add new todolist should be correct', () => {
 
 test('change title in todolist should be correct', () => {
 
-  const action = ChangeTitleAC(todoId1, 'New Title')
+  const action = changeTitleAC(todoId1, 'New Title')
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(2);
