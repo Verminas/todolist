@@ -17,7 +17,7 @@ import Container from '@mui/material/Container'
 //❗С релизом новой версии import Grid скорее всего изменится (см. документацию)
 import Grid from '@mui/material/Unstable_Grid2'
 
-type TodolistType = {
+export type TodolistType = {
   id: string
   title: string
   filter: FilterValueType
@@ -58,13 +58,13 @@ function App() {
 
   function removeTask(id: string, todoId: string) {
     setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== id)})
-  }
+  } // + tests
 
   function removeTodolist(todoId: string) {
     setTodoLists([...todoLists.filter(t => t.id !== todoId)]);
     delete tasks[todoId];
     setTasks({...tasks})
-  }
+  } // + tests
 
   function removeAllTodoLists() {
     todoLists.forEach(t => {
@@ -72,39 +72,39 @@ function App() {
     })
     setTasks({...tasks});
     setTodoLists([])
-  }
+  } // + tests
 
   function changeFilter(filter: FilterValueType, todoId: string) {
     setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter} : tl))
-  }
+  } // + tests
 
-  function changeTaskStatus(checked: boolean, taskId: string, todoId: string) {
-    setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, isDone: checked} : t)})
-  }
+  function changeTaskStatus(isDone: boolean, taskId: string, todoId: string) {
+    setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, isDone} : t)})
+  } // + tests
 
-  function addTask(titleTask: string, todoId: string) {
+  function addTask(title: string, todoId: string) {
     let newTask: TaskPropsType = {
       id: v1(),
-      title: titleTask.trim(),
+      title,
       isDone: false,
     }
 
     setTasks({...tasks, [todoId]: [newTask, ...tasks[todoId]]})
-  }
+  } // + tests
 
-  function addTodoList(titleTodoList: string) {
+  function addTodoList(title: string) {
     const newTodoList: TodolistType = {
       id: v1(),
-      title: titleTodoList,
+      title,
       filter: 'all',
     }
     setTasks({...tasks, [newTodoList.id]: []})
     setTodoLists([newTodoList, ...todoLists])
-  }
+  } // + tests, but id need to fix in todolistsReducer for tasks !!!
 
-  function changeTitleTodolist(value: string, todoId: string) {
-    setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title: value} : tl))
-  }
+  function changeTitleTodolist(title: string, todoId: string) {
+    setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title} : tl))
+  } // + tests
 
   function changeTitleTask(value: string, taskId: string, todoId: string) {
     setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: value} : t)})
@@ -119,7 +119,7 @@ function App() {
     palette: {
       mode: themeMode === 'light' ? 'light' : 'dark',
       primary: {
-        main: '#087EA4',
+        main: '#1d7cc8',
       },
       secondary: {
         main: '#ad5eaf',
@@ -188,7 +188,7 @@ function App() {
 
         <Container fixed>
           <Grid container sx={{ mb: '30px', flexDirection: 'column', alignItems: 'baseline'}}>
-            <AddItemForm addItem={addTodoList} placeholder={'Add a new todolist...'} textFieldLabel={'New todolist'}/>
+            <AddItemForm addItem={addTodoList} placeholder={'Add a new todolists...'} textFieldLabel={'New todolists'}/>
             <Button children={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists} variant="outlined"
                     endIcon={<DeleteIcon/>} color={'primary'} sx={{mt: '10px'}}/>
           </Grid>

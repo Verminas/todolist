@@ -29,7 +29,7 @@ export const AddItemForm = ({addItem, placeholder, textFieldLabel}: AddItemFormP
 
   const addItemHandler = () => {
     if (title.trim().length > 0) {
-      addItem(title);
+      addItem(title.trim());
       setTitle('');
     } else {
       setError('Title is required')
