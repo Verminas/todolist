@@ -5,7 +5,11 @@ import {v1} from 'uuid';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
-import {AppBar, IconButton, Paper, Toolbar} from "@mui/material";
+
+import Toolbar from "@mui/material/Toolbar";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import AppBar from "@mui/material/AppBar";
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from "@mui/icons-material/Delete";
