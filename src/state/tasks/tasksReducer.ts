@@ -4,7 +4,7 @@ import {v1} from "uuid";
 import {
   AddNewTodolistActionType,
   RemoveAllTodoListsActionType,
-  RemoveTodolistActionType
+  RemoveTodolistActionType, todolistId1, todolistId2
 } from "../todolists/todolistsReducer";
 
 type TasksReducerActionType =
@@ -84,17 +84,32 @@ export const changeTaskTitleAC = (todoId: string, taskId: string, title: string)
   }
 })
 
+const initialState = {
+  [todolistId1]: [
+    {id: v1(), title: 'HTML&CSS', isDone: true},
+    {id: v1(), title: 'JS', isDone: true},
+    {id: v1(), title: 'ReactJS', isDone: false},
+    {id: v1(), title: 'Redux', isDone: false},
+  ],
+  [todolistId2]: [
+    {id: v1(), title: 'Books', isDone: false},
+    {id: v1(), title: 'Juice', isDone: true},
+    {id: v1(), title: 'Water', isDone: true},
+    {id: v1(), title: 'Apples', isDone: false},
+  ],
+}
 
-export const tasksReducer = (state: TasksStateType, action: TasksReducerActionType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: TasksReducerActionType): TasksStateType => {
   switch (action.type) {
 
-    case "REMOVE-TASK":
+    case "REMOVE-TASK": {
       return {
         ...state,
         [action.payload.todoId]: state[action.payload.todoId].filter(t => t.id !== action.payload.taskId)
       };
+    }
 
-    case "CHANGE-TASK-STATUS":
+    case "CHANGE-TASK-STATUS": {
       return {
         ...state,
         [action.payload.todoId]: state[action.payload.todoId].map(t => t.id === action.payload.taskId ? {
@@ -102,8 +117,9 @@ export const tasksReducer = (state: TasksStateType, action: TasksReducerActionTy
           isDone: action.payload.isDone
         } : t)
       }
+    }
 
-    case "ADD-NEW-TASK":
+    case "ADD-NEW-TASK": {
       const newTask: TaskPropsType = {
         id: v1(),
         title: action.payload.title,
@@ -111,8 +127,9 @@ export const tasksReducer = (state: TasksStateType, action: TasksReducerActionTy
       }
 
       return {...state, [action.payload.todoId]: [newTask, ...state[action.payload.todoId]]};
+    }
 
-    case "CHANGE-TASK-TITLE":
+    case "CHANGE-TASK-TITLE": {
       return {
         ...state,
         [action.payload.todoId]: state[action.payload.todoId].map(t => t.id === action.payload.taskId ? {
@@ -120,19 +137,24 @@ export const tasksReducer = (state: TasksStateType, action: TasksReducerActionTy
           title: action.payload.title
         } : t)
       }
+    }
 
-    case "ADD-NEW-TODOLIST":
+    case "ADD-NEW-TODOLIST": {
       return {...state, [action.payload.todoId]: []};
+    }
 
-    case 'REMOVE-TODOLIST':
+    case 'REMOVE-TODOLIST': {
       const stateCopy = {...state}
       delete stateCopy[action.payload.todoId];
       return stateCopy;
+    }
 
-    case "REMOVE-ALL-TODOLISTS":
+    case "REMOVE-ALL-TODOLISTS": {
       return {};
+    }
 
-    default:
-      throw new Error(`Unknown tasks action type: ${action}`);
+    default: {
+      return state;
+    }
   }
 }

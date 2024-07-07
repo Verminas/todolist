@@ -68,8 +68,8 @@ export type AddNewTodolistActionType = {
 
 export const addNewTodolistAC = (title: string, todoId: string): AddNewTodolistActionType => ({type: 'ADD-NEW-TODOLIST', payload: {title, todoId}})
 
-const todolistId1 = v1();
-const todolistId2 = v1();
+export const todolistId1 = v1();
+export const todolistId2 = v1();
 
 const initialState: TodolistType[] = [
   {id: todolistId1, title: 'What to learn', filter: 'all'},
@@ -79,27 +79,33 @@ const initialState: TodolistType[] = [
 
 export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionType): TodolistType[] => {
   switch (action.type) {
-    case 'REMOVE-TODOLIST':
+    case 'REMOVE-TODOLIST': {
       return state.filter(tl => tl.id !== action.payload.todoId);
+    }
 
-    case "REMOVE-ALL-TODOLISTS":
+    case "REMOVE-ALL-TODOLISTS": {
       return [];
+    }
 
-    case "CHANGE-FILTER":
+    case "CHANGE-FILTER": {
       return state.map(tl => tl.id === action.payload.todoId ? {...tl, filter: action.payload.filter} : tl);
+    }
 
-    case "ADD-NEW-TODOLIST":
+    case "ADD-NEW-TODOLIST": {
       const newTodolist: TodolistType = {
         id: action.payload.todoId,
         title: action.payload.title,
         filter: 'all',
       }
       return [newTodolist, ...state];
+    }
 
-    case "CHANGE-TITLE":
+    case "CHANGE-TITLE": {
       return state.map(tl => tl.id === action.payload.todoId ? {...tl, title: action.payload.title} : tl);
+    }
 
-    default:
-      throw new Error(`Unknown todolist action type: ${action}`);
+    default: {
+      return state;
+    }
   }
 }
