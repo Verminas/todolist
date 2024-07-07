@@ -1,8 +1,8 @@
-import React, { useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from 'uuid';
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import {createTheme, ThemeProvider} from '@mui/material/styles'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 
@@ -20,6 +20,21 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
 //❗С релизом новой версии import Grid скорее всего изменится (см. документацию)
 import Grid from '@mui/material/Unstable_Grid2'
+import {
+  addNewTodolistAC,
+  changeFilterAC,
+  changeTitleAC,
+  removeAllTodoListsAC,
+  removeTodolistAC,
+  todolistsReducer
+} from "./state/todolists/todolistsReducer";
+import {
+  addNewTaskAC,
+  changeTaskStatusAC,
+  changeTaskTitleAC,
+  removeTaskAC,
+  tasksReducer
+} from "./state/tasks/tasksReducer";
 
 export type TodolistType = {
   id: string
@@ -41,11 +56,11 @@ function App() {
   const [listRef] = useAutoAnimate<HTMLUnknownElement>()
   const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
-  const [todoLists, setTodoLists] = useState<TodolistType[]>([
+  const [todoLists, dispatchTodoLists] = useReducer(todolistsReducer, [
     {id: todolistId1, title: 'What to learn', filter: 'all'},
     {id: todolistId2, title: 'What to buy', filter: 'all'},
   ])
-  const [tasks, setTasks] = useState<TasksStateType>({
+  const [tasks, dispatchTasks] = useReducer(tasksReducer, {
     [todolistId1]: [
       {id: v1(), title: 'HTML&CSS', isDone: true},
       {id: v1(), title: 'JS', isDone: true},
@@ -61,57 +76,46 @@ function App() {
   });
 
   function removeTask(id: string, todoId: string) {
-    setTasks({...tasks, [todoId]: tasks[todoId].filter(t => t.id !== id)})
+    dispatchTasks(removeTaskAC(todoId, id))
   } // + tests
 
   function removeTodolist(todoId: string) {
-    setTodoLists([...todoLists.filter(t => t.id !== todoId)]);
-    delete tasks[todoId];
-    setTasks({...tasks})
+    const action = removeTodolistAC(todoId);
+    dispatchTodoLists(action)
+    dispatchTasks(action)
   } // + tests
 
   function removeAllTodoLists() {
-    todoLists.forEach(t => {
-      delete tasks[t.id];
-    })
-    setTasks({...tasks});
-    setTodoLists([])
+    const action = removeAllTodoListsAC();
+    dispatchTodoLists(action)
+    dispatchTasks(action)
   } // + tests
 
   function changeFilter(filter: FilterValueType, todoId: string) {
-    setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, filter} : tl))
+    dispatchTodoLists(changeFilterAC(todoId, filter))
   } // + tests
 
   function changeTaskStatus(isDone: boolean, taskId: string, todoId: string) {
-    setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, isDone} : t)})
+    dispatchTasks(changeTaskStatusAC(todoId, taskId, isDone))
   } // + tests
 
   function addTask(title: string, todoId: string) {
-    let newTask: TaskPropsType = {
-      id: v1(),
-      title,
-      isDone: false,
-    }
-
-    setTasks({...tasks, [todoId]: [newTask, ...tasks[todoId]]})
+    dispatchTasks(addNewTaskAC(todoId, title))
   } // + tests
 
   function addTodoList(title: string) {
-    const newTodoList: TodolistType = {
-      id: v1(),
-      title,
-      filter: 'all',
-    }
-    setTasks({...tasks, [newTodoList.id]: []})
-    setTodoLists([newTodoList, ...todoLists])
+    const todoId = v1();
+    const action = addNewTodolistAC(title, todoId);
+    dispatchTodoLists(action)
+    dispatchTasks(action)
   } // + tests
 
   function changeTitleTodolist(title: string, todoId: string) {
-    setTodoLists(todoLists.map(tl => tl.id === todoId ? {...tl, title} : tl))
+    dispatchTodoLists(changeTitleAC(todoId, title))
   } // + tests
 
   function changeTitleTask(value: string, taskId: string, todoId: string) {
-    setTasks({...tasks, [todoId]: tasks[todoId].map(t => t.id === taskId ? {...t, title: value} : t)})
+    dispatchTasks(changeTaskTitleAC(todoId, taskId, value))
   } // + tests
 
   const changeModeHandler = () => {
@@ -146,7 +150,7 @@ function App() {
 
       return (
         <Grid>
-          <Paper elevation={3} sx={{ p: '0 20px 20px 20px' }}>
+          <Paper elevation={3} sx={{p: '0 20px 20px 20px'}}>
             <Todolist
               key={tl.id}
               id={tl.id}
@@ -169,9 +173,9 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AppBar position="static" sx={{ mb: '30px' }}>
-          <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <CssBaseline/>
+        <AppBar position="static" sx={{mb: '30px'}}>
+          <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
             <IconButton
               size="large"
               edge="start"
@@ -185,13 +189,13 @@ function App() {
               <Button color="inherit">Login</Button>
               <Button color="inherit">Logout</Button>
               <Button color="inherit">Faq</Button>
-              <Switch color={'default'} onChange={changeModeHandler} />
+              <Switch color={'default'} onChange={changeModeHandler}/>
             </div>
           </Toolbar>
         </AppBar>
 
         <Container fixed>
-          <Grid container sx={{ mb: '30px', flexDirection: 'column', alignItems: 'baseline'}}>
+          <Grid container sx={{mb: '30px', flexDirection: 'column', alignItems: 'baseline'}}>
             <AddItemForm addItem={addTodoList} placeholder={'Add a new todolists...'} textFieldLabel={'New todolists'}/>
             <Button children={'DELETE ALL TODOLISTS'} onClick={removeAllTodoLists} variant="outlined"
                     endIcon={<DeleteIcon/>} color={'primary'} sx={{mt: '10px'}}/>
