@@ -6,15 +6,9 @@ import {createTheme, ThemeProvider} from '@mui/material/styles'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 
-import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import AppBar from "@mui/material/AppBar";
 import Button from '@mui/material/Button';
-import MenuIcon from '@mui/icons-material/Menu';
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import Container from '@mui/material/Container'
@@ -35,6 +29,7 @@ import {
   removeTaskAC,
   tasksReducer
 } from "./state/tasks/tasksReducer";
+import {AppHead} from "./components/AppHead/AppHead";
 
 export type TodolistType = {
   id: string
@@ -174,25 +169,7 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <CssBaseline/>
-        <AppBar position="static" sx={{mb: '30px'}}>
-          <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{mr: 2}}
-            >
-              <MenuIcon/>
-            </IconButton>
-            <div>
-              <Button color="inherit">Login</Button>
-              <Button color="inherit">Logout</Button>
-              <Button color="inherit">Faq</Button>
-              <Switch color={'default'} onChange={changeModeHandler}/>
-            </div>
-          </Toolbar>
-        </AppBar>
+        <AppHead switchOnChange={changeModeHandler}/>
 
         <Container fixed>
           <Grid container sx={{mb: '30px', flexDirection: 'column', alignItems: 'baseline'}}>
@@ -204,6 +181,7 @@ function App() {
             {todoListsElements}
           </Grid>
         </Container>
+
       </ThemeProvider>
     </div>
   );
