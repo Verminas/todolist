@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import {filterButtonsContainerSx, getListItemSx} from "./Todolist.styles";
+import {TaskItem} from "../TaskItem/TaskItem";
 
 export type FilterValueType = 'all' | 'active' | 'completed';
 
@@ -81,17 +82,13 @@ export const Todolist = ({
         changeTitleTask(value, t.id, id)
       }
 
-      return (
-        <ListItem key={t.id} disablePadding disableGutters sx={getListItemSx(t.isDone)}>
-          <div>
-            <Checkbox checked={t.isDone} onChange={changeTaskStatusHandler} color={t.isDone ? 'secondary' : 'primary'}/>
-            <EditableSpan title={t.title} changeTitle={changeTitleTaskHandler} textFieldLabel={'Task title'}/>
-          </div>
-          <IconButton aria-label="delete task" onClick={removeTaskHandler} size={'small'}>
-            <DeleteIcon/>
-          </IconButton>
-        </ListItem>
-      )
+      return <TaskItem id={t.id}
+                       key={t.id}
+                       title={t.title}
+                       isDone={t.isDone}
+                       checkboxOnChange={changeTaskStatusHandler}
+                       spanOnChange={changeTitleTaskHandler}
+                       onClick={removeTaskHandler}/>
     })
 
     return (
