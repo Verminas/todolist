@@ -10,24 +10,24 @@ import {ChangeEvent, memo, useCallback} from "react";
 
 type Props = {
   id: string
+  todoId: string
   isDone: boolean
   title: string
-  changeStatus: (id: string, checked: boolean) => void
-  changeTitle: (id: string, value: string) => void
-  removeTask: (id: string) => void
-
+  changeStatus: (checked: boolean, taskId: string, todoId: string) => void
+  changeTitle: (value: string, taskId: string, todoId: string) => void
+  removeTask: (id: string, todoId: string) => void
 };
-export const TaskItem = memo(({ id, title, isDone, changeStatus, removeTask, changeTitle}: Props) => {
+export const TaskItem = memo(({ id, title, isDone, changeStatus, removeTask, changeTitle, todoId}: Props) => {
   console.log('task item', title)
   const removeTaskHandler = () => {
-    removeTask(id)
+    removeTask(id, todoId)
   }
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    changeStatus(id, e.currentTarget.checked);
+    changeStatus(e.currentTarget.checked, id, todoId);
   }
   const changeTaskTitleHandler = useCallback((value: string) => {
-    changeTitle(id, value)
-  }, [changeTitle, id])
+    changeTitle(value, id, todoId);
+  }, [changeTitle, id, todoId])
 
   return (
     <ListItem key={id} disablePadding disableGutters sx={getListItemSx(isDone)}>

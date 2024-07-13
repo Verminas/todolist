@@ -29,10 +29,10 @@ type TodolistPropsType = {
 
   changeTitleTodolist: (value: string, todoId: string) => void
   changeTitleTask: (value: string, taskId: string, todoId: string) => void
-  changeFilter: (value: FilterValueType, todoId: string) => void
-  removeTask: (id: string, todoId: string) => void
-  removeTodolist: (todoId: string) => void
   changeTaskStatus: (checked: boolean, taskId: string, todoId: string) => void
+  removeTask: (id: string, todoId: string) => void
+  changeFilter: (value: FilterValueType, todoId: string) => void
+  removeTodolist: (todoId: string) => void
   addTask: (value: string, todoId: string) => void
   filter: FilterValueType
 }
@@ -60,18 +60,6 @@ export const Todolist = memo(({
   const addTaskHandler = useCallback((value: string) => {
     addTask(value, id)
   }, [addTask, id])
-
-  const removeTaskHandler = useCallback((taskId: string) => {
-    removeTask(taskId, id )
-  }, [removeTask, id])
-
-  const changeTitleTaskHandler = useCallback((taskId: string, title: string) => {
-    changeTitleTask(title, taskId, id)
-  }, [changeTitleTask, id])
-
-  const changeStatusTaskHandler = useCallback((taskId: string, checked: boolean) => {
-    changeTaskStatus(checked, taskId, id)
-  }, [changeTaskStatus, id])
 
   const onAllClickChangeFilterHandler = useCallback(() => {
     changeFilter('all', id);
@@ -103,12 +91,13 @@ export const Todolist = memo(({
 
   const tasksElements = filteredTasks.map((t) => {
     return <TaskItem id={t.id}
+                     todoId={id}
                      key={t.id}
                      title={t.title}
                      isDone={t.isDone}
-                     removeTask={removeTaskHandler}
-                     changeTitle={changeTitleTaskHandler}
-                     changeStatus={changeStatusTaskHandler}
+                     removeTask={removeTask}
+                     changeTitle={changeTitleTask}
+                     changeStatus={changeTaskStatus}
     />
   })
 

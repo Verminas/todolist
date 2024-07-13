@@ -46,6 +46,7 @@ export type TasksStateType = {
 }
 
 function App() {
+  console.log('app')
 
   // for style
   const [listRef] = useAutoAnimate<HTMLUnknownElement>()
