@@ -1,7 +1,12 @@
 import {v1} from "uuid";
-import {TasksStateType, TodolistType} from "../App";
-import {addNewTodolistAC, removeAllTodoListsAC, removeTodolistAC, todolistsReducer} from "./todolists/todolistsReducer";
-import {tasksReducer} from "./tasks/tasksReducer";
+import {
+  createTodolistAC,
+  removeAllTodoListsAC,
+  removeTodolistAC,
+  todolistsReducer,
+  TodolistType
+} from "./todolistsReducer";
+import {tasksReducer, TasksStateType} from "./tasksReducer";
 
 const tdId1 = v1();
 const tdId2 = v1();
@@ -12,25 +17,25 @@ let initialTodoLists: TodolistType[];
 beforeEach(() => {
   initialTasks = {
     [tdId1]: [
-      {id: v1(), title: 'HTML&CSS', isDone: true},
-      {id: v1(), title: 'JS', isDone: true},
+      {id: v1(), title: 'HTML&CSS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
+      {id: v1(), title: 'JS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
     ],
     [tdId2]: [
-      {id: v1(), title: 'Books', isDone: false},
-      {id: v1(), title: 'Juice', isDone: true},
+      {id: v1(), title: 'Books', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
+      {id: v1(), title: 'Juice', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
     ],
   }
 
   initialTodoLists = [
-    {id: tdId1, title: 'What to learn', filter: 'all'},
-    {id: tdId2, title: 'What to buy', filter: 'all'},
+    {id: tdId1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
+    {id: tdId2, title: 'What to buy', filter: 'all', order: 0, addedDate: ''},
   ]
 })
 
 test('add new todolist with empty array of tasks should be correct', () => {
   const tdId = v1();
 
-  const action = addNewTodolistAC('Title of New Todolist', tdId )
+  const action = createTodolistAC( {title: 'sadas', addedDate: '', order: 0, id: 'saadf'} )
   const endTodoLists = todolistsReducer(initialTodoLists, action);
   const endTasks = tasksReducer(initialTasks, action);
 

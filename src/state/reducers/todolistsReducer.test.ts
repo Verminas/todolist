@@ -1,12 +1,11 @@
-import {TodolistType} from "../../App";
 import {v1} from "uuid";
 import {
-  addNewTodolistAC,
+  createTodolistAC,
   changeFilterAC,
   changeTitleAC,
   removeAllTodoListsAC,
   removeTodolistAC,
-  todolistsReducer
+  todolistsReducer, TodolistType
 } from "./todolistsReducer";
 
 const todoId1 = v1();
@@ -15,8 +14,8 @@ let initialState: TodolistType[];
 
 beforeEach(() => {
   initialState = [
-    {id: todoId1, title: 'What to learn', filter: 'all'},
-    {id: todoId2, title: 'What to buy', filter: 'all'},
+    {id: todoId1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
+    {id: todoId2, title: 'What to buy', filter: 'all', order: 0, addedDate: ''},
   ]
 })
 
@@ -51,7 +50,7 @@ test('change filter in todolist should be correct', () => {
 
 test('add new todolist should be correct', () => {
 
-  const action = addNewTodolistAC('New Todolist', v1());
+  const action = createTodolistAC({title: 'New Todolist', addedDate: '', order: 0, id: 'saadf'});
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(3);

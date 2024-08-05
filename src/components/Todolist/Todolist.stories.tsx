@@ -1,7 +1,8 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {FilterValueType, TaskPropsType, Todolist} from './Todolist';
+import {Todolist} from './Todolist';
 import {action} from '@storybook/addon-actions'
 import {bool, string} from "prop-types";
+import {TaskPropsType} from "../../state/reducers/tasksReducer";
 
 // More on how to set up stories at:
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -21,13 +22,9 @@ const meta: Meta<typeof Todolist> = {
       description: 'changeTitleTodolist',
       action: action('changeTitleTodolist'),
     },
-    changeTitleTask: {
-      description: 'changeTitleTask',
-      action: action('changeTitleTask'),
-    },
-    changeTaskStatus: {
-      description: 'changeTaskStatus',
-      action: action('changeTaskStatus'),
+    updateTask: {
+      description: 'updateTask',
+      action: action('updateTask'),
     },
     removeTask: {
       description: 'removeTask',

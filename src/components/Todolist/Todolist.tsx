@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, {ChangeEvent, memo, useCallback, useEffect} from 'react';
 import Button from '@mui/material/Button';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import styled from "styled-components";
@@ -9,18 +9,11 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import {filterButtonsContainerSx, getListItemSx} from "./Todolist.styles";
+import {filterButtonsContainerSx} from "./Todolist.styles";
 import {TaskItem} from "../TaskItem/TaskItem";
-import {useSelector} from "react-redux";
-
-export type FilterValueType = 'all' | 'active' | 'completed';
-
-export type TaskPropsType = {
-  id: string
-  title: string
-  isDone: boolean
-}
+import {FilterValueType} from "../../state/reducers/todolistsReducer";
+import {fetchTasksTC, TaskPropsType} from "../../state/reducers/tasksReducer";
+import {useAppDispatch} from "../../state/store";
 
 type TodolistPropsType = {
   id: string
@@ -28,8 +21,7 @@ type TodolistPropsType = {
   tasks: Array<TaskPropsType>
 
   changeTitleTodolist: (value: string, todoId: string) => void
-  changeTitleTask: (value: string, taskId: string, todoId: string) => void
-  changeTaskStatus: (checked: boolean, taskId: string, todoId: string) => void
+  updateTask: (todoId: string, taskId: string, title: string, isDone: boolean) => void
   removeTask: (id: string, todoId: string) => void
   changeFilter: (value: FilterValueType, todoId: string) => void
   removeTodolist: (todoId: string) => void
@@ -44,18 +36,22 @@ export const Todolist = memo(({
                                 changeFilter,
                                 removeTask,
                                 removeTodolist,
-                                changeTaskStatus,
                                 changeTitleTodolist,
-                                changeTitleTask,
                                 addTask,
+                                updateTask,
                                 filter
                               }:
                                 TodolistPropsType
 ) => {
-  console.log('todolist called', title)
 
   // animation for list tasks
   const [listRef] = useAutoAnimate<HTMLUListElement>()
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTasksTC(id))
+  }, []);
 
   const addTaskHandler = useCallback((value: string) => {
     addTask(value, id)
@@ -82,6 +78,8 @@ export const Todolist = memo(({
 
   let filteredTasks = tasks;
 
+  // можно закинуть в useMemo
+
   if (filter === 'active') {
     filteredTasks = filteredTasks.filter((t) => !t.isDone);
   }
@@ -96,8 +94,7 @@ export const Todolist = memo(({
                      title={t.title}
                      isDone={t.isDone}
                      removeTask={removeTask}
-                     changeTitle={changeTitleTask}
-                     changeStatus={changeTaskStatus}
+                     updateTask={updateTask}
     />
   })
 

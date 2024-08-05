@@ -13,21 +13,20 @@ type Props = {
   todoId: string
   isDone: boolean
   title: string
-  changeStatus: (checked: boolean, taskId: string, todoId: string) => void
-  changeTitle: (value: string, taskId: string, todoId: string) => void
+  updateTask: (todoId: string, taskId: string, title: string, isDone: boolean) => void
   removeTask: (id: string, todoId: string) => void
 };
-export const TaskItem = memo(({ id, title, isDone, changeStatus, removeTask, changeTitle, todoId}: Props) => {
+export const TaskItem = memo(({ id, title, isDone, removeTask, todoId, updateTask}: Props) => {
   console.log('task item', title)
   const removeTaskHandler = () => {
     removeTask(id, todoId)
   }
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    changeStatus(e.currentTarget.checked, id, todoId);
+    updateTask(todoId, id, title, e.currentTarget.checked);
   }
   const changeTaskTitleHandler = useCallback((value: string) => {
-    changeTitle(value, id, todoId);
-  }, [changeTitle, id, todoId])
+    updateTask(todoId, id, value, isDone)
+  }, [updateTask, id, todoId])
 
   return (
     <ListItem key={id} disablePadding disableGutters sx={getListItemSx(isDone)}>

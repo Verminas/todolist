@@ -18,8 +18,7 @@ const meta: Meta<typeof TaskItem> = {
     todoId: string,
     isDone: bool,
     title: string,
-    changeStatus: action('changeStatus'),
-    changeTitle: action('changeTitle'),
+    updateTask: action('updateTask'),
     removeTask: action('removeTask'),
   },
 };

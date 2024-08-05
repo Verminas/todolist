@@ -1,7 +1,6 @@
-import React, {useCallback, useReducer, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
-import {FilterValueType, TaskPropsType, Todolist} from "./components/Todolist/Todolist";
-import {v1} from 'uuid';
+import {Todolist} from "./components/Todolist/Todolist";
 import {createTheme, ThemeProvider} from '@mui/material/styles'
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
@@ -15,35 +14,22 @@ import Container from '@mui/material/Container'
 //❗С релизом новой версии import Grid скорее всего изменится (см. документацию)
 import Grid from '@mui/material/Unstable_Grid2'
 import {
-  addNewTodolistAC,
   changeFilterAC,
-  changeTitleAC,
-  removeAllTodoListsAC,
-  removeTodolistAC,
-  todolistsReducer
-} from "./state/todolists/todolistsReducer";
-import {
-  addNewTaskAC,
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-  tasksReducer
-} from "./state/tasks/tasksReducer";
+  fetchTodolistsTC,
+  FilterValueType,
+  removeTodolistTC,
+  TodolistType,
+  createTodolistTC,
+  removeAllTodolistsTC,
+  changeTitleTodolistTC
+} from "./state/reducers/todolistsReducer";
+import {removeTaskTC, TasksStateType, createTaskTC, updateTaskTC} from "./state/reducers/tasksReducer";
 import {AppHead} from "./components/AppHead/AppHead";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./state/store";
 
-export type TodolistType = {
-  id: string
-  title: string
-  filter: FilterValueType
-}
 
 type ThemeMode = 'dark' | 'light'
-
-export type TasksStateType = {
-  [key: string]: TaskPropsType[]
-}
 
 function App() {
   console.log('app')
@@ -52,46 +38,47 @@ function App() {
   const [listRef] = useAutoAnimate<HTMLUnknownElement>()
   const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
-  const todoLists = useSelector<AppRootStateType,TodolistType[]>(state => state.todolists)
+  const todoLists = useSelector<AppRootStateType, TodolistType[]>(state => state.todolists)
   const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTodolistsTC())
+  }, []);
 
   const removeTask = useCallback((id: string, todoId: string) => {
-    dispatch(removeTaskAC(todoId, id))
-  } , []) // + tests
+    dispatch(removeTaskTC(todoId, id))
+  }, []) // + tests
 
   const removeTodolist = useCallback((todoId: string) => {
-    dispatch(removeTodolistAC(todoId))
+    dispatch(removeTodolistTC(todoId))
   }, []) // + tests
 
   const removeAllTodoLists = useCallback(() => {
-    dispatch(removeAllTodoListsAC())
+    dispatch(removeAllTodolistsTC())
   }, []) // + tests
 
   const changeFilter = useCallback((filter: FilterValueType, todoId: string) => {
     dispatch(changeFilterAC(todoId, filter))
   }, []) // + tests
 
-  const changeTaskStatus = useCallback((isDone: boolean, taskId: string, todoId: string) => {
-    dispatch(changeTaskStatusAC(todoId, taskId, isDone))
-  }, []) // + tests
+
+  const updateTask = useCallback((todoId: string, taskId: string, title: string, isDone: boolean) => {
+    dispatch(updateTaskTC(todoId, taskId, title, isDone))
+  }, [])
 
   const addTask = useCallback((title: string, todoId: string) => {
-    dispatch(addNewTaskAC(todoId, title))
+    dispatch(createTaskTC(todoId, title))
   }, []) // + tests
 
   const addTodoList = useCallback((title: string) => {
-    const todoId = v1();
-    dispatch(addNewTodolistAC(title, todoId))
+    dispatch(createTodolistTC(title))
   }, []) // + tests
 
   const changeTitleTodolist = useCallback((title: string, todoId: string) => {
-    dispatch(changeTitleAC(todoId, title))
+    dispatch(changeTitleTodolistTC(todoId, title))
   }, []) // + tests
 
-  const changeTaskTitle = useCallback((value: string, taskId: string, todoId: string) => {
-    dispatch(changeTaskTitleAC(todoId, taskId, value))
-  }, []) // + tests
 
   const changeModeHandler = () => {
     setThemeMode(themeMode === 'light' ? 'dark' : 'light')
@@ -128,10 +115,9 @@ function App() {
               changeFilter={changeFilter}
               removeTask={removeTask}
               removeTodolist={removeTodolist}
-              changeTaskStatus={changeTaskStatus}
               addTask={addTask}
               changeTitleTodolist={changeTitleTodolist}
-              changeTitleTask={changeTaskTitle}
+              updateTask={updateTask}
             />
           </Paper>
         </Grid>
