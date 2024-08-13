@@ -17,18 +17,18 @@ let initialTodoLists: TodolistType[];
 beforeEach(() => {
   initialTasks = {
     [tdId1]: [
-      {id: v1(), title: 'HTML&CSS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
-      {id: v1(), title: 'JS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
+      {id: v1(), title: 'HTML&CSS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'JS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
     ],
     [tdId2]: [
-      {id: v1(), title: 'Books', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
-      {id: v1(), title: 'Juice', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
+      {id: v1(), title: 'Books', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'Juice', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
     ],
   }
 
   initialTodoLists = [
-    {id: tdId1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-    {id: tdId2, title: 'What to buy', filter: 'all', order: 0, addedDate: ''},
+    {id: tdId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
+    {id: tdId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
   ]
 })
 

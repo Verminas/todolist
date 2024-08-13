@@ -21,14 +21,14 @@ let initialState: TasksStateType;
 beforeEach(() => {
   initialState = {
     [todoId1]: [
-      {id: taskTL1Id1, title: 'HTML&CSS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
-      {id: v1(), title: 'JS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
-      {id: v1(), title: 'ReactJS', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
-      {id: v1(), title: 'Redux', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
+      {id: taskTL1Id1, title: 'HTML&CSS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'JS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'ReactJS', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'Redux', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
     ],
     [todoId2]: [
-      {id: taskTL2Id1, title: 'Books', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
-      {id: v1(), title: 'Juice', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf'},
+      {id: taskTL2Id1, title: 'Books', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'Juice', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
     ],
   }
 })

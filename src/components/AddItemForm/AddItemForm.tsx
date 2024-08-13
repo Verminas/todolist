@@ -7,8 +7,9 @@ type AddItemFormPropsType = {
   addItem: (value: string) => void
   placeholder?: string
   textFieldLabel?: string
+  disabled: boolean
 }
-export const AddItemForm = memo(({addItem, placeholder, textFieldLabel}: AddItemFormPropsType) => {
+export const AddItemForm = memo(({addItem, placeholder, textFieldLabel, disabled}: AddItemFormPropsType) => {
   console.log('add item form')
     const [title, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -18,6 +19,7 @@ export const AddItemForm = memo(({addItem, placeholder, textFieldLabel}: AddItem
     }
 
     function onKeyUpEnter(e: KeyboardEvent<HTMLInputElement>) {
+      if(disabled) return
       if (error !== null) setError(null);
       if (e.key === 'Enter') {
         addItemHandler();
@@ -25,6 +27,7 @@ export const AddItemForm = memo(({addItem, placeholder, textFieldLabel}: AddItem
     }
 
     const addItemHandler = () => {
+      if(disabled) return
       if (title.trim().length > 0) {
         addItem(title.trim());
         setTitle('');
@@ -42,12 +45,13 @@ export const AddItemForm = memo(({addItem, placeholder, textFieldLabel}: AddItem
                      size={'small'}
                      error={!!error}
                      helperText={error}
+                     disabled={disabled}
 
                      value={title}
                      onChange={changeTitle}
                      onKeyUp={onKeyUpEnter}
           />
-          <IconButton onClick={addItemHandler} aria-label="add item" color={error ? 'error' : 'primary'}>
+          <IconButton onClick={addItemHandler} aria-label="add item" color={error ? 'error' : 'primary'} disabled={disabled}>
             <AddBoxIcon/>
           </IconButton>
         </div>

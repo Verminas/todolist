@@ -3,6 +3,7 @@ import {Todolist} from './Todolist';
 import {action} from '@storybook/addon-actions'
 import {bool, string} from "prop-types";
 import {TaskPropsType} from "../../state/reducers/tasksReducer";
+import {v1} from "uuid";
 
 // More on how to set up stories at:
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -58,16 +59,11 @@ export const TodolistStory: Story = {
     id: '12wsdewfijdei2343',
     title: 'Todolist',
     tasks: [
-      {
-      id: '1',
-      title: '1',
-      isDone: false
-    },
-      {
-        id: '2',
-        title: '2',
-        isDone: true
-      }],
+      {id: v1(), title: 'HTML&CSS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'JS', isDone: true, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'ReactJS', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+      {id: v1(), title: 'Redux', isDone: false, completed: false, status: 0, addedDate: '', order: 0, priority: 0, startDate: '', deadline: '', description: '', todoListId: 'sdf', entityStatus: 'idle'},
+    ],
     filter: 'all'
   },
 };

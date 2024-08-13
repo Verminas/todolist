@@ -4,7 +4,7 @@ export const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/',
   withCredentials: true,
   headers: {
-    'API-KEY': '133b6bc5-1bd0-4774-80ae-acd4a6c322ef',
+    'API-KEY': '5a547771-3d12-4a7c-855e-ac319aa3d862',
   },
 })
 
@@ -21,7 +21,7 @@ export const todolistAPI = {
   },
   createTodolist(title: string) {
     return instance.post<ResponseType<TodolistGeneric>>(`todo-lists/`,{ title })
-      .then(data => data.data.data)
+      .then(data => data.data)
   },
   updateTodolist(todolistId: string, title: string) {
     return instance.put<ResponseType>(`todo-lists/${todolistId}`,{ title })
@@ -29,17 +29,17 @@ export const todolistAPI = {
   },
   getTasks(todoID: string) {
     return instance.get<GetTasksResponseType>(`todo-lists/${todoID}/tasks`)
-      .then(data => data.data.items)
+      .then(data => data.data)
   },
 
   createTask(todoID: string, title: string) {
     return instance.post<ResponseType<TaskGeneric>>(`todo-lists/${todoID}/tasks`, { title })
-      .then(data => data.data.data)
+      .then(data => data.data)
   },
 
   updateTask(todoID: string, taskID: string, task: TaskResponseType) {
     return instance.put<ResponseType<TaskGeneric>>(`todo-lists/${todoID}/tasks/${taskID}`, task)
-      .then(data => data.data.data)
+      .then(data => data.data)
   },
 
   removeTask(todoID: string, taskID: string) {

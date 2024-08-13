@@ -14,8 +14,8 @@ let initialState: TodolistType[];
 
 beforeEach(() => {
   initialState = [
-    {id: todoId1, title: 'What to learn', filter: 'all', order: 0, addedDate: ''},
-    {id: todoId2, title: 'What to buy', filter: 'all', order: 0, addedDate: ''},
+    {id: todoId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
+    {id: todoId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
   ]
 })
 

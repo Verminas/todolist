@@ -14,11 +14,13 @@ import {TaskItem} from "../TaskItem/TaskItem";
 import {FilterValueType} from "../../state/reducers/todolistsReducer";
 import {fetchTasksTC, TaskPropsType} from "../../state/reducers/tasksReducer";
 import {useAppDispatch} from "../../state/store";
+import {RequestStatusType} from "../../app/app-reducer";
 
 type TodolistPropsType = {
   id: string
   title: string
   tasks: Array<TaskPropsType>
+  entityStatus: RequestStatusType
 
   changeTitleTodolist: (value: string, todoId: string) => void
   updateTask: (todoId: string, taskId: string, title: string, isDone: boolean) => void
@@ -33,6 +35,7 @@ export const Todolist = memo(({
                                 id,
                                 title,
                                 tasks,
+                                entityStatus,
                                 changeFilter,
                                 removeTask,
                                 removeTodolist,
@@ -48,6 +51,7 @@ export const Todolist = memo(({
   const [listRef] = useAutoAnimate<HTMLUListElement>()
 
   const dispatch = useAppDispatch();
+  const todolistIsLoading = entityStatus === 'loading';
 
   useEffect(() => {
     dispatch(fetchTasksTC(id))
@@ -95,19 +99,20 @@ export const Todolist = memo(({
                      isDone={t.isDone}
                      removeTask={removeTask}
                      updateTask={updateTask}
+                     entityStatus={todolistIsLoading ? 'loading' : t.entityStatus}
     />
   })
 
   return (
     <div>
       <WrapperTitle>
-        <h3><EditableSpan title={title} changeTitle={changeTitleTodolistHandler} textFieldLabel={'Todolist title'}/>
+        <h3><EditableSpan title={title} changeTitle={changeTitleTodolistHandler} textFieldLabel={'Todolist title'} disabled={todolistIsLoading} />
         </h3>
-        <IconButton aria-label="delete todolist" onClick={removeTodolistHandler} size={'small'}>
+        <IconButton aria-label="delete todolist" onClick={removeTodolistHandler} size={'small'} disabled={todolistIsLoading}>
           <DeleteIcon/>
         </IconButton>
       </WrapperTitle>
-      <AddItemForm addItem={addTaskHandler} textFieldLabel={'New task'} placeholder={'Add a new task...'}/>
+      <AddItemForm addItem={addTaskHandler} textFieldLabel={'New task'} placeholder={'Add a new task...'} disabled={todolistIsLoading}/>
       {tasks.length === 0
         ? <span>There are not tasks</span>
         : <List ref={listRef}>
