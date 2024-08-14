@@ -10,7 +10,6 @@ type AddItemFormPropsType = {
   disabled: boolean
 }
 export const AddItemForm = memo(({addItem, placeholder, textFieldLabel, disabled}: AddItemFormPropsType) => {
-  console.log('add item form')
     const [title, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
 

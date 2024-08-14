@@ -8,13 +8,20 @@ import Switch from "@mui/material/Switch";
 import AppBar from "@mui/material/AppBar";
 import LinearProgress from '@mui/material/LinearProgress';
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../../state/store";
+import {AppRootStateType, useAppDispatch} from "../../state/store";
+import {logoutTC} from "../../features/Login/authReducer";
 
 type Props = {
   switchOnChange: () => void
 };
 export const AppHead = ({switchOnChange}: Props) => {
   const status = useSelector<AppRootStateType, string>(state => state.app.status )
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+  const dispatch = useAppDispatch();
+
+  const logOutHandler = () => {
+    dispatch(logoutTC())
+  }
   return (
     <AppBar position="static" sx={{mb: '30px'}}>
       <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
@@ -28,8 +35,7 @@ export const AppHead = ({switchOnChange}: Props) => {
           <MenuIcon/>
         </IconButton>
         <div>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Logout</Button>
+          {isLoggedIn && <Button color="inherit" onClick={logOutHandler}>Logout</Button>}
           <Button color="inherit">Faq</Button>
           <Switch color={'default'} onChange={switchOnChange}/>
         </div>

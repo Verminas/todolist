@@ -2,7 +2,7 @@ import {
   CREATE_TODOLIST,
   AddNewTodolistActionType, REMOVE_ALL_TODOLISTS, REMOVE_TODOLIST,
   RemoveAllTodoListsActionType,
-  RemoveTodolistActionType, SET_TODOLISTS, SetTodolistsActionType
+  RemoveTodolistActionType, SET_TODOLISTS, SetTodolistsActionType, ClearTodosDataActionType, CLEAR_TODOS_DATA
 } from "./todolistsReducer";
 import {TaskResponseType, todolistAPI} from "../../api/todolists-api";
 import {Dispatch} from "redux";
@@ -84,7 +84,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
 
     case CHANGE_TASK_ENTITY_STATUS: {
       const {todoId, id, status} = action.payload;
-      return {...state, [todoId]: state[todoId].map(t=> t.id === id ? {...t, entityStatus: status} : t)}
+      return {...state, [todoId]: state[todoId].map(t => t.id === id ? {...t, entityStatus: status} : t)}
+    }
+
+    case CLEAR_TODOS_DATA: {
+      return {}
     }
 
     default: {
@@ -123,6 +127,7 @@ type TasksReducerActionType =
   | RemoveTodolistActionType
   | RemoveAllTodoListsActionType
   | ChangeTaskEntityStatusActionType
+  | ClearTodosDataActionType
 
 export type SetTasksActionType = ReturnType<typeof setTasksAC>
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>

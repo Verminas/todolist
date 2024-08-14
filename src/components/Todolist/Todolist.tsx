@@ -53,9 +53,9 @@ export const Todolist = memo(({
   const dispatch = useAppDispatch();
   const todolistIsLoading = entityStatus === 'loading';
 
-  useEffect(() => {
-    dispatch(fetchTasksTC(id))
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchTasksTC(id))
+  // }, []);
 
   const addTaskHandler = useCallback((value: string) => {
     addTask(value, id)

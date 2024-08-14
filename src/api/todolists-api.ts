@@ -1,14 +1,28 @@
 import axios from 'axios'
+import {apiKey} from "./apiKey";
 
 export const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.1/',
   withCredentials: true,
   headers: {
-    'API-KEY': '5a547771-3d12-4a7c-855e-ac319aa3d862',
+    'API-KEY': apiKey,
   },
 })
 
-
+export const authAPI = {
+  login(payload: LoginParamsType) {
+    return instance.post<ResponseType<LoginGenericType>>('auth/login', payload)
+      .then(data => data.data)
+  },
+  me() {
+    return instance.get<ResponseType<AuthMeResponseGeneric>>('auth/me')
+      .then(data => data.data)
+  },
+  logout() {
+    return instance.delete<ResponseType>('auth/login')
+      .then(data => data.data)
+  }
+}
 
 export const todolistAPI = {
   getTodolists() {
@@ -48,6 +62,23 @@ export const todolistAPI = {
   },
 }
 
+export type LoginParamsType = {
+  email: string
+  password: string
+  rememberMe: boolean
+  captcha?: boolean
+}
+
+type LoginGenericType = {
+  userId: number
+}
+
+type AuthMeResponseGeneric = {
+  id: number
+  email: string
+  login: string
+}
+
 export type TodoListTypeDomain = {
   addedDate: string
   id: string
@@ -81,8 +112,6 @@ type TaskGeneric = {
   item: TaskResponseType
 }
 
-type TaskRequestType = Omit<TaskResponseType, 'id' | 'todoListId' | 'order' | 'addedDate'>;
-
 export type TaskResponseType = {
   description: string | null
   title: string
@@ -97,13 +126,3 @@ export type TaskResponseType = {
   order: number
   addedDate: string
 }
-
-export const getTaskRequestProperties = (task: TaskResponseType, title: string, isDone: boolean): TaskRequestType => ({
-  description: task.description,
-  title,
-  completed: isDone,
-  status: task.status,
-  priority: task.priority,
-  startDate: task.startDate,
-  deadline: task.deadline,
-})
