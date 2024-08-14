@@ -1,9 +1,9 @@
-import { tasksReducer } from './reducers/tasksReducer'
-import { todolistsReducer } from './reducers/todolistsReducer'
+import { tasksReducer } from '../features/TodolistsList/tasksReducer'
+import { todolistsReducer } from '../features/TodolistsList/todolistsReducer'
 import {AnyAction, applyMiddleware, combineReducers, createStore} from 'redux'
 import {thunk, ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
-import {appReducer} from "../app/app-reducer";
+import {appReducer} from "./app-reducer";
 import {authReducer} from "../features/Login/authReducer";
 
 const rootReducer = combineReducers({

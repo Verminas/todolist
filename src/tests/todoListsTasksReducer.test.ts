@@ -5,8 +5,8 @@ import {
   removeTodolistAC,
   todolistsReducer,
   TodolistType
-} from "./todolistsReducer";
-import {tasksReducer, TasksStateType} from "./tasksReducer";
+} from "../features/TodolistsList/todolistsReducer";
+import {tasksReducer, TasksStateType} from "../features/TodolistsList/tasksReducer";
 
 const tdId1 = v1();
 const tdId2 = v1();

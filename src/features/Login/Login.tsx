@@ -10,7 +10,7 @@ import Button from '@mui/material/Button'
 import {useFormik} from "formik";
 import {authAPI} from "../../api/todolists-api";
 import {loginTC} from "./authReducer";
-import {AppRootStateType, useAppDispatch} from "../../state/store";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {useSelector} from "react-redux";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../index";
@@ -54,7 +54,7 @@ export const Login = () => {
   })
 
 
-  if(isLoggedIn) {
+  if (isLoggedIn) {
     return <Navigate to={PATH.COMMON}/>
   }
 
@@ -65,10 +65,7 @@ export const Login = () => {
           <FormControl>
             <FormLabel>
               <p>
-                To log in get registered
-                <a href={'https://social-network.samuraijs.com/'} target={'_blank'}>
-                   here
-                </a>
+                To log in get registered <a href={'https://social-network.samuraijs.com/'} target={'_blank'}> here</a>
               </p>
               <p>or use common test account credentials:</p>
               <p>Email: free@samuraijs.com</p>

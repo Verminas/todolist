@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import {getListItemSx} from "../Todolist/Todolist.styles";
+import {getListItemSx} from "../../features/TodolistsList/Todolist/Todolist.styles";
 import Checkbox from "@mui/material/Checkbox";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";

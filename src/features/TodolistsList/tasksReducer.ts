@@ -6,7 +6,7 @@ import {
 } from "./todolistsReducer";
 import {TaskResponseType, todolistAPI} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppRootStateType} from "../store";
+import {AppRootStateType} from "../../app/store";
 import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 

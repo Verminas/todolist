@@ -10,7 +10,7 @@ import {
   changeTodolistEntityStatusAC,
   clearTodosDataAC,
   ClearTodosDataActionType
-} from "../../state/reducers/todolistsReducer";
+} from "../TodolistsList/todolistsReducer";
 
 const initialState = {
   isLoggedIn: false,

@@ -4,12 +4,12 @@ import {
   removeTaskAC,
   tasksReducer,
   TasksStateType
-} from "./tasksReducer";
+} from "../features/TodolistsList/tasksReducer";
 import {
   createTodolistAC,
   removeAllTodoListsAC,
   removeTodolistAC,
-} from "./todolistsReducer";
+} from "../features/TodolistsList/todolistsReducer";
 
 const todoId1 = v1();
 const todoId2 = v1();

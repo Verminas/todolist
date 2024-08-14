@@ -2,7 +2,7 @@ import type {Meta, StoryObj} from '@storybook/react';
 import {Todolist} from './Todolist';
 import {action} from '@storybook/addon-actions'
 import {bool, string} from "prop-types";
-import {TaskPropsType} from "../../state/reducers/tasksReducer";
+import {TaskPropsType} from "../tasksReducer";
 import {v1} from "uuid";
 
 // More on how to set up stories at:

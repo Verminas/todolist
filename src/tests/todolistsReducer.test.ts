@@ -6,7 +6,7 @@ import {
   removeAllTodoListsAC,
   removeTodolistAC,
   todolistsReducer, TodolistType
-} from "./todolistsReducer";
+} from "../features/TodolistsList/todolistsReducer";
 
 const todoId1 = v1();
 const todoId2 = v1();

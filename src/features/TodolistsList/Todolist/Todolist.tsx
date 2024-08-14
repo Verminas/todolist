@@ -2,19 +2,19 @@ import React, {ChangeEvent, memo, useCallback, useEffect} from 'react';
 import Button from '@mui/material/Button';
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 import styled from "styled-components";
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import List from '@mui/material/List';
 import {filterButtonsContainerSx} from "./Todolist.styles";
-import {TaskItem} from "../TaskItem/TaskItem";
-import {FilterValueType} from "../../state/reducers/todolistsReducer";
-import {fetchTasksTC, TaskPropsType} from "../../state/reducers/tasksReducer";
-import {useAppDispatch} from "../../state/store";
-import {RequestStatusType} from "../../app/app-reducer";
+import {TaskItem} from "../../../components/TaskItem/TaskItem";
+import {FilterValueType} from "../todolistsReducer";
+import {fetchTasksTC, TaskPropsType} from "../tasksReducer";
+import {useAppDispatch} from "../../../app/store";
+import {RequestStatusType} from "../../../app/app-reducer";
 
 type TodolistPropsType = {
   id: string

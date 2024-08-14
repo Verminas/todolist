@@ -5,12 +5,12 @@ import CssBaseline from '@mui/material/CssBaseline'
 
 import Container from '@mui/material/Container'
 //❗С релизом новой версии import Grid скорее всего изменится (см. документацию)
-import {fetchTodolistsTC} from "./state/reducers/todolistsReducer";
-import {AppHead} from "./components/AppHead/AppHead";
-import {AppRootStateType, useAppDispatch} from "./state/store";
-import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
+import {fetchTodolistsTC} from "../features/TodolistsList/todolistsReducer";
+import {AppHead} from "../components/AppHead/AppHead";
+import {AppRootStateType, useAppDispatch} from "./store";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
 import {Outlet} from "react-router-dom";
-import {initializeAppTC} from "./features/Login/authReducer";
+import {initializeAppTC} from "../features/Login/authReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {CircularProgress} from "@mui/material";
 

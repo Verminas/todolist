@@ -1,18 +1,18 @@
 // @flow
 import * as React from 'react';
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../../state/store";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {
   changeFilterAC,
   changeTitleTodolistTC, createTodolistTC, fetchTodolistsTC,
   FilterValueType, removeAllTodolistsTC,
   removeTodolistTC,
   TodolistType
-} from "../../state/reducers/todolistsReducer";
-import {createTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from "../../state/reducers/tasksReducer";
+} from "./todolistsReducer";
+import {createTaskTC, removeTaskTC, TasksStateType, updateTaskTC} from "./tasksReducer";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
-import {Todolist} from "../../components/Todolist/Todolist";
+import {Todolist} from "./Todolist/Todolist";
 import {useCallback, useEffect} from "react";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import Button from "@mui/material/Button";

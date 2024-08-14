@@ -1,6 +1,6 @@
 import {todolistAPI, TodoListTypeDomain} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppRootStateType, AppThunkDispatch} from "../store";
+import {AppRootStateType, AppThunkDispatch} from "../../app/store";
 import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {fetchTasksTC} from "./tasksReducer";

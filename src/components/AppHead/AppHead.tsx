@@ -8,7 +8,7 @@ import Switch from "@mui/material/Switch";
 import AppBar from "@mui/material/AppBar";
 import LinearProgress from '@mui/material/LinearProgress';
 import {useSelector} from "react-redux";
-import {AppRootStateType, useAppDispatch} from "../../state/store";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
 import {logoutTC} from "../../features/Login/authReducer";
 
 type Props = {
