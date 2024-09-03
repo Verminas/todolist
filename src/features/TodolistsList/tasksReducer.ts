@@ -1,5 +1,5 @@
 import { todolistsActions } from "./todolistsReducer";
-import { TaskResponseType, todolistAPI } from "api/todolists-api";
+import { TaskResponseType, TaskUpdateModelType, todolistAPI } from "api/todolists-api";
 import { Dispatch } from "redux";
 import { AppRootStateType } from "app/store";
 import { RequestStatusType, setAppStatus } from "app/appReducer";
@@ -153,12 +153,17 @@ export const updateTaskTC = (todoId: string, taskId: string, title: string, isDo
     if (task) {
       dispatch(setAppStatus({ status: "loading" }));
       dispatch(changeTaskEntityStatus({ todoId, taskId, entityStatus: "loading" }));
+      const taskModel: TaskUpdateModelType = {
+        description: task.description,
+        completed: task.completed,
+        deadline: task.deadline,
+        priority: task.priority,
+        startDate: task.startDate,
+        title,
+        status: isDone ? TaskStatuses.inProgress : TaskStatuses.New,
+      };
       todolistAPI
-        .updateTask(todoId, taskId, {
-          ...task,
-          title,
-          status: isDone ? TaskStatuses.inProgress : TaskStatuses.New,
-        })
+        .updateTask(todoId, taskId, taskModel)
         .then((data) => {
           if (data.resultCode === 0) {
             dispatch(updateTask({ todoId, taskId, task: data.data.item }));

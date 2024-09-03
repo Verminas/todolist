@@ -50,15 +50,11 @@ export const UpdateTaskTitle = () => {
     todolistAPI
       .updateTask(todoID, taskID, {
         title: "new title",
-        id: "aewfe",
         startDate: "",
         status: 0,
-        todoListId: "wewfre",
         description: "",
         priority: 0,
-        order: 0,
         deadline: "",
-        addedDate: "",
         completed: false,
       })
       .then((res) => {

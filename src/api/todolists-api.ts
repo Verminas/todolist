@@ -42,7 +42,7 @@ export const todolistAPI = {
     return instance.post<ResponseType<TaskGeneric>>(`todo-lists/${todoID}/tasks`, { title }).then((data) => data.data);
   },
 
-  updateTask(todoID: string, taskID: string, task: TaskResponseType) {
+  updateTask(todoID: string, taskID: string, task: TaskUpdateModelType) {
     return instance
       .put<ResponseType<TaskGeneric>>(`todo-lists/${todoID}/tasks/${taskID}`, task)
       .then((data) => data.data);
@@ -116,4 +116,14 @@ export type TaskResponseType = {
   todoListId: string;
   order: number;
   addedDate: string;
+};
+
+export type TaskUpdateModelType = {
+  title: string;
+  description: string | null;
+  completed: boolean;
+  status: number;
+  priority: number;
+  startDate: string | null;
+  deadline: string | null;
 };
