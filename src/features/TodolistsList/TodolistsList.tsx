@@ -3,13 +3,13 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 import { AppRootStateType, useAppDispatch } from "app/store";
 import {
-  changeFilterAC,
   changeTitleTodolistTC,
   createTodolistTC,
   fetchTodolistsTC,
   FilterValueType,
   removeAllTodolistsTC,
   removeTodolistTC,
+  todolistsActions,
   TodolistType,
 } from "./todolistsReducer";
 import { createTaskTC, removeTaskTC, TasksStateType, updateTaskTC } from "./tasksReducer";
@@ -22,13 +22,17 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Navigate } from "react-router-dom";
-import { PATH } from "index";
+
+import { PATH } from "router/router";
+import { selectIsLoggedIn } from "features/Login/authSelectors";
+import { selectTodolists } from "features/TodolistsList/todolistsSelector";
+import { selectTasks } from "features/TodolistsList/tasksSelector";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {
-  const todoLists = useSelector<AppRootStateType, TodolistType[]>((state) => state.todolists);
-  const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks);
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
+  const todoLists = useSelector(selectTodolists);
+  const tasks = useSelector(selectTasks);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
   // for style
   const [listRef] = useAutoAnimate<HTMLUnknownElement>();
@@ -58,7 +62,7 @@ export const TodolistsList = (props: Props) => {
   }, []); // + tests
 
   const changeFilter = useCallback((filter: FilterValueType, todoId: string) => {
-    dispatch(changeFilterAC(todoId, filter));
+    dispatch(todolistsActions.changeFilter({ todoId, filter }));
   }, []); // + tests
 
   const updateTask = useCallback((todoId: string, taskId: string, title: string, isDone: boolean) => {

@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-
 import Container from "@mui/material/Container";
-//❗С релизом новой версии import Grid скорее всего изменится (см. документацию)
-import { fetchTodolistsTC } from "../features/TodolistsList/todolistsReducer";
-import { AppHead } from "../components/AppHead/AppHead";
-import { AppRootStateType, useAppDispatch } from "./store";
-import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar";
+import { AppHead } from "components/AppHead/AppHead";
+import { useAppDispatch } from "./store";
+import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
-import { initializeAppTC } from "../features/Login/authReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { initializeAppTC } from "features/Login/authReducer";
+import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
+import { selectIsInitialized } from "app/appSelectors";
 
 type ThemeMode = "dark" | "light";
 
 function App() {
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
   const dispatch = useAppDispatch();
-  const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized);
+  const isInitialized = useSelector(selectIsInitialized);
 
   useEffect(() => {
     dispatch(initializeAppTC());

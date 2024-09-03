@@ -10,13 +10,15 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useSelector } from "react-redux";
 import { AppRootStateType, useAppDispatch } from "app/store";
 import { logoutTC } from "features/Login/authReducer";
+import { selectStatus } from "app/appSelectors";
+import { selectIsLoggedIn } from "features/Login/authSelectors";
 
 type Props = {
   switchOnChange: () => void;
 };
 export const AppHead = ({ switchOnChange }: Props) => {
-  const status = useSelector<AppRootStateType, string>((state) => state.app.status);
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
+  const status = useSelector(selectStatus);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
 
   const logOutHandler = () => {
