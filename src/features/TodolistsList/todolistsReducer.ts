@@ -1,4 +1,4 @@
-import { todolistAPI, TodoListTypeDomain } from "api/todolists-api";
+import { todolistAPI, TodoListTypeDomain } from "api/todolistsApi";
 import { Dispatch } from "redux";
 import { AppRootStateType, AppThunkDispatch } from "app/store";
 import { RequestStatusType, setAppStatus } from "app/appReducer";
@@ -11,9 +11,7 @@ const slice = createSlice({
   initialState: [] as TodolistType[],
   reducers: {
     setTodolists(state, action: PayloadAction<{ todolists: TodoListTypeDomain[] }>) {
-      action.payload.todolists.forEach((tl) => {
-        state.push({ ...tl, filter: "all", entityStatus: "idle" });
-      });
+      return action.payload.todolists.map((tl) => ({ ...tl, filter: "all", entityStatus: "idle" }));
     },
     removeTodolist(state, action: PayloadAction<{ todoId: string }>) {
       const index = state.findIndex((tl) => tl.id === action.payload.todoId);
@@ -45,7 +43,7 @@ const slice = createSlice({
 
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
-const {
+export const {
   changeTodolistEntityStatus,
   changeTitle,
   changeFilter,

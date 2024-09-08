@@ -1,202 +1,210 @@
-// import { v1 } from "uuid";
-// import { createTaskAC, removeTaskAC, tasksReducer, TasksStateType } from "../features/TodolistsList/tasksReducer";
-// import { createTodolistAC, removeAllTodoListsAC, removeTodolistAC } from "../features/TodolistsList/todolistsReducer";
-//
-// const todoId1 = v1();
-// const todoId2 = v1();
-// const taskTL1Id1 = v1();
-// const taskTL2Id1 = v1();
-//
-// let initialState: TasksStateType;
-//
-// beforeEach(() => {
-//   initialState = {
-//     [todoId1]: [
-//       {
-//         id: taskTL1Id1,
-//         title: "HTML&CSS",
-//         isDone: true,
-//         completed: false,
-//         status: 0,
-//         addedDate: "",
-//         order: 0,
-//         priority: 0,
-//         startDate: "",
-//         deadline: "",
-//         description: "",
-//         todoListId: "sdf",
-//         entityStatus: "idle",
-//       },
-//       {
-//         id: v1(),
-//         title: "JS",
-//         isDone: true,
-//         completed: false,
-//         status: 0,
-//         addedDate: "",
-//         order: 0,
-//         priority: 0,
-//         startDate: "",
-//         deadline: "",
-//         description: "",
-//         todoListId: "sdf",
-//         entityStatus: "idle",
-//       },
-//       {
-//         id: v1(),
-//         title: "ReactJS",
-//         isDone: false,
-//         completed: false,
-//         status: 0,
-//         addedDate: "",
-//         order: 0,
-//         priority: 0,
-//         startDate: "",
-//         deadline: "",
-//         description: "",
-//         todoListId: "sdf",
-//         entityStatus: "idle",
-//       },
-//       {
-//         id: v1(),
-//         title: "Redux",
-//         isDone: false,
-//         completed: false,
-//         status: 0,
-//         addedDate: "",
-//         order: 0,
-//         priority: 0,
-//         startDate: "",
-//         deadline: "",
-//         description: "",
-//         todoListId: "sdf",
-//         entityStatus: "idle",
-//       },
-//     ],
-//     [todoId2]: [
-//       {
-//         id: taskTL2Id1,
-//         title: "Books",
-//         isDone: false,
-//         completed: false,
-//         status: 0,
-//         addedDate: "",
-//         order: 0,
-//         priority: 0,
-//         startDate: "",
-//         deadline: "",
-//         description: "",
-//         todoListId: "sdf",
-//         entityStatus: "idle",
-//       },
-//       {
-//         id: v1(),
-//         title: "Juice",
-//         isDone: true,
-//         completed: false,
-//         status: 0,
-//         addedDate: "",
-//         order: 0,
-//         priority: 0,
-//         startDate: "",
-//         deadline: "",
-//         description: "",
-//         todoListId: "sdf",
-//         entityStatus: "idle",
-//       },
-//     ],
-//   };
-// });
-//
-// test("remove task should be correct", () => {
-//   const action = removeTaskAC(todoId1, taskTL1Id1);
-//   const endState = tasksReducer(initialState, action);
-//
-//   expect(endState[todoId1].length).toBe(3);
-//   expect(endState[todoId2].length).toBe(2);
-//
-//   expect(endState[todoId1][0].id).not.toBe(taskTL1Id1);
-//   expect(endState[todoId1].find((t) => t.id === taskTL1Id1)).toBe(undefined);
-// });
-//
-// // test('change task status should be correct', () => {
-// //
-// //   const action = changeTaskStatusAC(todoId1, taskTL1Id1, false)
-// //   const endState = tasksReducer(initialState, action);
-// //
-// //   expect(endState[todoId1].length).toBe(4);
-// //   expect(endState[todoId2].length).toBe(2);
-// //
-// //   expect(endState[todoId1][0].id).toBe(taskTL1Id1);
-// //   expect(endState[todoId1][0].isDone).toBe(false);
-// //   expect(endState[todoId1][1].isDone).toBe(true);
-// //
-// // })
-//
-// test("add new task should be correct", () => {
-//   const action = createTaskAC(todoId1, {
-//     title: "New Task",
-//     id: "sdf",
-//     addedDate: "",
-//     completed: false,
-//     status: 10,
-//     deadline: "",
-//     startDate: "",
-//     description: "",
-//     order: 0,
-//     priority: 2,
-//     todoListId: "sdfxcv",
-//   });
-//   const endState = tasksReducer(initialState, action);
-//
-//   expect(endState[todoId1].length).toBe(5);
-//   expect(endState[todoId2].length).toBe(2);
-//
-//   expect(endState[todoId1][1].id).toBe(taskTL1Id1);
-//   expect(endState[todoId1][0].title).toBe("New Task");
-// });
-//
-// // test('change task title should be correct', () => {
-// //
-// //   const action = changeTaskTitleAC(todoId1, taskTL1Id1, 'New title')
-// //   const endState = tasksReducer(initialState, action);
-// //
-// //   expect(endState[todoId1].length).toBe(4);
-// //   expect(endState[todoId2].length).toBe(2);
-// //
-// //   expect(endState[todoId1][0].id).toBe(taskTL1Id1);
-// //   expect(endState[todoId1][0].title).toBe('New title');
-// //   expect(endState[todoId1][1].title).toBe('JS');
-// //
-// // })
-//
-// test("add empty array of tasks for new todolist should be correct", () => {
-//   const newId = v1();
-//   const action = createTodolistAC({ title: "New Todolist", addedDate: "", order: 0, id: "saadf" });
-//   const endState = tasksReducer(initialState, action);
-//
-//   const keys = Object.keys(endState);
-//
-//   expect(keys.length).toBe(3);
-//   expect(endState[newId]).toEqual([]);
-// });
-//
-// test("delete array of tasks when todolist is removed should be correct", () => {
-//   const action = removeTodolistAC(todoId1);
-//   const endState = tasksReducer(initialState, action);
-//
-//   const keys = Object.keys(endState);
-//
-//   expect(keys.length).toBe(1);
-//   expect(endState[todoId1]).toBeFalsy();
-// });
-//
-// test("delete all tasks when todoLists are removed should be correct", () => {
-//   const action = removeAllTodoListsAC();
-//   const endState = tasksReducer(initialState, action);
-//
-//   const keys = Object.keys(endState);
-//
-//   expect(keys.length).toBe(0);
-//   expect(endState).toEqual({});
-// });
+import { v1 } from "uuid";
+import {
+  changeTaskEntityStatus,
+  createTask,
+  removeTask,
+  setTasks,
+  TaskPriorities,
+  TaskPropsType,
+  tasksReducer,
+  TasksStateType,
+  TaskStatuses,
+  updateTask,
+} from "features/TodolistsList/tasksReducer";
+import { RequestStatusType } from "app/appReducer";
+import {
+  createTodolist,
+  removeAllTodoLists,
+  removeTodolist,
+  setTodolists,
+} from "features/TodolistsList/todolistsReducer";
+import { TodoListTypeDomain } from "api/todolistsApi";
+import { getTodolist } from "tests/todolistsReducer.test";
+
+const todoId1 = v1();
+const todoId2 = v1();
+const taskTL1Id1 = v1();
+const taskTL2Id1 = v1();
+const taskTitle1 = "Title 1 for todolist 1";
+const taskTitle2 = "Title 1 for todolist 2";
+const taskIsDone1 = true;
+const taskIsDone2 = false;
+const taskEntityStatus1: RequestStatusType = "loading";
+const taskEntityStatus2: RequestStatusType = "idle";
+
+let initialState: TasksStateType;
+
+function getTask(
+  taskTitle: string,
+  taskId: string,
+  taskIsDone: boolean,
+  taskEntityStatus: RequestStatusType,
+  todoId: string,
+): TaskPropsType {
+  return {
+    title: taskTitle,
+    id: taskId,
+    isDone: taskIsDone,
+    status: taskIsDone ? TaskStatuses.inProgress : TaskStatuses.New,
+    entityStatus: taskEntityStatus,
+    todoListId: todoId,
+    description: "",
+    deadline: "",
+    startDate: "",
+    priority: TaskPriorities.Low,
+    order: 0,
+    addedDate: "",
+    completed: false,
+  };
+}
+
+function getTasksInitialState(
+  id1: string,
+  id2: string,
+  taskId1: string,
+  taskId2: string,
+  taskTitle1: string,
+  taskTitle2: string,
+  taskIsDone1: boolean,
+  taskIsDone2: boolean,
+  taskEntityStatus1: RequestStatusType,
+  taskEntityStatus2: RequestStatusType,
+): TasksStateType {
+  return {
+    [id1]: [getTask(taskTitle1, taskId1, taskIsDone1, taskEntityStatus1, id1)],
+    [id2]: [getTask(taskTitle2, taskId2, taskIsDone2, taskEntityStatus2, id2)],
+  };
+}
+
+beforeEach(() => {
+  initialState = getTasksInitialState(
+    todoId1,
+    todoId2,
+    taskTL1Id1,
+    taskTL2Id1,
+    taskTitle1,
+    taskTitle2,
+    taskIsDone1,
+    taskIsDone2,
+    taskEntityStatus1,
+    taskEntityStatus2,
+  );
+});
+
+test("remove task should be correct", () => {
+  const action = removeTask({ todoId: todoId1, taskId: taskTL1Id1 });
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todoId1].length).toBe(0);
+  expect(endState[todoId2].length).toBe(1);
+
+  expect(endState[todoId1].find((t) => t.id === taskTL1Id1)).toBe(undefined);
+});
+
+test("update task status and title should be correct", () => {
+  const newTitle = "Updated task title";
+  const newStatus = false;
+  const updatedTask = getTask(newTitle, taskTL1Id1, newStatus, "succeeded", todoId1);
+  const action = updateTask({ todoId: todoId1, taskId: taskTL1Id1, task: updatedTask });
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todoId1].length).toBe(1);
+  expect(endState[todoId2].length).toBe(1);
+
+  expect(endState[todoId1][0].id).toBe(taskTL1Id1);
+  expect(endState[todoId1][0].isDone).toBe(newStatus);
+  expect(endState[todoId1][0].title).toBe(newTitle);
+});
+
+test("add new task should be correct", () => {
+  const taskTitle = "Title of new task";
+  const taskId = v1();
+  const taskStatus = false;
+
+  const newTask = getTask(taskTitle, taskId, taskStatus, "succeeded", todoId1);
+  const action = createTask({ todoId: todoId1, task: newTask });
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todoId1].length).toBe(2);
+  expect(endState[todoId2].length).toBe(1);
+
+  expect(endState[todoId1][0].id).toBe(taskId);
+  expect(endState[todoId1][0].title).toBe(taskTitle);
+  expect(endState[todoId1][0].isDone).toBe(taskStatus);
+});
+
+test("set tasks for todolist should be correct", () => {
+  const newTasks: TaskPropsType[] = Array.from({ length: 10 })
+    .fill(0)
+    .map((_, index) => getTask("new title", "new title" + index, false, "succeeded", todoId1));
+
+  const action = setTasks({ todoId: todoId1, tasks: newTasks });
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todoId1].length).toBe(10);
+  expect(endState[todoId2].length).toBe(1);
+
+  expect(endState[todoId1][0].id).toBe("new title0");
+  expect(endState[todoId1][0].title).toBe("new title");
+  expect(endState[todoId1][0].isDone).toBe(false);
+});
+
+test("change task entity status should be correct", () => {
+  const newEntityStatus = "succeeded";
+
+  const action = changeTaskEntityStatus({ todoId: todoId1, taskId: taskTL1Id1, entityStatus: newEntityStatus });
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState[todoId1].length).toBe(1);
+
+  expect(endState[todoId1][0].entityStatus).toBe("succeeded");
+});
+
+test("set empty array for each todolists should be correct", () => {
+  const newTodolists: TodoListTypeDomain[] = Array.from({ length: 10 })
+    .fill(0)
+    .map((_, index) => getTodolist("todoId" + index, "New todolist" + index));
+
+  const action = setTodolists({ todolists: newTodolists });
+  const endState = tasksReducer(initialState, action);
+
+  expect(endState["todoId" + 0]).toBeDefined();
+  expect(endState["todoId" + 9]).toBeDefined();
+  expect(endState["todoId" + 0]).toEqual([]);
+  expect(endState["todoId" + 9]).toEqual([]);
+
+  expect(newTodolists.every((tl) => Array.isArray(endState[tl.id]))).toBeTruthy();
+});
+
+test("add empty array of tasks for new todolist should be correct", () => {
+  const newId = v1();
+  const newTitle = "New todolist";
+
+  const action = createTodolist({ todo: getTodolist(newId, newTitle) });
+  const endState = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(3);
+  expect(endState[newId]).toEqual([]);
+});
+
+test("delete array of tasks when todolist is removed should be correct", () => {
+  const action = removeTodolist({ todoId: todoId1 });
+  const endState = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(1);
+  expect(endState[todoId1]).toBeFalsy();
+});
+
+test("delete all tasks when todoLists are removed should be correct", () => {
+  const action = removeAllTodoLists();
+  const endState = tasksReducer(initialState, action);
+
+  const keys = Object.keys(endState);
+
+  expect(keys.length).toBe(0);
+  expect(endState).toEqual({});
+});

@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { setAppInitialized, setAppStatus } from "app/appReducer";
-import { authAPI, LoginParamsType } from "api/todolists-api";
+import { authAPI, LoginParamsType } from "api/todolistsApi";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todolistsActions } from "features/TodolistsList/todolistsReducer";
@@ -19,7 +19,7 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-const { setIsLoggedIn } = slice.actions;
+export const { setIsLoggedIn } = slice.actions;
 
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
@@ -74,3 +74,5 @@ export const logoutTC = () => (dispatch: Dispatch) => {
       handleServerNetworkError(error, dispatch);
     });
 };
+
+export type AuthReducerInitialType = ReturnType<typeof slice.getInitialState>;

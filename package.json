@@ -2,6 +2,9 @@
   "name": "1-lesson",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "transformIgnorePatterns": ["/node_modules/(?!axios)"]
+  },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -35,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "storybook dev -p 9009",
+    "storybook": "storybook dev -p 9009 --no-dll",
     "build-storybook": "storybook build",
     "jest:integration": "jest -c integration/jest.config.js",
     "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"

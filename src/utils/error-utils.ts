@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { ResponseType } from "api/todolists-api";
+import { ResponseType } from "api/todolistsApi";
 import { appActions } from "app/appReducer";
 
 type ErrorUtilsDispatchType = Dispatch<

@@ -1,5 +1,5 @@
 import { todolistsActions } from "./todolistsReducer";
-import { TaskResponseType, TaskUpdateModelType, todolistAPI } from "api/todolists-api";
+import { TaskResponseType, TaskUpdateModelType, todolistAPI } from "api/todolistsApi";
 import { Dispatch } from "redux";
 import { AppRootStateType } from "app/store";
 import { RequestStatusType, setAppStatus } from "app/appReducer";
@@ -70,7 +70,7 @@ const slice = createSlice({
 
 export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
-const { setTasks, changeTaskEntityStatus, updateTask, removeTask, createTask } = slice.actions;
+export const { setTasks, changeTaskEntityStatus, updateTask, removeTask, createTask } = slice.actions;
 
 export enum TaskStatuses {
   New = 0,
