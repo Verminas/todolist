@@ -9,11 +9,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { loginTC } from "./authReducer";
-import { AppRootStateType, useAppDispatch } from "app/store";
+import { useAppDispatch } from "app/store";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectIsLoggedIn } from "features/Login/authSelectors";
 import { PATH } from "router/router";
+import { textFieldErrorStyle } from "features/Login/Login.styles";
 
 type FormikErrorType = {
   email?: string;
@@ -47,9 +48,13 @@ export const Login = () => {
 
       return errors;
     },
-    onSubmit: (values) => {
-      dispatch(loginTC(values));
-      formik.resetForm();
+    onSubmit: async (values) => {
+      const res = await dispatch(loginTC(values));
+      if (res?.resultCode && res.resultCode > 0) {
+        Object.keys(values).forEach((key) => formik.setFieldError(key, res.messages[0]));
+      } else {
+        formik.resetForm();
+      }
     },
   });
 
@@ -75,15 +80,38 @@ export const Login = () => {
               <p>Password: free</p>
             </FormLabel>
             <FormGroup>
-              <TextField label="Email" margin="normal" {...formik.getFieldProps("email")} />
-              {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
-              <TextField type="password" label="Password" margin="normal" {...formik.getFieldProps("password")} />
-              {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+              <TextField
+                label="Email"
+                margin="normal"
+                {...formik.getFieldProps("email")}
+                error={formik.touched.email && !!formik.errors.email}
+                helperText={formik.errors.email}
+                sx={textFieldErrorStyle}
+              />
+
+              <TextField
+                type="password"
+                label="Password"
+                margin="normal"
+                {...formik.getFieldProps("password")}
+                error={formik.touched.password && !!formik.errors.password}
+                helperText={formik.errors.password}
+                sx={textFieldErrorStyle}
+              />
+
               <FormControlLabel
                 label={"Remember me"}
                 control={<Checkbox name="rememberMe" onChange={formik.handleChange} value={formik.values.rememberMe} />}
               />
-              <Button type={"submit"} variant={"contained"} color={"primary"}>
+              <Button
+                type={"submit"}
+                variant={"contained"}
+                color={"primary"}
+                disabled={
+                  (formik.touched.email && !!formik.errors.email) ||
+                  (formik.touched.password && !!formik.errors.password)
+                }
+              >
                 Login
               </Button>
             </FormGroup>

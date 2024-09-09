@@ -128,7 +128,11 @@ export const Todolist = memo(
           placeholder={"Add a new task..."}
           disabled={todolistIsLoading}
         />
-        {tasks.length === 0 ? <span>There are not tasks</span> : <List ref={listRef}>{tasksElements}</List>}
+        {filteredTasks.length === 0 ? (
+          <SpanMessage>There are not tasks</SpanMessage>
+        ) : (
+          <List ref={listRef}>{tasksElements}</List>
+        )}
         <Box sx={filterButtonsContainerSx}>
           <Button
             children={"All"}
@@ -143,6 +147,7 @@ export const Todolist = memo(
             variant={filter === "active" ? "outlined" : "text"}
             color={"primary"}
             size={"small"}
+            disabled={tasks.length === 0}
           />
           <Button
             children={"Completed"}
@@ -150,6 +155,7 @@ export const Todolist = memo(
             variant={filter === "completed" ? "outlined" : "text"}
             color={"secondary"}
             size={"small"}
+            disabled={tasks.length === 0}
           />
         </Box>
       </div>
@@ -161,4 +167,9 @@ const WrapperTitle = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+`;
+
+const SpanMessage = styled.span`
+  display: inline-block;
+  padding: 8px 5px;
 `;

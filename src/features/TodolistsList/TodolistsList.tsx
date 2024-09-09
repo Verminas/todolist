@@ -27,6 +27,7 @@ import { PATH } from "router/router";
 import { selectIsLoggedIn } from "features/Login/authSelectors";
 import { selectTodolists } from "features/TodolistsList/todolistsSelector";
 import { selectTasks } from "features/TodolistsList/tasksSelector";
+import styled from "styled-components";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {
@@ -83,7 +84,7 @@ export const TodolistsList = (props: Props) => {
 
   const todoListsElements =
     todoLists.length === 0 ? (
-      <span>There are no todolists</span>
+      <SpanMessage>There are no todolists</SpanMessage>
     ) : (
       todoLists.map((tl) => {
         return (
@@ -132,3 +133,8 @@ export const TodolistsList = (props: Props) => {
     </>
   );
 };
+
+const SpanMessage = styled.span`
+  display: inline-block;
+  padding: 0 15px;
+`;

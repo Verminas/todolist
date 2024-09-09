@@ -3,7 +3,7 @@ import { setAppInitialized, setAppStatus } from "app/appReducer";
 import { authAPI, LoginParamsType } from "api/todolistsApi";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { todolistsActions } from "features/TodolistsList/todolistsReducer";
+import { clearTodosData } from "features/TodolistsList/todolistsReducer";
 
 const slice = createSlice({
   name: "auth",
@@ -24,7 +24,7 @@ export const { setIsLoggedIn } = slice.actions;
 // thunks
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
   dispatch(setAppStatus({ status: "loading" }));
-  authAPI
+  return authAPI
     .login(data)
     .then((data) => {
       if (data.resultCode === 0) {
@@ -33,6 +33,8 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch) => {
       } else {
         handleServerAppError(data, dispatch);
       }
+
+      return data;
     })
     .catch((err) => {
       handleServerNetworkError(err, dispatch);
@@ -65,7 +67,7 @@ export const logoutTC = () => (dispatch: Dispatch) => {
       if (data.resultCode === 0) {
         dispatch(setIsLoggedIn({ isLoggedIn: false }));
         dispatch(setAppStatus({ status: "succeeded" }));
-        dispatch(todolistsActions.clearTodosData());
+        dispatch(clearTodosData());
       } else {
         handleServerAppError(data, dispatch);
       }
