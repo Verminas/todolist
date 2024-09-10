@@ -7,52 +7,60 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
-import { RequestStatusType } from "app/appReducer";
+import { TaskPropsType } from "features/TodolistsList/tasksReducer";
 
 type Props = {
-  id: string;
-  todoId: string;
-  isDone: boolean;
-  title: string;
-  updateTask: (todoId: string, taskId: string, title: string, isDone: boolean) => void;
+  task: TaskPropsType;
+  todolistIsLoading: boolean;
+
+  updateTask: (task: TaskPropsType) => void;
   removeTask: (id: string, todoId: string) => void;
-  entityStatus: RequestStatusType;
 };
-export const TaskItem = memo(({ id, title, isDone, removeTask, todoId, updateTask, entityStatus }: Props) => {
-  const taskIsLoading = entityStatus === "loading";
+export const TaskItem = memo(
+  ({
+    removeTask,
+    updateTask,
+    task,
+    task: { id, todoListId, isDone, title, entityStatus },
+    todolistIsLoading,
+  }: Props) => {
+    const taskIsLoading = todolistIsLoading || entityStatus === "loading";
 
-  const removeTaskHandler = () => {
-    removeTask(id, todoId);
-  };
-  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    updateTask(todoId, id, title, e.currentTarget.checked);
-  };
-  const changeTaskTitleHandler = useCallback(
-    (value: string) => {
-      updateTask(todoId, id, value, isDone);
-    },
-    [updateTask, id, todoId],
-  );
+    const removeTaskHandler = () => {
+      removeTask(id, todoListId);
+    };
+    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      // updateTask(todoListId, id, title, e.currentTarget.checked);
+      updateTask({ ...task, isDone: e.currentTarget.checked });
+    };
+    const changeTaskTitleHandler = useCallback(
+      (value: string) => {
+        // updateTask(todoListId, id, value, isDone);
+        updateTask({ ...task, title: value });
+      },
+      [updateTask, task, isDone],
+    );
 
-  return (
-    <ListItem key={id} disablePadding disableGutters sx={getListItemSx(isDone)}>
-      <div>
-        <Checkbox
-          checked={isDone}
-          onChange={changeTaskStatusHandler}
-          color={isDone ? "secondary" : "primary"}
-          disabled={taskIsLoading}
-        />
-        <EditableSpan
-          title={title}
-          changeTitle={changeTaskTitleHandler}
-          textFieldLabel={"Task title"}
-          disabled={taskIsLoading}
-        />
-      </div>
-      <IconButton aria-label="delete task" onClick={removeTaskHandler} size={"small"} disabled={taskIsLoading}>
-        <DeleteIcon />
-      </IconButton>
-    </ListItem>
-  );
-});
+    return (
+      <ListItem key={id} disablePadding disableGutters sx={getListItemSx(isDone)}>
+        <div>
+          <Checkbox
+            checked={isDone}
+            onChange={changeTaskStatusHandler}
+            color={isDone ? "secondary" : "primary"}
+            disabled={taskIsLoading}
+          />
+          <EditableSpan
+            title={title}
+            changeTitle={changeTaskTitleHandler}
+            textFieldLabel={"Task title"}
+            disabled={taskIsLoading}
+          />
+        </div>
+        <IconButton aria-label="delete task" onClick={removeTaskHandler} size={"small"} disabled={taskIsLoading}>
+          <DeleteIcon />
+        </IconButton>
+      </ListItem>
+    );
+  },
+);

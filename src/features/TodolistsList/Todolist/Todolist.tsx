@@ -21,7 +21,7 @@ type TodolistPropsType = {
   entityStatus: RequestStatusType;
 
   changeTitleTodolist: (value: string, todoId: string) => void;
-  updateTask: (todoId: string, taskId: string, title: string, isDone: boolean) => void;
+  updateTask: (task: TaskPropsType) => void;
   removeTask: (id: string, todoId: string) => void;
   changeFilter: (value: FilterValueType, todoId: string) => void;
   removeTodolist: (todoId: string) => void;
@@ -90,14 +90,11 @@ export const Todolist = memo(
     const tasksElements = filteredTasks.map((t) => {
       return (
         <TaskItem
-          id={t.id}
-          todoId={id}
-          key={t.id}
-          title={t.title}
-          isDone={t.isDone}
+          task={t}
           removeTask={removeTask}
           updateTask={updateTask}
-          entityStatus={todolistIsLoading ? "loading" : t.entityStatus}
+          key={t.id}
+          todolistIsLoading={todolistIsLoading}
         />
       );
     });

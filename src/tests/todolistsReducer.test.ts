@@ -7,8 +7,8 @@ import {
   createTodolist,
   removeAllTodoLists,
   removeTodolist,
-  setTodolists,
   todolistsReducer,
+  todolistsThunks,
   TodolistType,
 } from "features/TodolistsList/todolistsReducer";
 import { TodoListTypeDomain } from "api/todolistsApi";
@@ -98,7 +98,7 @@ test("set todolists should be correct", () => {
   const newTodolists: TodoListTypeDomain[] = Array.from({ length: 10 })
     .fill(0)
     .map((_, index) => getTodolist("todoId" + index, "New Todolist" + index));
-  const action = setTodolists({ todolists: newTodolists });
+  const action = todolistsThunks.fetchTodolists.fulfilled({ todolists: newTodolists }, "requestId");
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(10);

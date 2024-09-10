@@ -1,25 +1,21 @@
 import { v1 } from "uuid";
 import {
-  changeTaskEntityStatus,
-  createTask,
-  removeTask,
-  setTasks,
-  TaskPriorities,
   TaskPropsType,
+  tasksActions,
   tasksReducer,
   TasksStateType,
-  TaskStatuses,
-  updateTask,
+  tasksThunks,
 } from "features/TodolistsList/tasksReducer";
 import { RequestStatusType } from "app/appReducer";
 import {
   createTodolist,
   removeAllTodoLists,
   removeTodolist,
-  setTodolists,
+  todolistsThunks,
 } from "features/TodolistsList/todolistsReducer";
 import { TodoListTypeDomain } from "api/todolistsApi";
 import { getTodolist } from "tests/todolistsReducer.test";
+import { TaskPriorities, TaskStatuses } from "enums";
 
 const todoId1 = v1();
 const todoId2 = v1();
@@ -92,7 +88,8 @@ beforeEach(() => {
 });
 
 test("remove task should be correct", () => {
-  const action = removeTask({ todoId: todoId1, taskId: taskTL1Id1 });
+  const dataModel = { todoId: todoId1, taskId: taskTL1Id1 };
+  const action = tasksThunks.removeTask.fulfilled(dataModel, "requestId", dataModel);
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(0);
@@ -105,7 +102,7 @@ test("update task status and title should be correct", () => {
   const newTitle = "Updated task title";
   const newStatus = false;
   const updatedTask = getTask(newTitle, taskTL1Id1, newStatus, "succeeded", todoId1);
-  const action = updateTask({ todoId: todoId1, taskId: taskTL1Id1, task: updatedTask });
+  const action = tasksThunks.updateTask.fulfilled(updatedTask, "requestId", updatedTask);
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(1);
@@ -122,7 +119,10 @@ test("add new task should be correct", () => {
   const taskStatus = false;
 
   const newTask = getTask(taskTitle, taskId, taskStatus, "succeeded", todoId1);
-  const action = createTask({ todoId: todoId1, task: newTask });
+  const action = tasksThunks.createTask.fulfilled({ todoId: todoId1, task: newTask }, "requestId", {
+    todoId: newTask.todoListId,
+    title: newTask.title,
+  });
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(2);
@@ -138,7 +138,7 @@ test("set tasks for todolist should be correct", () => {
     .fill(0)
     .map((_, index) => getTask("new title", "new title" + index, false, "succeeded", todoId1));
 
-  const action = setTasks({ todoId: todoId1, tasks: newTasks });
+  const action = tasksThunks.fetchTasks.fulfilled({ todoId: todoId1, tasks: newTasks }, "requestId", todoId1);
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(10);
@@ -152,7 +152,11 @@ test("set tasks for todolist should be correct", () => {
 test("change task entity status should be correct", () => {
   const newEntityStatus = "succeeded";
 
-  const action = changeTaskEntityStatus({ todoId: todoId1, taskId: taskTL1Id1, entityStatus: newEntityStatus });
+  const action = tasksActions.changeTaskEntityStatus({
+    todoId: todoId1,
+    taskId: taskTL1Id1,
+    entityStatus: newEntityStatus,
+  });
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(1);
@@ -165,7 +169,7 @@ test("set empty array for each todolists should be correct", () => {
     .fill(0)
     .map((_, index) => getTodolist("todoId" + index, "New todolist" + index));
 
-  const action = setTodolists({ todolists: newTodolists });
+  const action = todolistsThunks.fetchTodolists.fulfilled({ todolists: newTodolists }, "requestId");
   const endState = tasksReducer(initialState, action);
 
   expect(endState["todoId" + 0]).toBeDefined();
