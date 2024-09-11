@@ -3,15 +3,7 @@ import * as React from "react";
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "app/store";
-import {
-  changeTitleTodolistTC,
-  createTodolistTC,
-  fetchTodolists,
-  FilterValueType,
-  removeAllTodolistsTC,
-  removeTodolistTC,
-  todolistsActions,
-} from "./todolistsReducer";
+import { fetchTodolists, FilterValueType, todolistsActions, todolistsThunks } from "./todolistsReducer";
 import { TaskPropsType, tasksThunks } from "./tasksReducer";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
@@ -46,12 +38,12 @@ export const TodolistsList = (props: Props) => {
   }, [dispatch, isLoggedIn]);
 
   const removeAllTodoLists = useCallback(() => {
-    dispatch(removeAllTodolistsTC());
+    dispatch(todolistsThunks.removeAllTodolists());
   }, [dispatch]); // + tests
 
   const addTodoList = useCallback(
     (title: string) => {
-      dispatch(createTodolistTC(title));
+      dispatch(todolistsThunks.createTodolist(title));
     },
     [dispatch],
   ); // + tests
@@ -65,7 +57,7 @@ export const TodolistsList = (props: Props) => {
 
   const removeTodolist = useCallback(
     (todoId: string) => {
-      dispatch(removeTodolistTC(todoId));
+      dispatch(todolistsThunks.removeTodolist(todoId));
     },
     [dispatch],
   ); // + tests
@@ -93,7 +85,7 @@ export const TodolistsList = (props: Props) => {
 
   const changeTitleTodolist = useCallback(
     (title: string, todoId: string) => {
-      dispatch(changeTitleTodolistTC(todoId, title));
+      dispatch(todolistsThunks.changeTitleTodolist({ todoId, title }));
     },
     [dispatch],
   ); // + tests

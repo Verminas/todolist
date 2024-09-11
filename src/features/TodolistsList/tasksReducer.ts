@@ -143,13 +143,13 @@ const slice = createSlice({
           state[tl.id] = [];
         });
       })
-      .addCase(todolistsActions.createTodolist, (state, action) => {
+      .addCase(todolistsThunks.createTodolist.fulfilled, (state, action) => {
         state[action.payload.todo.id] = [];
       })
-      .addCase(todolistsActions.removeTodolist, (state, action) => {
+      .addCase(todolistsThunks.removeTodolist.fulfilled, (state, action) => {
         delete state[action.payload.todoId];
       })
-      .addCase(todolistsActions.removeAllTodoLists, (state, action) => {
+      .addCase(todolistsThunks.removeAllTodolists.fulfilled, (state, action) => {
         return {};
       })
       .addCase(todolistsActions.clearTodosData, (state, action) => {

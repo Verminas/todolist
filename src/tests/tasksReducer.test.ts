@@ -7,12 +7,7 @@ import {
   tasksThunks,
 } from "features/TodolistsList/tasksReducer";
 import { RequestStatusType } from "app/appReducer";
-import {
-  createTodolist,
-  removeAllTodoLists,
-  removeTodolist,
-  todolistsThunks,
-} from "features/TodolistsList/todolistsReducer";
+import { createTodolist, todolistsThunks } from "features/TodolistsList/todolistsReducer";
 import { TodoListTypeDomain } from "api/todolistsApi";
 import { getTodolist } from "tests/todolistsReducer.test";
 import { TaskPriorities, TaskStatuses } from "enums";
@@ -184,7 +179,11 @@ test("add empty array of tasks for new todolist should be correct", () => {
   const newId = v1();
   const newTitle = "New todolist";
 
-  const action = createTodolist({ todo: getTodolist(newId, newTitle) });
+  const action = todolistsThunks.createTodolist.fulfilled(
+    { todo: getTodolist(newId, newTitle) },
+    "requestId",
+    newTitle,
+  );
   const endState = tasksReducer(initialState, action);
 
   const keys = Object.keys(endState);
@@ -194,7 +193,7 @@ test("add empty array of tasks for new todolist should be correct", () => {
 });
 
 test("delete array of tasks when todolist is removed should be correct", () => {
-  const action = removeTodolist({ todoId: todoId1 });
+  const action = todolistsThunks.removeTodolist.fulfilled({ todoId: todoId1 }, "requestId", todoId1);
   const endState = tasksReducer(initialState, action);
 
   const keys = Object.keys(endState);
@@ -204,7 +203,7 @@ test("delete array of tasks when todolist is removed should be correct", () => {
 });
 
 test("delete all tasks when todoLists are removed should be correct", () => {
-  const action = removeAllTodoLists();
+  const action = todolistsThunks.removeAllTodolists.fulfilled(undefined, "requestId");
   const endState = tasksReducer(initialState, action);
 
   const keys = Object.keys(endState);

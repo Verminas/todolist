@@ -1,12 +1,8 @@
 import { v1 } from "uuid";
 import {
   changeFilter,
-  changeTitle,
   changeTodolistEntityStatus,
   clearTodosData,
-  createTodolist,
-  removeAllTodoLists,
-  removeTodolist,
   todolistsReducer,
   todolistsThunks,
   TodolistType,
@@ -39,7 +35,7 @@ beforeEach(() => {
 });
 
 test("remove todolist should be correct", () => {
-  const action = removeTodolist({ todoId: todoId1 });
+  const action = todolistsThunks.removeTodolist.fulfilled({ todoId: todoId1 }, "requestId", todoId1);
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(1);
@@ -47,7 +43,7 @@ test("remove todolist should be correct", () => {
 });
 
 test("remove all todolists should be correct", () => {
-  const action = removeAllTodoLists();
+  const action = todolistsThunks.removeAllTodolists.fulfilled(undefined, "requestId");
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(0);
@@ -66,7 +62,7 @@ test("change filter in todolist should be correct", () => {
 
 test("create new todolist should be correct", () => {
   const newTodo = getTodolist(v1(), "New Todo");
-  const action = createTodolist({ todo: newTodo });
+  const action = todolistsThunks.createTodolist.fulfilled({ todo: newTodo }, "requestId", newTodo.title);
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(3);
@@ -76,7 +72,8 @@ test("create new todolist should be correct", () => {
 
 test("change title in todolist should be correct", () => {
   const newTitle = "Changed Title";
-  const action = changeTitle({ todoId: todoId1, title: newTitle });
+  const dataModel = { todoId: todoId1, title: newTitle };
+  const action = todolistsThunks.changeTitleTodolist.fulfilled(dataModel, "requestId", dataModel);
   const endState = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(2);
