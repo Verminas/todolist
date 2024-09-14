@@ -7,7 +7,7 @@ import {
   tasksThunks,
 } from "features/TodolistsList/tasksSlice";
 import { RequestStatusType } from "app/appSlice";
-import { createTodolist, todolistsThunks } from "features/TodolistsList/todolistsSlice";
+import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 import { TodoListTypeDomain } from "api/todolistsApi";
 import { getTodolist } from "tests/todolistsReducer.test";
 import { TaskPriorities, TaskStatuses } from "enums";
@@ -164,7 +164,7 @@ test("set empty array for each todolists should be correct", () => {
     .fill(0)
     .map((_, index) => getTodolist("todoId" + index, "New todolist" + index));
 
-  const action = todolistsThunks.fetchTodolists.fulfilled({ todolists: newTodolists }, "requestId");
+  const action = todolistsActions.fetchTodolists.fulfilled({ todolists: newTodolists }, "requestId");
   const endState = tasksReducer(initialState, action);
 
   expect(endState["todoId" + 0]).toBeDefined();
@@ -179,7 +179,7 @@ test("add empty array of tasks for new todolist should be correct", () => {
   const newId = v1();
   const newTitle = "New todolist";
 
-  const action = todolistsThunks.createTodolist.fulfilled(
+  const action = todolistsActions.createTodolist.fulfilled(
     { todolist: getTodolist(newId, newTitle) },
     "requestId",
     newTitle,
@@ -193,7 +193,7 @@ test("add empty array of tasks for new todolist should be correct", () => {
 });
 
 test("delete array of tasks when todolist is removed should be correct", () => {
-  const action = todolistsThunks.removeTodolist.fulfilled({ todoId: todoId1 }, "requestId", todoId1);
+  const action = todolistsActions.removeTodolist.fulfilled({ todoId: todoId1 }, "requestId", todoId1);
   const endState = tasksReducer(initialState, action);
 
   const keys = Object.keys(endState);
@@ -203,7 +203,7 @@ test("delete array of tasks when todolist is removed should be correct", () => {
 });
 
 test("delete all tasks when todoLists are removed should be correct", () => {
-  const action = todolistsThunks.removeAllTodolists.fulfilled(undefined, "requestId");
+  const action = todolistsActions.removeAllTodolists.fulfilled(undefined, "requestId", undefined);
   const endState = tasksReducer(initialState, action);
 
   const keys = Object.keys(endState);

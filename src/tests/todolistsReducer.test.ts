@@ -1,12 +1,5 @@
 import { v1 } from "uuid";
-import {
-  changeFilter,
-  changeTodolistEntityStatus,
-  clearTodosData,
-  todolistsSlice,
-  todolistsThunks,
-  TodolistType,
-} from "features/TodolistsList/todolistsSlice";
+import { todolistsActions, todolistsSlice, TodolistType } from "features/TodolistsList/todolistsSlice";
 import { TodoListTypeDomain } from "api/todolistsApi";
 
 const todoId1 = v1();
@@ -35,7 +28,7 @@ beforeEach(() => {
 });
 
 test("remove todolist should be correct", () => {
-  const action = todolistsThunks.removeTodolist.fulfilled({ todoId: todoId1 }, "requestId", todoId1);
+  const action = todolistsActions.removeTodolist.fulfilled({ todoId: todoId1 }, "requestId", todoId1);
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(1);
@@ -43,7 +36,7 @@ test("remove todolist should be correct", () => {
 });
 
 test("remove all todolists should be correct", () => {
-  const action = todolistsThunks.removeAllTodolists.fulfilled(undefined, "requestId");
+  const action = todolistsActions.removeAllTodolists.fulfilled(undefined, "requestId", undefined);
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(0);
@@ -52,7 +45,7 @@ test("remove all todolists should be correct", () => {
 });
 
 test("change filter in todolist should be correct", () => {
-  const action = changeFilter({ todoId: todoId1, filter: "active" });
+  const action = todolistsActions.changeFilter({ todoId: todoId1, filter: "active" });
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(2);
@@ -62,7 +55,7 @@ test("change filter in todolist should be correct", () => {
 
 test("create new todolist should be correct", () => {
   const newTodo = getTodolist(v1(), "New Todo");
-  const action = todolistsThunks.createTodolist.fulfilled({ todolist: newTodo }, "requestId", newTodo.title);
+  const action = todolistsActions.createTodolist.fulfilled({ todolist: newTodo }, "requestId", newTodo.title);
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(3);
@@ -73,7 +66,7 @@ test("create new todolist should be correct", () => {
 test("change title in todolist should be correct", () => {
   const newTitle = "Changed Title";
   const dataModel = { todoId: todoId1, title: newTitle };
-  const action = todolistsThunks.changeTitleTodolist.fulfilled(dataModel, "requestId", dataModel);
+  const action = todolistsActions.changeTitleTodolist.fulfilled(dataModel, "requestId", dataModel);
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(2);
@@ -83,7 +76,7 @@ test("change title in todolist should be correct", () => {
 
 test("change todolist entity status should be correct", () => {
   const newEntityStatus = "succeeded";
-  const action = changeTodolistEntityStatus({ todoId: todoId1, entityStatus: newEntityStatus });
+  const action = todolistsActions.changeTodolistEntityStatus({ todoId: todoId1, entityStatus: newEntityStatus });
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(2);
@@ -95,7 +88,7 @@ test("set todolists should be correct", () => {
   const newTodolists: TodoListTypeDomain[] = Array.from({ length: 10 })
     .fill(0)
     .map((_, index) => getTodolist("todoId" + index, "New Todolist" + index));
-  const action = todolistsThunks.fetchTodolists.fulfilled({ todolists: newTodolists }, "requestId");
+  const action = todolistsActions.fetchTodolists.fulfilled({ todolists: newTodolists }, "requestId");
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(10);
@@ -105,7 +98,7 @@ test("set todolists should be correct", () => {
 });
 
 test("clear all todolists data should be correct", () => {
-  const action = clearTodosData();
+  const action = todolistsActions.clearTodosData();
   const endState = todolistsSlice(initialState, action);
 
   expect(endState.length).toBe(0);

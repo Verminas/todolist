@@ -1,4 +1,4 @@
-import { todolistsActions, todolistsThunks } from "features/TodolistsList/todolistsSlice";
+import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 import {
   CreateTaskReturnArgType,
   FetchTasksArgType,
@@ -148,18 +148,18 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(todolistsThunks.fetchTodolists.fulfilled, (state, action) => {
+      .addCase(todolistsActions.fetchTodolists.fulfilled, (state, action) => {
         action.payload.todolists.forEach((tl) => {
           state[tl.id] = [];
         });
       })
-      .addCase(todolistsThunks.createTodolist.fulfilled, (state, action) => {
+      .addCase(todolistsActions.createTodolist.fulfilled, (state, action) => {
         state[action.payload.todolist.id] = [];
       })
-      .addCase(todolistsThunks.removeTodolist.fulfilled, (state, action) => {
+      .addCase(todolistsActions.removeTodolist.fulfilled, (state, action) => {
         delete state[action.payload.todoId];
       })
-      .addCase(todolistsThunks.removeAllTodolists.fulfilled, (state, action) => {
+      .addCase(todolistsActions.removeAllTodolists.fulfilled, (state, action) => {
         return {};
       })
       .addCase(todolistsActions.clearTodosData, (state, action) => {

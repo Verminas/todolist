@@ -2,9 +2,9 @@ import { setAppInitialized, setAppStatus } from "app/appSlice";
 import { authAPI, LoginParamsType } from "api/todolistsApi";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
 import { asyncThunkCreator, buildCreateSlice, createSlice } from "@reduxjs/toolkit";
-import { clearTodosData } from "features/TodolistsList/todolistsSlice";
 import { ResultCode } from "enums";
 import { AppThunkDispatch } from "app/store";
+import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -52,7 +52,7 @@ const slice = createAppSlice({
             const res = await authAPI.logout();
             if (res.resultCode === ResultCode.Success) {
               dispatch(setAppStatus({ status: "succeeded" }));
-              dispatch(clearTodosData());
+              dispatch(todolistsActions.clearTodosData());
               return { isLoggedIn: false };
             } else {
               handleServerAppError(res, dispatch);
