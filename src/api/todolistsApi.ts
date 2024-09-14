@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FilterValueType } from "features/TodolistsList/todolistsSlice";
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -59,6 +60,11 @@ export const todolistAPI = {
 export type UpdateTodolistArgType = {
   todoId: string;
   title: string;
+};
+
+export type ChangeTodolistFilterType = {
+  filter: FilterValueType;
+  todoId: string;
 };
 
 export type CreateTaskReturnArgType = {

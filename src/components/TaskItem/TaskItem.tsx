@@ -8,13 +8,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
+import { RemoveTaskArgType } from "api/todolistsApi";
 
 type Props = {
   task: TaskPropsType;
   todolistIsLoading: boolean;
 
   updateTask: (task: TaskPropsType) => void;
-  removeTask: (id: string, todoId: string) => void;
+  removeTask: (arg: RemoveTaskArgType) => void;
 };
 export const TaskItem = memo(
   ({
@@ -27,7 +28,7 @@ export const TaskItem = memo(
     const taskIsLoading = todolistIsLoading || entityStatus === "loading";
 
     const removeTaskHandler = () => {
-      removeTask(id, todoListId);
+      removeTask({ todoId: todoListId, taskId: id });
     };
     const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
       // updateTask(todoListId, id, title, e.currentTarget.checked);

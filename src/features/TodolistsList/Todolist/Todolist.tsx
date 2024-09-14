@@ -12,17 +12,18 @@ import { filterButtonsContainerSx } from "./Todolist.styles";
 import { TaskItem } from "components/TaskItem/TaskItem";
 import { FilterValueType, TodolistType } from "features/TodolistsList/todolistsSlice";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
+import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "api/todolistsApi";
 
 type TodolistPropsType = {
   todolist: TodolistType;
   tasks: Array<TaskPropsType>;
 
-  changeTitleTodolist: (value: string, todoId: string) => void;
+  changeTitleTodolist: (arg: UpdateTodolistArgType) => void;
   updateTask: (task: TaskPropsType) => void;
-  removeTask: (id: string, todoId: string) => void;
-  changeFilter: (value: FilterValueType, todoId: string) => void;
+  removeTask: (arg: RemoveTaskArgType) => void;
+  changeFilter: (arg: ChangeTodolistFilterType) => void;
   removeTodolist: (todoId: string) => void;
-  addTask: (value: string, todoId: string) => void;
+  addTask: (arg: UpdateTodolistArgType) => void;
 };
 
 export const Todolist = memo(
@@ -43,25 +44,25 @@ export const Todolist = memo(
     const todolistIsLoading = entityStatus === "loading";
 
     const addTaskHandler = useCallback(
-      (value: string) => {
-        addTask(value, id);
+      (title: string) => {
+        addTask({ todoId: id, title });
       },
       [addTask, id],
     );
 
     const onAllClickChangeFilterHandler = useCallback(() => {
-      changeFilter("all", id);
+      changeFilter({ todoId: id, filter: "all" });
     }, [changeFilter, id]);
     const onActiveClickChangeFilterHandler = useCallback(() => {
-      changeFilter("active", id);
+      changeFilter({ todoId: id, filter: "active" });
     }, [changeFilter, id]);
     const onCompletedClickChangeFilterHandler = useCallback(() => {
-      changeFilter("completed", id);
+      changeFilter({ todoId: id, filter: "completed" });
     }, [changeFilter, id]);
 
     const changeTitleTodolistHandler = useCallback(
-      (value: string) => {
-        changeTitleTodolist(value, id);
+      (title: string) => {
+        changeTitleTodolist({ todoId: id, title });
       },
       [changeTitleTodolist, id],
     );

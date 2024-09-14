@@ -3,7 +3,7 @@ import * as React from "react";
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "app/store";
-import { FilterValueType, todolistsActions } from "features/TodolistsList/todolistsSlice";
+import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 import { TaskPropsType, tasksActions } from "features/TodolistsList/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
@@ -13,12 +13,12 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Navigate } from "react-router-dom";
-
 import { PATH } from "router/router";
 import { selectIsLoggedIn } from "features/Login/authSlice";
 import { selectTodolists } from "features/TodolistsList/todolistsSlice";
 import { selectTasks } from "features/TodolistsList/tasksSlice";
 import styled from "styled-components";
+import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "api/todolistsApi";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {
@@ -49,8 +49,8 @@ export const TodolistsList = (props: Props) => {
   ); // + tests
 
   const removeTask = useCallback(
-    (taskId: string, todoId: string) => {
-      dispatch(tasksActions.removeTask({ todoId, taskId }));
+    (arg: RemoveTaskArgType) => {
+      dispatch(tasksActions.removeTask(arg));
     },
     [dispatch],
   ); // + tests
@@ -63,8 +63,8 @@ export const TodolistsList = (props: Props) => {
   ); // + tests
 
   const changeFilter = useCallback(
-    (filter: FilterValueType, todoId: string) => {
-      dispatch(todolistsActions.changeFilter({ todoId, filter }));
+    (arg: ChangeTodolistFilterType) => {
+      dispatch(todolistsActions.changeFilter(arg));
     },
     [dispatch],
   ); // + tests
@@ -77,15 +77,15 @@ export const TodolistsList = (props: Props) => {
   );
 
   const addTask = useCallback(
-    (title: string, todoId: string) => {
-      dispatch(tasksActions.createTask({ todoId, title }));
+    (arg: UpdateTodolistArgType) => {
+      dispatch(tasksActions.createTask(arg));
     },
     [dispatch],
   ); // + tests
 
   const changeTitleTodolist = useCallback(
-    (title: string, todoId: string) => {
-      dispatch(todolistsActions.changeTitleTodolist({ todoId, title }));
+    (arg: UpdateTodolistArgType) => {
+      dispatch(todolistsActions.changeTitleTodolist(arg));
     },
     [dispatch],
   ); // + tests
