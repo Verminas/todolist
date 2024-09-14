@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
 import { filterButtonsContainerSx } from "./Todolist.styles";
-import { TaskItem } from "components/TaskItem/TaskItem";
+import { Task } from "features/TodolistsList/Todolist/Task/Task";
 import { FilterValueType, TodolistType } from "features/TodolistsList/todolistsSlice";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
 import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "api/todolistsApi";
@@ -84,7 +84,7 @@ export const Todolist = memo(
 
     const tasksElements = filteredTasks.map((t) => {
       return (
-        <TaskItem
+        <Task
           task={t}
           removeTask={removeTask}
           updateTask={updateTask}
