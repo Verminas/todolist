@@ -25,3 +25,4 @@ yarn-error.log*
 
 *storybook.log
 /src/api/apiKey.ts
+/.env
