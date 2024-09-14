@@ -1,11 +1,5 @@
 import { v1 } from "uuid";
-import {
-  TaskPropsType,
-  tasksActions,
-  tasksReducer,
-  TasksStateType,
-  tasksThunks,
-} from "features/TodolistsList/tasksSlice";
+import { TaskPropsType, tasksActions, tasksReducer, TasksStateType } from "features/TodolistsList/tasksSlice";
 import { RequestStatusType } from "app/appSlice";
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 import { TodoListTypeDomain } from "api/todolistsApi";
@@ -84,7 +78,7 @@ beforeEach(() => {
 
 test("remove task should be correct", () => {
   const dataModel = { todoId: todoId1, taskId: taskTL1Id1 };
-  const action = tasksThunks.removeTask.fulfilled(dataModel, "requestId", dataModel);
+  const action = tasksActions.removeTask.fulfilled(dataModel, "requestId", dataModel);
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(0);
@@ -97,7 +91,7 @@ test("update task status and title should be correct", () => {
   const newTitle = "Updated task title";
   const newStatus = false;
   const updatedTask = getTask(newTitle, taskTL1Id1, newStatus, "succeeded", todoId1);
-  const action = tasksThunks.updateTask.fulfilled(updatedTask, "requestId", updatedTask);
+  const action = tasksActions.updateTask.fulfilled(updatedTask, "requestId", updatedTask);
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(1);
@@ -114,7 +108,7 @@ test("add new task should be correct", () => {
   const taskStatus = false;
 
   const newTask = getTask(taskTitle, taskId, taskStatus, "succeeded", todoId1);
-  const action = tasksThunks.createTask.fulfilled({ todoId: todoId1, task: newTask }, "requestId", {
+  const action = tasksActions.createTask.fulfilled({ todoId: todoId1, task: newTask }, "requestId", {
     todoId: newTask.todoListId,
     title: newTask.title,
   });
@@ -133,7 +127,7 @@ test("set tasks for todolist should be correct", () => {
     .fill(0)
     .map((_, index) => getTask("new title", "new title" + index, false, "succeeded", todoId1));
 
-  const action = tasksThunks.fetchTasks.fulfilled({ todoId: todoId1, tasks: newTasks }, "requestId", todoId1);
+  const action = tasksActions.fetchTasks.fulfilled({ todoId: todoId1, tasks: newTasks }, "requestId", todoId1);
   const endState = tasksReducer(initialState, action);
 
   expect(endState[todoId1].length).toBe(10);

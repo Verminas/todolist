@@ -4,7 +4,7 @@ import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "app/store";
 import { FilterValueType, todolistsActions } from "features/TodolistsList/todolistsSlice";
-import { TaskPropsType, tasksThunks } from "features/TodolistsList/tasksSlice";
+import { TaskPropsType, tasksActions } from "features/TodolistsList/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import { Todolist } from "./Todolist/Todolist";
@@ -50,7 +50,7 @@ export const TodolistsList = (props: Props) => {
 
   const removeTask = useCallback(
     (taskId: string, todoId: string) => {
-      dispatch(tasksThunks.removeTask({ todoId, taskId }));
+      dispatch(tasksActions.removeTask({ todoId, taskId }));
     },
     [dispatch],
   ); // + tests
@@ -71,14 +71,14 @@ export const TodolistsList = (props: Props) => {
 
   const updateTask = useCallback(
     (task: TaskPropsType) => {
-      dispatch(tasksThunks.updateTask(task));
+      dispatch(tasksActions.updateTask(task));
     },
     [dispatch],
   );
 
   const addTask = useCallback(
     (title: string, todoId: string) => {
-      dispatch(tasksThunks.createTask({ todoId, title }));
+      dispatch(tasksActions.createTask({ todoId, title }));
     },
     [dispatch],
   ); // + tests

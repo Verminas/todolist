@@ -8,7 +8,7 @@ import {
 } from "api/todolistsApi";
 import { RequestStatusType, setAppStatus } from "app/appSlice";
 import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
-import { tasksThunks } from "features/TodolistsList/tasksSlice";
+import { tasksActions } from "features/TodolistsList/tasksSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode } from "enums";
 import { AppRootStateType, AppThunkDispatch } from "app/store";
@@ -52,7 +52,7 @@ const slice = createAppSlice({
             appDispatch(setAppStatus({ status: "loading" }));
             const res = await todolistAPI.getTodolists();
             appDispatch(setAppStatus({ status: "succeeded" }));
-            res.forEach((tl) => appDispatch(tasksThunks.fetchTasks(tl.id)));
+            res.forEach((tl) => appDispatch(tasksActions.fetchTasks(tl.id)));
             return { todolists: res };
           } catch (err) {
             handleServerNetworkError(err, appDispatch);
