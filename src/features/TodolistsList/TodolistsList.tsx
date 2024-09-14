@@ -3,8 +3,13 @@ import * as React from "react";
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "app/store";
-import { fetchTodolists, FilterValueType, todolistsActions, todolistsThunks } from "./todolistsReducer";
-import { TaskPropsType, tasksThunks } from "./tasksReducer";
+import {
+  fetchTodolists,
+  FilterValueType,
+  todolistsActions,
+  todolistsThunks,
+} from "features/TodolistsList/todolistsSlice";
+import { TaskPropsType, tasksThunks } from "features/TodolistsList/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import { Todolist } from "./Todolist/Todolist";
@@ -15,9 +20,9 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Navigate } from "react-router-dom";
 
 import { PATH } from "router/router";
-import { selectIsLoggedIn } from "features/Login/authSelectors";
-import { selectTodolists } from "features/TodolistsList/todolistsSelector";
-import { selectTasks } from "features/TodolistsList/tasksSelector";
+import { selectIsLoggedIn } from "features/Login/authSlice";
+import { selectTodolists } from "features/TodolistsList/todolistsSlice";
+import { selectTasks } from "features/TodolistsList/tasksSlice";
 import styled from "styled-components";
 
 type Props = {};
@@ -103,11 +108,8 @@ export const TodolistsList = (props: Props) => {
           <Grid key={tl.id}>
             <Paper elevation={3} sx={{ p: "0 20px 20px 20px" }}>
               <Todolist
-                id={tl.id}
-                filter={tl.filter}
-                title={tl.title}
+                todolist={tl}
                 tasks={tasks[tl.id]}
-                entityStatus={tl.entityStatus}
                 changeFilter={changeFilter}
                 removeTask={removeTask}
                 removeTodolist={removeTodolist}

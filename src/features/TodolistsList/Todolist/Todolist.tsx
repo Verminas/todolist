@@ -10,15 +10,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
 import { filterButtonsContainerSx } from "./Todolist.styles";
 import { TaskItem } from "components/TaskItem/TaskItem";
-import { FilterValueType } from "../todolistsReducer";
-import { TaskPropsType } from "../tasksReducer";
-import { RequestStatusType } from "app/appReducer";
+import { FilterValueType, TodolistType } from "features/TodolistsList/todolistsSlice";
+import { TaskPropsType } from "features/TodolistsList/tasksSlice";
 
 type TodolistPropsType = {
-  id: string;
-  title: string;
+  todolist: TodolistType;
   tasks: Array<TaskPropsType>;
-  entityStatus: RequestStatusType;
 
   changeTitleTodolist: (value: string, todoId: string) => void;
   updateTask: (task: TaskPropsType) => void;
@@ -26,25 +23,22 @@ type TodolistPropsType = {
   changeFilter: (value: FilterValueType, todoId: string) => void;
   removeTodolist: (todoId: string) => void;
   addTask: (value: string, todoId: string) => void;
-  filter: FilterValueType;
 };
 
 export const Todolist = memo(
   ({
-    id,
-    title,
+    todolist: { filter, id, title, entityStatus },
     tasks,
-    entityStatus,
     changeFilter,
     removeTask,
     removeTodolist,
     changeTitleTodolist,
     addTask,
     updateTask,
-    filter,
   }: TodolistPropsType) => {
     // animation for list tasks
     const [listRef] = useAutoAnimate<HTMLUListElement>();
+    console.log("title of todo", title);
 
     const todolistIsLoading = entityStatus === "loading";
 

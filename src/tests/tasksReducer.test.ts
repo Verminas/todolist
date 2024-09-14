@@ -5,9 +5,9 @@ import {
   tasksReducer,
   TasksStateType,
   tasksThunks,
-} from "features/TodolistsList/tasksReducer";
-import { RequestStatusType } from "app/appReducer";
-import { createTodolist, todolistsThunks } from "features/TodolistsList/todolistsReducer";
+} from "features/TodolistsList/tasksSlice";
+import { RequestStatusType } from "app/appSlice";
+import { createTodolist, todolistsThunks } from "features/TodolistsList/todolistsSlice";
 import { TodoListTypeDomain } from "api/todolistsApi";
 import { getTodolist } from "tests/todolistsReducer.test";
 import { TaskPriorities, TaskStatuses } from "enums";
@@ -180,7 +180,7 @@ test("add empty array of tasks for new todolist should be correct", () => {
   const newTitle = "New todolist";
 
   const action = todolistsThunks.createTodolist.fulfilled(
-    { todo: getTodolist(newId, newTitle) },
+    { todolist: getTodolist(newId, newTitle) },
     "requestId",
     newTitle,
   );

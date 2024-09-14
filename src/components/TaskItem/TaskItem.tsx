@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
-import { TaskPropsType } from "features/TodolistsList/tasksReducer";
+import { TaskPropsType } from "features/TodolistsList/tasksSlice";
 
 type Props = {
   task: TaskPropsType;
@@ -40,6 +40,8 @@ export const TaskItem = memo(
       },
       [updateTask, task, isDone],
     );
+
+    console.log("title of task", title);
 
     return (
       <ListItem key={id} disablePadding disableGutters sx={getListItemSx(isDone)}>

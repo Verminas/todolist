@@ -7,10 +7,10 @@ import { AppHead } from "components/AppHead/AppHead";
 import { useAppDispatch } from "./store";
 import { ErrorSnackbar } from "components/ErrorSnackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
-import { initializeAppTC } from "features/Login/authReducer";
+import { initializeApp } from "features/Login/authSlice";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
-import { selectIsInitialized } from "app/appSelectors";
+import { selectIsInitialized } from "app/appSlice";
 
 type ThemeMode = "dark" | "light";
 
@@ -20,7 +20,7 @@ function App() {
   const isInitialized = useSelector(selectIsInitialized);
 
   useEffect(() => {
-    dispatch(initializeAppTC());
+    dispatch(initializeApp());
   }, []);
 
   const changeModeHandler = () => {

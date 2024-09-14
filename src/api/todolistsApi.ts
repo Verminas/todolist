@@ -31,26 +31,68 @@ export const todolistAPI = {
   createTodolist(title: string) {
     return instance.post<ResponseType<TodolistGeneric>>(`todo-lists/`, { title }).then((data) => data.data);
   },
-  updateTodolist(todolistId: string, title: string) {
-    return instance.put<ResponseType>(`todo-lists/${todolistId}`, { title }).then((data) => data.data);
+  updateTodolist(arg: UpdateTodolistArgType) {
+    const { title, todoId } = arg;
+    return instance.put<ResponseType>(`todo-lists/${todoId}`, { title }).then((data) => data.data);
   },
   getTasks(todoID: string) {
     return instance.get<GetTasksResponseType>(`todo-lists/${todoID}/tasks`).then((data) => data.data);
   },
 
-  createTask(todoID: string, title: string) {
-    return instance.post<ResponseType<TaskGeneric>>(`todo-lists/${todoID}/tasks`, { title }).then((data) => data.data);
+  createTask(arg: UpdateTodolistArgType) {
+    const { todoId, title } = arg;
+    return instance.post<ResponseType<TaskGeneric>>(`todo-lists/${todoId}/tasks`, { title }).then((data) => data.data);
   },
 
-  updateTask(todoID: string, taskID: string, task: TaskUpdateModelType) {
+  updateTask(arg: UpdateTaskArgType) {
+    const { taskId, task, todoId } = arg;
     return instance
-      .put<ResponseType<TaskGeneric>>(`todo-lists/${todoID}/tasks/${taskID}`, task)
+      .put<ResponseType<TaskGeneric>>(`todo-lists/${todoId}/tasks/${taskId}`, task)
       .then((data) => data.data);
   },
 
-  removeTask(todoID: string, taskID: string) {
-    return instance.delete<ResponseType>(`todo-lists/${todoID}/tasks/${taskID}`).then((data) => data.data);
+  removeTask(arg: RemoveTaskArgType) {
+    const { taskId, todoId } = arg;
+    return instance.delete<ResponseType>(`todo-lists/${todoId}/tasks/${taskId}`).then((data) => data.data);
   },
+};
+
+export type UpdateTodolistArgType = {
+  todoId: string;
+  title: string;
+};
+
+export type CreateTaskReturnArgType = {
+  todoId: string;
+  task: TaskResponseType;
+};
+
+export type UpdateTaskArgType = {
+  todoId: string;
+  taskId: string;
+  task: TaskUpdateModelType;
+};
+
+export type RemoveTaskArgType = {
+  todoId: string;
+  taskId: string;
+};
+
+export type RemoveTodolistArgType = {
+  todoId: string;
+};
+
+export type FetchTasksArgType = {
+  todoId: string;
+  tasks: Array<TaskResponseType>;
+};
+
+export type TodolistsObjType = {
+  todolists: TodoListTypeDomain[];
+};
+
+export type TodolistObjType = {
+  todolist: TodoListTypeDomain;
 };
 
 export type LoginParamsType = {

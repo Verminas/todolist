@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { appActions } from "app/appReducer";
+import { appActions } from "app/appSlice";
 import axios from "axios";
 import { AppThunkDispatch } from "app/store";
 import { ResponseType } from "api/todolistsApi";

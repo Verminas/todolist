@@ -19,9 +19,9 @@ export const GetTasks = () => {
 export const CreateTask = () => {
   const [state, setState] = useState<any>(null);
   const todoID = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
-  const newTitle = `New Task ${new Date().toISOString()}`;
+  const title = `New Task ${new Date().toISOString()}`;
   useEffect(() => {
-    todolistAPI.createTask(todoID, newTitle).then((res) => {
+    todolistAPI.createTask({ title, todoId: todoID }).then((res) => {
       setState(res);
     });
   }, []);
@@ -31,10 +31,10 @@ export const CreateTask = () => {
 
 export const DeleteTask = () => {
   const [state, setState] = useState<any>(null);
-  const todoID = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
-  const taskID = "857cfd6a-2348-4adc-9926-8cf6e9490a9a";
+  const todoId = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
+  const taskId = "857cfd6a-2348-4adc-9926-8cf6e9490a9a";
   useEffect(() => {
-    todolistAPI.removeTask(todoID, taskID).then((res) => {
+    todolistAPI.removeTask({ taskId, todoId }).then((res) => {
       setState(res.data);
     });
   }, []);
@@ -44,22 +44,21 @@ export const DeleteTask = () => {
 
 export const UpdateTaskTitle = () => {
   const [state, setState] = useState<any>(null);
-  const todoID = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
-  const taskID = "2acdf418-3e09-43ec-831a-6889a3e5eb7b";
+  const todoId = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
+  const taskId = "2acdf418-3e09-43ec-831a-6889a3e5eb7b";
+  const task = {
+    title: "new title",
+    startDate: "",
+    status: 0,
+    description: "",
+    priority: 0,
+    deadline: "",
+    completed: false,
+  };
   useEffect(() => {
-    todolistAPI
-      .updateTask(todoID, taskID, {
-        title: "new title",
-        startDate: "",
-        status: 0,
-        description: "",
-        priority: 0,
-        deadline: "",
-        completed: false,
-      })
-      .then((res) => {
-        setState(res);
-      });
+    todolistAPI.updateTask({ taskId, todoId, task }).then((res) => {
+      setState(res);
+    });
   }, []);
 
   return <div>{JSON.stringify(state)}</div>;

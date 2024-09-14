@@ -8,11 +8,11 @@ import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { loginTC } from "./authReducer";
+import { login } from "features/Login/authSlice";
 import { useAppDispatch } from "app/store";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectIsLoggedIn } from "features/Login/authSelectors";
+import { selectIsLoggedIn } from "features/Login/authSlice";
 import { PATH } from "router/router";
 import { textFieldErrorStyle } from "features/Login/Login.styles";
 
@@ -49,9 +49,10 @@ export const Login = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      const res = await dispatch(loginTC(values));
-      if (res?.resultCode && res.resultCode > 0) {
-        Object.keys(values).forEach((key) => formik.setFieldError(key, res.messages[0]));
+      const res = await dispatch(login(values));
+      const error = res.payload;
+      if (typeof error === "string") {
+        Object.keys(values).forEach((key) => formik.setFieldError(key, error));
       } else {
         formik.resetForm();
       }

@@ -9,10 +9,10 @@ import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "app/store";
-import { logoutTC } from "features/Login/authReducer";
-import { selectStatus } from "app/appSelectors";
-import { selectIsLoggedIn } from "features/Login/authSelectors";
+import { logout } from "features/Login/authSlice";
+import { selectIsLoggedIn } from "features/Login/authSlice";
 import { linearProgressStyle } from "components/AppHead/AppHead.styles";
+import { selectStatus } from "app/appSlice";
 
 type Props = {
   switchOnChange: () => void;
@@ -23,7 +23,7 @@ export const AppHead = ({ switchOnChange }: Props) => {
   const dispatch = useAppDispatch();
 
   const logOutHandler = () => {
-    dispatch(logoutTC());
+    dispatch(logout());
   };
   return (
     <AppBar position="relative" sx={{ mb: "30px" }}>
