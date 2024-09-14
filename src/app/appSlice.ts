@@ -1,24 +1,30 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 
-const slice = createSlice({
+const createAppSlice = buildCreateSlice({
+  creators: { asyncThunk: asyncThunkCreator },
+});
+
+const slice = createAppSlice({
   name: "app",
   initialState: {
     status: "idle" as RequestStatusType,
     error: null as string | null,
     isInitialized: false,
   },
-  reducers: {
-    setAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
-      state.status = action.payload.status;
-    },
-    setAppError(state, action: PayloadAction<{ error: string | null }>) {
-      state.error = action.payload.error;
-    },
-    setAppInitialized(state, action: PayloadAction<{ isInitialized: boolean }>) {
-      state.isInitialized = action.payload.isInitialized;
-    },
+  reducers: (creators) => {
+    return {
+      setAppStatus: creators.reducer((state, action: PayloadAction<{ status: RequestStatusType }>) => {
+        state.status = action.payload.status;
+      }),
+      setAppError: creators.reducer((state, action: PayloadAction<{ error: string | null }>) => {
+        state.error = action.payload.error;
+      }),
+      setAppInitialized: creators.reducer((state, action: PayloadAction<{ isInitialized: boolean }>) => {
+        state.isInitialized = action.payload.isInitialized;
+      }),
+    };
   },
   selectors: {
     selectIsInitialized: (sliceState) => sliceState.isInitialized,
