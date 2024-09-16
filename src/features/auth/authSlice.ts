@@ -75,16 +75,16 @@ const slice = createAppSlice({
           try {
             const res = await authAPI.me();
             if (res.resultCode === ResultCode.Success) {
-              dispatch(setAppInitialized({ isInitialized: true }));
               return { isLoggedIn: true };
             } else {
-              dispatch(setAppInitialized({ isInitialized: true }));
               handleServerAppError(res, dispatch);
               return rejectWithValue(null);
             }
           } catch (err) {
             handleServerNetworkError(err, dispatch as AppThunkDispatch);
             return rejectWithValue(null);
+          } finally {
+            dispatch(setAppInitialized({ isInitialized: true }));
           }
         },
         {

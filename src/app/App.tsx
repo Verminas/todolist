@@ -4,13 +4,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { AppHead } from "common/components/AppHead/AppHead";
-import { useAppDispatch } from "./store";
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
 import { initializeApp } from "features/auth/authSlice";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { selectIsInitialized } from "app/appSlice";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type ThemeMode = "dark" | "light";
 

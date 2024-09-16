@@ -9,12 +9,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { login } from "features/auth/authSlice";
-import { useAppDispatch } from "app/store";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectIsLoggedIn } from "features/auth/authSlice";
 import { PATH } from "common/router/router";
 import { textFieldErrorStyle } from "features/auth/Login.styles";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type FormikErrorType = {
   email?: string;

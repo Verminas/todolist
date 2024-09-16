@@ -8,11 +8,11 @@ import Switch from "@mui/material/Switch";
 import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "app/store";
 import { logout } from "features/auth/authSlice";
 import { selectIsLoggedIn } from "features/auth/authSlice";
 import { linearProgressStyle } from "common/components/AppHead/AppHead.styles";
 import { selectStatus } from "app/appSlice";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type Props = {
   switchOnChange: () => void;

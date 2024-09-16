@@ -2,7 +2,6 @@
 import * as React from "react";
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "app/store";
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 import { TaskPropsType, tasksActions } from "features/TodolistsList/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -19,6 +18,7 @@ import { selectTodolists } from "features/TodolistsList/todolistsSlice";
 import { selectTasks } from "features/TodolistsList/tasksSlice";
 import styled from "styled-components";
 import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/api/todolistsApi";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {

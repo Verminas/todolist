@@ -23,7 +23,5 @@ export type AppRootStateType = ReturnType<typeof store.getState>;
 
 export type AppThunkDispatch = ThunkDispatch<AppRootStateType, any, AnyAction>;
 
-export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
-
 // @ts-ignore
 window.store = store;
