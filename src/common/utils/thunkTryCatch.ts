@@ -3,7 +3,7 @@ import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
 import { AppDispatch } from "app/store";
 import { GetThunkAPI } from "@reduxjs/toolkit";
 import { tasksActions } from "features/TodolistsList/tasksSlice";
-import { todolistsActions } from "features/TodolistsList/todolistsSlice";
+import { todolistsActions, TodolistType } from "features/TodolistsList/todolistsSlice";
 
 // type ThunkApi = {
 //   dispatch: ThunkDispatch<AppRootStateType, undefined, any>;
@@ -23,8 +23,9 @@ type ThunkApi = GetThunkAPI<{
 }>;
 
 type TodolistEntity = { todoId: string };
+type TodolistsEntity = { todolists: TodolistType[] };
 type TaskEntity = TodolistEntity & { taskId: string };
-type Entity = TodolistEntity | TaskEntity | null;
+type Entity = TodolistEntity | TaskEntity | TodolistsEntity | null;
 
 export const thunkTryCatch = async <T>(
   thunkAPI: ThunkApi,
@@ -46,16 +47,23 @@ export const thunkTryCatch = async <T>(
   }
 };
 
-function changeEntityStatus(
-  dispatch: any,
-  entity: TaskEntity | TodolistEntity | null,
-  entityStatus: RequestStatusType,
-) {
+function changeEntityStatus(dispatch: any, entity: Entity, entityStatus: RequestStatusType): void {
   if (entity) {
-    if ("taskId" in entity) {
-      dispatch(tasksActions.changeTaskEntityStatus({ todoId: entity.todoId, taskId: entity.taskId, entityStatus }));
+    if ("todolists" in entity) {
+      entity.todolists.forEach((tl) =>
+        dispatch(
+          todolistsActions.changeTodolistEntityStatus({
+            todoId: tl.id,
+            entityStatus,
+          }),
+        ),
+      );
     } else {
-      dispatch(todolistsActions.changeTodolistEntityStatus({ todoId: entity.todoId, entityStatus }));
+      if ("taskId" in entity) {
+        dispatch(tasksActions.changeTaskEntityStatus({ todoId: entity.todoId, taskId: entity.taskId, entityStatus }));
+      } else {
+        dispatch(todolistsActions.changeTodolistEntityStatus({ todoId: entity.todoId, entityStatus }));
+      }
     }
   }
 }
