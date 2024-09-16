@@ -5,6 +5,7 @@ import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/too
 import { ResultCode } from "common/enums";
 import { AppRootStateType } from "app/store";
 import {
+  BaseResponse,
   RemoveTodolistArgType,
   TodolistObjType,
   TodolistsObjType,
@@ -22,7 +23,7 @@ const slice = createAppSlice({
   name: "todolists",
   initialState: [] as TodolistType[],
   reducers: (creators) => {
-    const createAThunk = creators.asyncThunk.withTypes<{ rejectValue: null }>();
+    const createAThunk = creators.asyncThunk.withTypes<{ rejectValue: null | BaseResponse }>();
     return {
       changeFilter: creators.reducer(
         (

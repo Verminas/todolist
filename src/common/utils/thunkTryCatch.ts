@@ -4,6 +4,7 @@ import { AppDispatch } from "app/store";
 import { GetThunkAPI } from "@reduxjs/toolkit";
 import { tasksActions } from "features/TodolistsList/tasksSlice";
 import { todolistsActions, TodolistType } from "features/TodolistsList/todolistsSlice";
+import { BaseResponse } from "common/types";
 
 // type ThunkApi = {
 //   dispatch: ThunkDispatch<AppRootStateType, undefined, any>;
@@ -12,7 +13,7 @@ import { todolistsActions, TodolistType } from "features/TodolistsList/todolists
 // };
 
 type ThunkApi = GetThunkAPI<{
-  rejectValue: null;
+  rejectValue: BaseResponse | null;
   state?: undefined;
   dispatch?: undefined;
   extra?: unknown;

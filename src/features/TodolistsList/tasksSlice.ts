@@ -5,6 +5,7 @@ import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/too
 import { ResultCode, TaskStatuses } from "common/enums";
 import { getTaskUpdateModel } from "common/utils/getTaskUpdateModel";
 import {
+  BaseResponse,
   CreateTaskReturnArgType,
   FetchTasksArgType,
   RemoveTaskArgType,
@@ -23,7 +24,7 @@ const slice = createAppSlice({
   name: "tasks",
   initialState: {} as TasksStateType,
   reducers: (creators) => {
-    const createAThunk = creators.asyncThunk.withTypes<{ rejectValue: null }>();
+    const createAThunk = creators.asyncThunk.withTypes<{ rejectValue: null | BaseResponse }>();
     return {
       changeTaskEntityStatus: creators.reducer(
         (state, action: PayloadAction<{ todoId: string; taskId: string; entityStatus: RequestStatusType }>) => {
