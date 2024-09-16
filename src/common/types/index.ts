@@ -23,7 +23,6 @@ export type TaskResponseType = {
   addedDate: string;
 };
 export type CreateTaskReturnArgType = {
-  todoId: string;
   task: TaskResponseType;
 };
 export type RemoveTodolistArgType = {

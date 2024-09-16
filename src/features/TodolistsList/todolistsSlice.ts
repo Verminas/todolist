@@ -13,6 +13,7 @@ import {
   UpdateTodolistArgType,
 } from "common/types";
 import { handleServerAppError } from "common/utils/handleServerAppError";
+import { thunkTryCatch } from "common/utils/thunkTryCatch";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -139,22 +140,18 @@ const slice = createAppSlice({
         },
       ),
       createTodolist: createAThunk<TodolistObjType, string>(
-        async (title, thunkAPI) => {
+        (title, thunkAPI) => {
           const { dispatch, rejectWithValue } = thunkAPI;
-          try {
-            dispatch(setAppStatus({ status: "loading" }));
+          return thunkTryCatch(thunkAPI, async () => {
             const res = await todolistAPI.createTodolist(title);
             if (res.resultCode === ResultCode.Success) {
-              dispatch(setAppStatus({ status: "succeeded" }));
-              return { todolist: res.data.item };
+              const todolist = res.data.item;
+              return { todolist };
             } else {
               handleServerAppError(res, dispatch);
               return rejectWithValue(null);
             }
-          } catch (err) {
-            handleServerNetworkError(err, dispatch as AppDispatch);
-            return rejectWithValue(null);
-          }
+          });
         },
         {
           fulfilled: (state, action) => {

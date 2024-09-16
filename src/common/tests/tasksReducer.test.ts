@@ -108,7 +108,7 @@ test("add new task should be correct", () => {
   const taskStatus = false;
 
   const newTask = getTask(taskTitle, taskId, taskStatus, "succeeded", todoId1);
-  const action = tasksActions.createTask.fulfilled({ todoId: todoId1, task: newTask }, "requestId", {
+  const action = tasksActions.createTask.fulfilled({ task: newTask }, "requestId", {
     todoId: newTask.todoListId,
     title: newTask.title,
   });
