@@ -1,6 +1,6 @@
-import { TaskUpdateModelType } from "api/todolistsApi";
+import { TaskUpdateModelType } from "common/api/todolistsApi";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
-import { TaskStatuses } from "enums";
+import { TaskStatuses } from "common/enums";
 
 export const getTaskUpdateModel = (task: TaskPropsType): TaskUpdateModelType => ({
   description: task.description,

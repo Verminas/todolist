@@ -7,13 +7,13 @@ import {
   TaskUpdateModelType,
   todolistAPI,
   UpdateTodolistArgType,
-} from "api/todolistsApi";
+} from "common/api/todolistsApi";
 import { RequestStatusType, setAppStatus } from "app/appSlice";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ResultCode, TaskStatuses } from "enums";
+import { ResultCode, TaskStatuses } from "common/enums";
 import { AppThunkDispatch } from "app/store";
-import { getTaskUpdateModel } from "utils/getTaskUpdateModel";
+import { getTaskUpdateModel } from "common/utils/getTaskUpdateModel";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },

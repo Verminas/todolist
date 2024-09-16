@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { appActions } from "app/appSlice";
 import axios from "axios";
 import { AppThunkDispatch } from "app/store";
-import { ResponseType } from "api/todolistsApi";
+import { ResponseType } from "common/api/todolistsApi";
 
 type ErrorUtilsDispatchType = Dispatch<
   ReturnType<typeof appActions.setAppError> | ReturnType<typeof appActions.setAppStatus>

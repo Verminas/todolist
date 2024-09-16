@@ -8,17 +8,17 @@ import { TaskPropsType, tasksActions } from "features/TodolistsList/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import { Todolist } from "./Todolist/Todolist";
-import { AddItemForm } from "components/AddItemForm/AddItemForm";
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Navigate } from "react-router-dom";
-import { PATH } from "router/router";
-import { selectIsLoggedIn } from "features/Login/authSlice";
+import { PATH } from "common/router/router";
+import { selectIsLoggedIn } from "features/auth/authSlice";
 import { selectTodolists } from "features/TodolistsList/todolistsSlice";
 import { selectTasks } from "features/TodolistsList/tasksSlice";
 import styled from "styled-components";
-import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "api/todolistsApi";
+import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/api/todolistsApi";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {

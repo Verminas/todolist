@@ -5,7 +5,7 @@ import { tasksReducer } from "features/TodolistsList/tasksSlice";
 import { todolistsSlice } from "features/TodolistsList/todolistsSlice";
 import { v1 } from "uuid";
 import { appReducer } from "app/appSlice";
-import { authReducer } from "features/Login/authSlice";
+import { authReducer } from "features/auth/authSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({

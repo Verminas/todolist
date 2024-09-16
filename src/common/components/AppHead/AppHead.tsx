@@ -9,9 +9,9 @@ import AppBar from "@mui/material/AppBar";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "app/store";
-import { logout } from "features/Login/authSlice";
-import { selectIsLoggedIn } from "features/Login/authSlice";
-import { linearProgressStyle } from "components/AppHead/AppHead.styles";
+import { logout } from "features/auth/authSlice";
+import { selectIsLoggedIn } from "features/auth/authSlice";
+import { linearProgressStyle } from "common/components/AppHead/AppHead.styles";
 import { selectStatus } from "app/appSlice";
 
 type Props = {

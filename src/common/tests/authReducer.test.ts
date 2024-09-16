@@ -1,5 +1,5 @@
-import { authReducer, AuthReducerInitialType, login, logout } from "features/Login/authSlice";
-import { LoginParamsType } from "api/todolistsApi";
+import { authReducer, AuthReducerInitialType, login, logout } from "features/auth/authSlice";
+import { LoginParamsType } from "common/api/todolistsApi";
 
 let initialState: AuthReducerInitialType;
 let loginParams: LoginParamsType;

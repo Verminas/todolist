@@ -1,10 +1,9 @@
 import React from "react";
-import App from "../app/App";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-
 import { TodolistsList } from "features/TodolistsList/TodolistsList";
-import { Login } from "features/Login/Login";
-import { ErrorPage } from "components/ErrorPage/ErrorPage";
+import { Login } from "features/auth/Login";
+import { ErrorPage } from "common/components/ErrorPage/ErrorPage";
+import App from "app/App";
 
 export const PATH = {
   COMMON: "/",

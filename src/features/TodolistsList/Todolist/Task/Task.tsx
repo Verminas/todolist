@@ -2,13 +2,13 @@
 import * as React from "react";
 import { getListItemSx } from "features/TodolistsList/Todolist/Todolist.styles";
 import Checkbox from "@mui/material/Checkbox";
-import { EditableSpan } from "components/EditableSpan/EditableSpan";
+import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
-import { RemoveTaskArgType } from "api/todolistsApi";
+import { RemoveTaskArgType } from "common/api/todolistsApi";
 
 type Props = {
   task: TaskPropsType;

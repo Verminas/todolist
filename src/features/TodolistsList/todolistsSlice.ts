@@ -5,12 +5,12 @@ import {
   TodolistsObjType,
   TodoListTypeDomain,
   UpdateTodolistArgType,
-} from "api/todolistsApi";
+} from "common/api/todolistsApi";
 import { RequestStatusType, setAppStatus } from "app/appSlice";
-import { handleServerAppError, handleServerNetworkError } from "utils/error-utils";
+import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
 import { tasksActions } from "features/TodolistsList/tasksSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ResultCode } from "enums";
+import { ResultCode } from "common/enums";
 import { AppRootStateType, AppThunkDispatch } from "app/store";
 
 const createAppSlice = buildCreateSlice({

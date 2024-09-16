@@ -4,7 +4,7 @@ import { AnyAction, combineReducers } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch } from "react-redux";
 import { appReducer } from "app/appSlice";
-import { authReducer } from "features/Login/authSlice";
+import { authReducer } from "features/auth/authSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({

@@ -2,17 +2,17 @@ import React, { memo, useCallback } from "react";
 import Button from "@mui/material/Button";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import styled from "styled-components";
-import { AddItemForm } from "components/AddItemForm/AddItemForm";
-import { EditableSpan } from "components/EditableSpan/EditableSpan";
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
+import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
 import { filterButtonsContainerSx } from "./Todolist.styles";
 import { Task } from "features/TodolistsList/Todolist/Task/Task";
-import { FilterValueType, TodolistType } from "features/TodolistsList/todolistsSlice";
+import { TodolistType } from "features/TodolistsList/todolistsSlice";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
-import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "api/todolistsApi";
+import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/api/todolistsApi";
 
 type TodolistPropsType = {
   todolist: TodolistType;

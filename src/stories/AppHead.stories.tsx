@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { AppHead } from "components/AppHead/AppHead";
+import { AppHead } from "common/components/AppHead/AppHead";
 import { action } from "@storybook/addon-actions";
 
 // More on how to set up stories at:
