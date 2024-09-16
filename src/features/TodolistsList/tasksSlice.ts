@@ -1,19 +1,18 @@
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
 import {
-  CreateTaskReturnArgType,
-  FetchTasksArgType,
   RemoveTaskArgType,
   TaskResponseType,
   TaskUpdateModelType,
   todolistAPI,
   UpdateTodolistArgType,
-} from "common/api/todolistsApi";
+} from "features/TodolistsList/todolistsApi";
 import { RequestStatusType, setAppStatus } from "app/appSlice";
 import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode, TaskStatuses } from "common/enums";
 import { AppThunkDispatch } from "app/store";
 import { getTaskUpdateModel } from "common/utils/getTaskUpdateModel";
+import { CreateTaskReturnArgType, FetchTasksArgType } from "common/types";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },

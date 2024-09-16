@@ -1,10 +1,11 @@
 import { setAppInitialized, setAppStatus } from "app/appSlice";
-import { authAPI, LoginParamsType } from "common/api/todolistsApi";
 import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
 import { asyncThunkCreator, buildCreateSlice } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
 import { AppThunkDispatch } from "app/store";
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
+import { authAPI } from "features/auth/authApi";
+import { LoginParamsType } from "common/types";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -77,7 +78,8 @@ const slice = createAppSlice({
             if (res.resultCode === ResultCode.Success) {
               return { isLoggedIn: true };
             } else {
-              handleServerAppError(res, dispatch);
+              // закомментили для дальнейшей обработки ошибки при первом входе
+              // handleServerAppError(res, dispatch);
               return rejectWithValue(null);
             }
           } catch (err) {

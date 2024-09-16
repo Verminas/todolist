@@ -1,25 +1,4 @@
-import axios from "axios";
-import { FilterValueType } from "features/TodolistsList/todolistsSlice";
-
-export const instance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
-  withCredentials: true,
-  headers: {
-    "API-KEY": process.env.REACT_APP_API_KEY,
-  },
-});
-
-export const authAPI = {
-  login(payload: LoginParamsType) {
-    return instance.post<ResponseType<LoginGenericType>>("auth/login", payload).then((data) => data.data);
-  },
-  me() {
-    return instance.get<ResponseType<AuthMeResponseGeneric>>("auth/me").then((data) => data.data);
-  },
-  logout() {
-    return instance.delete<ResponseType>("auth/login").then((data) => data.data);
-  },
-};
+import { instance } from "common/api";
 
 export const todolistAPI = {
   getTodolists() {
@@ -62,17 +41,7 @@ export type UpdateTodolistArgType = {
   title: string;
 };
 
-export type ChangeTodolistFilterType = {
-  filter: FilterValueType;
-  todoId: string;
-};
-
-export type CreateTaskReturnArgType = {
-  todoId: string;
-  task: TaskResponseType;
-};
-
-export type UpdateTaskArgType = {
+type UpdateTaskArgType = {
   todoId: string;
   taskId: string;
   task: TaskUpdateModelType;
@@ -81,40 +50,6 @@ export type UpdateTaskArgType = {
 export type RemoveTaskArgType = {
   todoId: string;
   taskId: string;
-};
-
-export type RemoveTodolistArgType = {
-  todoId: string;
-};
-
-export type FetchTasksArgType = {
-  todoId: string;
-  tasks: Array<TaskResponseType>;
-};
-
-export type TodolistsObjType = {
-  todolists: TodoListTypeDomain[];
-};
-
-export type TodolistObjType = {
-  todolist: TodoListTypeDomain;
-};
-
-export type LoginParamsType = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-  captcha?: boolean;
-};
-
-type LoginGenericType = {
-  userId: number;
-};
-
-type AuthMeResponseGeneric = {
-  id: number;
-  email: string;
-  login: string;
 };
 
 export type TodoListTypeDomain = {

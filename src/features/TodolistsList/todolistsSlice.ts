@@ -1,17 +1,11 @@
-import {
-  RemoveTodolistArgType,
-  todolistAPI,
-  TodolistObjType,
-  TodolistsObjType,
-  TodoListTypeDomain,
-  UpdateTodolistArgType,
-} from "common/api/todolistsApi";
+import { todolistAPI, TodoListTypeDomain, UpdateTodolistArgType } from "features/TodolistsList/todolistsApi";
 import { RequestStatusType, setAppStatus } from "app/appSlice";
 import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
 import { tasksActions } from "features/TodolistsList/tasksSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
 import { AppRootStateType, AppThunkDispatch } from "app/store";
+import { RemoveTodolistArgType, TodolistObjType, TodolistsObjType } from "common/types";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },

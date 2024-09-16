@@ -1,4 +1,4 @@
-import { TaskUpdateModelType } from "common/api/todolistsApi";
+import { TaskUpdateModelType } from "features/TodolistsList/todolistsApi";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
 import { TaskStatuses } from "common/enums";
 
