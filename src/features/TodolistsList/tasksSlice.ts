@@ -1,18 +1,20 @@
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
+import { todolistAPI } from "features/TodolistsList/todolistsApi";
+import { RequestStatusType, setAppStatus } from "app/appSlice";
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
+import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ResultCode, TaskStatuses } from "common/enums";
+import { AppDispatch } from "app/store";
+import { getTaskUpdateModel } from "common/utils/getTaskUpdateModel";
 import {
+  CreateTaskReturnArgType,
+  FetchTasksArgType,
   RemoveTaskArgType,
   TaskResponseType,
   TaskUpdateModelType,
-  todolistAPI,
   UpdateTodolistArgType,
-} from "features/TodolistsList/todolistsApi";
-import { RequestStatusType, setAppStatus } from "app/appSlice";
-import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
-import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ResultCode, TaskStatuses } from "common/enums";
-import { AppThunkDispatch } from "app/store";
-import { getTaskUpdateModel } from "common/utils/getTaskUpdateModel";
-import { CreateTaskReturnArgType, FetchTasksArgType } from "common/types";
+} from "common/types";
+import { handleServerAppError } from "common/utils/handleServerAppError";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -39,7 +41,7 @@ const slice = createAppSlice({
             dispatch(setAppStatus({ status: "succeeded" }));
             return { todoId, tasks: res.items };
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },
@@ -67,7 +69,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },
@@ -99,7 +101,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             dispatch(tasksActions.changeTaskEntityStatus({ todoId, taskId, entityStatus: "failed" }));
             return rejectWithValue(null);
           }
@@ -153,7 +155,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },

@@ -1,6 +1,7 @@
 import { v1 } from "uuid";
 import { todolistsActions, todolistsSlice, TodolistType } from "features/TodolistsList/todolistsSlice";
-import { TodoListTypeDomain } from "features/TodolistsList/todolistsApi";
+
+import { TodoListTypeDomain } from "common/types";
 
 const todoId1 = v1();
 const todoId2 = v1();

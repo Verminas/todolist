@@ -2,9 +2,9 @@ import { v1 } from "uuid";
 import { TaskPropsType, tasksActions, tasksReducer, TasksStateType } from "features/TodolistsList/tasksSlice";
 import { RequestStatusType } from "app/appSlice";
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
-import { TodoListTypeDomain } from "features/TodolistsList/todolistsApi";
 import { getTodolist } from "common/tests/todolistsReducer.test";
 import { TaskPriorities, TaskStatuses } from "common/enums";
+import { TodoListTypeDomain } from "common/types";
 
 const todoId1 = v1();
 const todoId2 = v1();

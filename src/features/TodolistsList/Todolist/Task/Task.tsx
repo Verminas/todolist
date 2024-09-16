@@ -8,7 +8,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
-import { RemoveTaskArgType } from "features/TodolistsList/todolistsApi";
+
+import { RemoveTaskArgType } from "common/types";
 
 type Props = {
   task: TaskPropsType;

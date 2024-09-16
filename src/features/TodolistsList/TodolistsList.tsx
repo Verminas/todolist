@@ -17,9 +17,8 @@ import { selectIsLoggedIn } from "features/auth/authSlice";
 import { selectTodolists } from "features/TodolistsList/todolistsSlice";
 import { selectTasks } from "features/TodolistsList/tasksSlice";
 import styled from "styled-components";
-import { RemoveTaskArgType, UpdateTodolistArgType } from "features/TodolistsList/todolistsApi";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
-import { ChangeTodolistFilterType } from "common/types";
+import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/types";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {

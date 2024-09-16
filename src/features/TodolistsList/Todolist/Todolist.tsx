@@ -12,8 +12,7 @@ import { filterButtonsContainerSx } from "./Todolist.styles";
 import { Task } from "features/TodolistsList/Todolist/Task/Task";
 import { TodolistType } from "features/TodolistsList/todolistsSlice";
 import { TaskPropsType } from "features/TodolistsList/tasksSlice";
-import { RemoveTaskArgType, UpdateTodolistArgType } from "features/TodolistsList/todolistsApi";
-import { ChangeTodolistFilterType } from "common/types";
+import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/types";
 
 type TodolistPropsType = {
   todolist: TodolistType;

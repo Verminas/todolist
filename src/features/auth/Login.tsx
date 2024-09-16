@@ -15,6 +15,7 @@ import { selectIsLoggedIn } from "features/auth/authSlice";
 import { PATH } from "common/router/router";
 import { textFieldErrorStyle } from "features/auth/Login.styles";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { BaseResponse } from "common/types";
 
 type FormikErrorType = {
   email?: string;
@@ -35,27 +36,31 @@ export const Login = () => {
     validate: (values) => {
       const errors: FormikErrorType = {};
       if (!values.email) {
-        errors.email = "Required";
+        errors.email = "Email is required";
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = "Invalid email address";
       }
 
       if (!values.password) {
-        errors.password = "Required";
+        errors.password = "Password is required";
       } else if (values.password.length < 4) {
         errors.password = "Must be 4 characters or more";
       }
 
       return errors;
     },
-    onSubmit: async (values) => {
-      const res = await dispatch(login(values));
-      const error = res.payload;
-      if (typeof error === "string") {
-        Object.keys(values).forEach((key) => formik.setFieldError(key, error));
-      } else {
-        formik.resetForm();
-      }
+    onSubmit: (values) => {
+      dispatch(login(values))
+        .unwrap()
+        .then(() => formik.resetForm())
+        .catch((err: BaseResponse) => {
+          if (err.fieldsErrors.length) {
+            err.fieldsErrors.forEach((err) => formik.setFieldError(err.field, err.error));
+          } else {
+            const error = err.messages ? err.messages[0] : undefined;
+            Object.keys(values).forEach((key) => formik.setFieldError(key, error));
+          }
+        });
     },
   });
 

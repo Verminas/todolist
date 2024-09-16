@@ -1,11 +1,18 @@
-import { todolistAPI, TodoListTypeDomain, UpdateTodolistArgType } from "features/TodolistsList/todolistsApi";
+import { todolistAPI } from "features/TodolistsList/todolistsApi";
 import { RequestStatusType, setAppStatus } from "app/appSlice";
-import { handleServerAppError, handleServerNetworkError } from "common/utils/error-utils";
+import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { tasksActions } from "features/TodolistsList/tasksSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
-import { AppRootStateType, AppThunkDispatch } from "app/store";
-import { RemoveTodolistArgType, TodolistObjType, TodolistsObjType } from "common/types";
+import { AppRootStateType, AppDispatch } from "app/store";
+import {
+  RemoveTodolistArgType,
+  TodolistObjType,
+  TodolistsObjType,
+  TodoListTypeDomain,
+  UpdateTodolistArgType,
+} from "common/types";
+import { handleServerAppError } from "common/utils/handleServerAppError";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -41,7 +48,7 @@ const slice = createAppSlice({
       fetchTodolists: createAThunk<TodolistsObjType>(
         async (_, thunkAPI) => {
           const { dispatch, rejectWithValue } = thunkAPI;
-          const appDispatch = dispatch as AppThunkDispatch;
+          const appDispatch = dispatch as AppDispatch;
           try {
             appDispatch(setAppStatus({ status: "loading" }));
             const res = await todolistAPI.getTodolists();
@@ -75,7 +82,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },
@@ -121,7 +128,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },
@@ -145,7 +152,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },
@@ -173,7 +180,7 @@ const slice = createAppSlice({
               return rejectWithValue(null);
             }
           } catch (err) {
-            handleServerNetworkError(err, dispatch as AppThunkDispatch);
+            handleServerNetworkError(err, dispatch as AppDispatch);
             return rejectWithValue(null);
           }
         },

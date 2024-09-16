@@ -1,23 +1,10 @@
-import { Dispatch } from "redux";
 import { appActions } from "app/appSlice";
 import axios from "axios";
-import { AppThunkDispatch } from "app/store";
-import { ResponseType } from "features/TodolistsList/todolistsApi";
+import { AppDispatch } from "app/store";
 
-type ErrorUtilsDispatchType = Dispatch<
-  ReturnType<typeof appActions.setAppError> | ReturnType<typeof appActions.setAppStatus>
->;
 // generic function
-export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
-  if (data.messages.length) {
-    dispatch(appActions.setAppError({ error: data.messages[0] }));
-  } else {
-    dispatch(appActions.setAppError({ error: "Some error occurred" }));
-  }
-  dispatch(appActions.setAppStatus({ status: "failed" }));
-};
 
-export const handleServerNetworkError = (err: unknown, dispatch: AppThunkDispatch): void => {
+export const handleServerNetworkError = (err: unknown, dispatch: AppDispatch): void => {
   let errorMessage = "Some error occurred";
 
   // ❗Проверка на наличие axios ошибки
