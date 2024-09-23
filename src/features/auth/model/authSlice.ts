@@ -1,7 +1,7 @@
 import { asyncThunkCreator, buildCreateSlice } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
 import { AppDispatch } from "app/store";
-import { todolistsActions } from "features/TodolistsList/todolistsSlice";
+import { todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
 import { authAPI, LoginParamsType } from "../api/authApi";
 import { BaseResponse } from "common/types";
 import { handleServerAppError, thunkTryCatch, handleServerNetworkError } from "common/utils";

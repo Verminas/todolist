@@ -7,61 +7,15 @@ import FormGroup from "@mui/material/FormGroup";
 import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useFormik } from "formik";
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectIsLoggedIn } from "../../model/authSlice";
 import { PATH } from "common/router";
-import { textFieldErrorStyle } from "./Login.styles";
-import { BaseResponse } from "common/types";
-import { useActions } from "common/hooks";
-
-type FormikErrorType = {
-  email?: string;
-  password?: string;
-  rememberMe?: boolean;
-};
+import { textFieldErrorSx } from "./Login.styles";
+import { useLogin } from "../../lib/useLogin";
 
 export const Login = () => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const { login } = useActions();
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-    validate: (values) => {
-      const errors: FormikErrorType = {};
-      if (!values.email) {
-        errors.email = "Email is required";
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = "Invalid email address";
-      }
-
-      if (!values.password) {
-        errors.password = "Password is required";
-      } else if (values.password.length < 4) {
-        errors.password = "Must be 4 characters or more";
-      }
-
-      return errors;
-    },
-    onSubmit: (values) => {
-      login(values)
-        .unwrap()
-        .then(() => formik.resetForm())
-        .catch((err: BaseResponse) => {
-          if (err.fieldsErrors.length) {
-            err.fieldsErrors.forEach((err) => formik.setFieldError(err.field, err.error));
-          } else {
-            const error = err.messages ? err.messages[0] : undefined;
-            Object.keys(values).forEach((key) => formik.setFieldError(key, error));
-          }
-        });
-    },
-  });
+  const { formik, isLoggedIn } = useLogin();
+  const isErrorEmail = formik.touched.email && !!formik.errors.email;
+  const isErrorPassword = formik.touched.password && !!formik.errors.password;
 
   if (isLoggedIn) {
     return <Navigate to={PATH.COMMON} />;
@@ -89,9 +43,9 @@ export const Login = () => {
                 label="Email"
                 margin="normal"
                 {...formik.getFieldProps("email")}
-                error={formik.touched.email && !!formik.errors.email}
+                error={isErrorEmail}
                 helperText={formik.errors.email}
-                sx={textFieldErrorStyle}
+                sx={textFieldErrorSx}
               />
 
               <TextField
@@ -99,9 +53,9 @@ export const Login = () => {
                 label="Password"
                 margin="normal"
                 {...formik.getFieldProps("password")}
-                error={formik.touched.password && !!formik.errors.password}
+                error={isErrorPassword}
                 helperText={formik.errors.password}
-                sx={textFieldErrorStyle}
+                sx={textFieldErrorSx}
               />
 
               <FormControlLabel
@@ -112,10 +66,7 @@ export const Login = () => {
                 type={"submit"}
                 variant={"contained"}
                 color={"primary"}
-                disabled={
-                  (formik.touched.email && !!formik.errors.email) ||
-                  (formik.touched.password && !!formik.errors.password)
-                }
+                disabled={isErrorEmail || isErrorPassword}
               >
                 Login
               </Button>

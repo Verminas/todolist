@@ -1,6 +1,6 @@
 import { RequestStatusType } from "app/appSlice";
-import { todolistsActions, TodolistType } from "features/TodolistsList/todolistsSlice";
-import { tasksActions } from "features/TodolistsList/tasksSlice";
+import { todolistsActions, TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { tasksActions } from "features/TodolistsList/model/tasks/tasksSlice";
 
 type TodolistEntity = { todoId: string };
 type TodolistsEntity = { todolists: TodolistType[] };

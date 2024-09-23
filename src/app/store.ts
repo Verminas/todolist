@@ -1,7 +1,5 @@
-import { tasksReducer } from "features/TodolistsList/tasksSlice";
-import { todolistsSlice } from "features/TodolistsList/todolistsSlice";
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import { tasksReducer } from "features/TodolistsList/model/tasks/tasksSlice";
+import { todolistsSlice } from "features/TodolistsList/model/todolists/todolistsSlice";
 import { appReducer } from "app/appSlice";
 import { authReducer } from "features/auth/model/authSlice";
 import { configureStore } from "@reduxjs/toolkit";

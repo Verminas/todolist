@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { TodolistsList } from "features/TodolistsList/TodolistsList";
+import { TodolistsList } from "features/TodolistsList/ui/TodolistsList";
 import { Login } from "features/auth/ui/login/Login";
 import { ErrorPage } from "common/components";
 import App from "app/App";

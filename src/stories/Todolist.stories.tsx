@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Todolist } from "features/TodolistsList/Todolist/Todolist";
+import { Todolist } from "features/TodolistsList/ui/Todolist/Todolist";
 import { action } from "@storybook/addon-actions";
 import { bool, string } from "prop-types";
-import { TaskPropsType } from "features/TodolistsList/tasksSlice";
+import { TaskPropsType } from "features/TodolistsList/model/tasks/tasksSlice";
 import { v1 } from "uuid";
-import { TodolistType } from "features/TodolistsList/todolistsSlice";
+import { TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
 
 // More on how to set up stories at:
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export

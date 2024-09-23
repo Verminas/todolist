@@ -1,8 +1,8 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { combineReducers } from "redux";
-import { tasksReducer } from "features/TodolistsList/tasksSlice";
-import { todolistsSlice } from "features/TodolistsList/todolistsSlice";
+import { tasksReducer } from "features/TodolistsList/model/tasks/tasksSlice";
+import { todolistsSlice } from "features/TodolistsList/model/todolists/todolistsSlice";
 import { v1 } from "uuid";
 import { appReducer } from "app/appSlice";
 import { authReducer } from "features/auth/model/authSlice";

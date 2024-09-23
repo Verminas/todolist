@@ -7,10 +7,10 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
-import { filterButtonsContainerSx } from "./Todolist.styles";
-import { Task } from "./Task/Task";
-import { TodolistType } from "../todolistsSlice";
-import { TaskPropsType } from "../tasksSlice";
+import { filterButtonsContainerSx } from "features/TodolistsList/ui/Todolist/Todolist.styles";
+import { Task } from "features/TodolistsList/ui/Todolist/Task/Task";
+import { TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { TaskPropsType } from "features/TodolistsList/model/tasks/tasksSlice";
 import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/types";
 
 type TodolistPropsType = {
