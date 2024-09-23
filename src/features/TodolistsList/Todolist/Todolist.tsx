@@ -2,16 +2,15 @@ import React, { memo, useCallback } from "react";
 import Button from "@mui/material/Button";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import styled from "styled-components";
-import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
-import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
+import { EditableSpan, AddItemForm } from "common/components";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
 import { filterButtonsContainerSx } from "./Todolist.styles";
-import { Task } from "features/TodolistsList/Todolist/Task/Task";
-import { TodolistType } from "features/TodolistsList/todolistsSlice";
-import { TaskPropsType } from "features/TodolistsList/tasksSlice";
+import { Task } from "./Task/Task";
+import { TodolistType } from "../todolistsSlice";
+import { TaskPropsType } from "../tasksSlice";
 import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/types";
 
 type TodolistPropsType = {

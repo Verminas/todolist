@@ -1,8 +1,8 @@
 import { v1 } from "uuid";
-import { TaskPropsType, tasksActions, tasksReducer, TasksStateType } from "features/TodolistsList/tasksSlice";
+import { TaskPropsType, tasksActions, tasksReducer, TasksStateType } from "./tasksSlice";
 import { RequestStatusType } from "app/appSlice";
-import { todolistsActions } from "features/TodolistsList/todolistsSlice";
-import { getTodolist } from "common/tests/todolistsReducer.test";
+import { todolistsActions } from "./todolistsSlice";
+import { getTodolist } from "./todolistsReducer.test";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 import { TodoListTypeDomain } from "common/types";
 

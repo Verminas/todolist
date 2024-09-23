@@ -1,8 +1,8 @@
-import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
+import { handleServerNetworkError } from "common/utils";
 import { AppDispatch } from "app/store";
 import { GetThunkAPI } from "@reduxjs/toolkit";
 import { BaseResponse } from "common/types";
-import { changeEntityStatus, Entity } from "common/utils/changeEntityStatus";
+import { changeEntityStatus, Entity } from "common/utils";
 import { appActions } from "app/appSlice";
 
 // type ThunkApi = {

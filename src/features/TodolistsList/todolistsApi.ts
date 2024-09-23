@@ -1,4 +1,4 @@
-import { instance } from "common/api";
+import { instance } from "common/instance";
 import {
   BaseResponse,
   RemoveTaskArgType,

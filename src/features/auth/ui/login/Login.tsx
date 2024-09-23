@@ -10,11 +10,11 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { selectIsLoggedIn } from "features/auth/authSlice";
-import { PATH } from "common/router/router";
-import { textFieldErrorStyle } from "features/auth/Login.styles";
+import { selectIsLoggedIn } from "../../model/authSlice";
+import { PATH } from "common/router";
+import { textFieldErrorStyle } from "./Login.styles";
 import { BaseResponse } from "common/types";
-import { useActions } from "common/hooks/useActions";
+import { useActions } from "common/hooks";
 
 type FormikErrorType = {
   email?: string;

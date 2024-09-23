@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { bindActionCreators } from "redux";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppDispatch } from "common/hooks";
 import { tasksActions } from "features/TodolistsList/tasksSlice";
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
-import { authActions } from "features/auth/authSlice";
+import { authActions } from "features/auth/model/authSlice";
 import { appActions } from "app/appSlice";
 
 // ❗ упаковываем actions и соответсвенно при вызове хука не нужно

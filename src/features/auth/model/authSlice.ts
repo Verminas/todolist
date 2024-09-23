@@ -1,12 +1,10 @@
-import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { asyncThunkCreator, buildCreateSlice } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
 import { AppDispatch } from "app/store";
 import { todolistsActions } from "features/TodolistsList/todolistsSlice";
-import { authAPI } from "features/auth/authApi";
-import { BaseResponse, LoginParamsType } from "common/types";
-import { handleServerAppError } from "common/utils/handleServerAppError";
-import { thunkTryCatch } from "common/utils/thunkTryCatch";
+import { authAPI, LoginParamsType } from "../api/authApi";
+import { BaseResponse } from "common/types";
+import { handleServerAppError, thunkTryCatch, handleServerNetworkError } from "common/utils";
 import { appActions } from "app/appSlice";
 
 const createAppSlice = buildCreateSlice({

@@ -1,13 +1,13 @@
 // @flow
 import * as React from "react";
-import { getListItemSx } from "features/TodolistsList/Todolist/Todolist.styles";
+import { getListItemSx } from "./Task.styles";
 import Checkbox from "@mui/material/Checkbox";
-import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
+import { EditableSpan } from "common/components";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
-import { TaskPropsType } from "features/TodolistsList/tasksSlice";
+import { TaskPropsType } from "../../tasksSlice";
 
 import { RemoveTaskArgType } from "common/types";
 

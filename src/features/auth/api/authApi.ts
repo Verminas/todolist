@@ -1,5 +1,5 @@
-import { instance } from "common/api";
-import { BaseResponse, LoginParamsType } from "common/types";
+import { instance } from "common/instance";
+import { BaseResponse } from "common/types";
 
 export const authAPI = {
   login(payload: LoginParamsType) {
@@ -11,6 +11,12 @@ export const authAPI = {
   logout() {
     return instance.delete<BaseResponse>("auth/login").then((data) => data.data);
   },
+};
+export type LoginParamsType = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+  captcha?: boolean;
 };
 
 type LoginGenericType = {

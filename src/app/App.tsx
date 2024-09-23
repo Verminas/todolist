@@ -3,13 +3,12 @@ import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
-import { AppHead } from "common/components/AppHead/AppHead";
-import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { selectIsInitialized } from "app/appSlice";
-import { useActions } from "common/hooks/useActions";
+import { useActions } from "common/hooks";
+import { AppHead, ErrorSnackbar } from "common/components";
 
 type ThemeMode = "dark" | "light";
 

@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { todolistsActions, todolistsSlice, TodolistType } from "features/TodolistsList/todolistsSlice";
+import { todolistsActions, todolistsSlice, TodolistType } from "./todolistsSlice";
 
 import { TodoListTypeDomain } from "common/types";
 

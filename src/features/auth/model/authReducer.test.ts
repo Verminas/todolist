@@ -1,6 +1,5 @@
-import { authActions, authReducer, AuthReducerInitialType } from "features/auth/authSlice";
-
-import { LoginParamsType } from "common/types";
+import { authActions, authReducer, AuthReducerInitialType } from "./authSlice";
+import { LoginParamsType } from "../api/authApi";
 
 let initialState: AuthReducerInitialType;
 let loginParams: LoginParamsType;
