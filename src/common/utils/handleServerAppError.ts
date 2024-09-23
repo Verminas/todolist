@@ -5,12 +5,16 @@ import { Dispatch } from "redux";
 type ErrorUtilsDispatchType = Dispatch<
   ReturnType<typeof appActions.setAppError> | ReturnType<typeof appActions.setAppStatus>
 >;
+
 /**
- * Данная функция обрабатывает ошибки, которые могут возникнуть при взаимодействии с сервером.
- * @param data  - ответ от сервера в формате ResponseType<D>
- * @param dispatch - функция для отправки сообщений в store Redux
- * @param isShowGlobalError - флаг, указывающий, нужно ли отображать ошибки в пользовательском интерфейсе
+
+ This function handles errors that may occur during interaction with the server.
+ 
+ @param data - the server response in the format ResponseType<D>
+ @param dispatch - function to dispatch messages to the Redux store
+ @param isShowGlobalError - a flag indicating whether to display errors in the user interface
  */
+
 export const handleServerAppError = <T>(
   data: BaseResponse<T>,
   dispatch: ErrorUtilsDispatchType,

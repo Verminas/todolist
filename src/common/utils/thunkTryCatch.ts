@@ -1,10 +1,9 @@
-import { RequestStatusType, setAppStatus } from "app/appSlice";
+import { setAppStatus } from "app/appSlice";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { AppDispatch } from "app/store";
 import { GetThunkAPI } from "@reduxjs/toolkit";
-import { tasksActions } from "features/TodolistsList/tasksSlice";
-import { todolistsActions, TodolistType } from "features/TodolistsList/todolistsSlice";
 import { BaseResponse } from "common/types";
+import { changeEntityStatus, Entity } from "common/utils/changeEntityStatus";
 
 // type ThunkApi = {
 //   dispatch: ThunkDispatch<AppRootStateType, undefined, any>;
@@ -23,10 +22,17 @@ type ThunkApi = GetThunkAPI<{
   rejectedMeta?: unknown;
 }>;
 
-type TodolistEntity = { todoId: string };
-type TodolistsEntity = { todolists: TodolistType[] };
-type TaskEntity = TodolistEntity & { taskId: string };
-type Entity = TodolistEntity | TaskEntity | TodolistsEntity | null;
+/**
+ * Async function that encapsulates try-catch logic for error handling in Redux thunks.
+ *
+ * @template T - The type of the result returned by the callbackLogic function.
+ *
+ * @param {ThunkApi} thunkAPI - The ThunkApi object containing dispatch and rejectWithValue functions.
+ * @param {() => Promise<T>} callbackLogic - The asynchronous callback function to execute.
+ * @param {Entity} [entity=null] - The entity associated with the operation, default is null.
+ *
+ * @returns {Promise<T | ReturnType<typeof thunkAPI.rejectWithValue>>} - A promise resolving to the result of the callbackLogic function or a rejection value.
+ */
 
 export const thunkTryCatch = async <T>(
   thunkAPI: ThunkApi,
@@ -47,24 +53,3 @@ export const thunkTryCatch = async <T>(
     changeEntityStatus(dispatch, entity, "idle");
   }
 };
-
-function changeEntityStatus(dispatch: any, entity: Entity, entityStatus: RequestStatusType): void {
-  if (entity) {
-    if ("todolists" in entity) {
-      entity.todolists.forEach((tl) =>
-        dispatch(
-          todolistsActions.changeTodolistEntityStatus({
-            todoId: tl.id,
-            entityStatus,
-          }),
-        ),
-      );
-    } else {
-      if ("taskId" in entity) {
-        dispatch(tasksActions.changeTaskEntityStatus({ todoId: entity.todoId, taskId: entity.taskId, entityStatus }));
-      } else {
-        dispatch(todolistsActions.changeTodolistEntityStatus({ todoId: entity.todoId, entityStatus }));
-      }
-    }
-  }
-}
