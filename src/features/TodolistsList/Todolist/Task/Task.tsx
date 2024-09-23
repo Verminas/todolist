@@ -35,7 +35,7 @@ export const Task = memo(
       // updateTask(todoListId, id, title, e.currentTarget.checked);
       updateTask({ ...task, isDone: e.currentTarget.checked });
     };
-    const changeTaskTitleHandler = useCallback(
+    const changeTaskTitle = useCallback(
       (value: string) => {
         // updateTask(todoListId, id, value, isDone);
         updateTask({ ...task, title: value });
@@ -56,7 +56,7 @@ export const Task = memo(
           />
           <EditableSpan
             title={title}
-            changeTitle={changeTaskTitleHandler}
+            changeTitle={changeTaskTitle}
             textFieldLabel={"Task title"}
             disabled={taskIsLoading}
           />

@@ -1,9 +1,10 @@
 import { handleServerNetworkError } from "common/utils";
-import { AppDispatch } from "app/store";
+import { AppDispatch, AppRootStateType } from "app/store";
 import { GetThunkAPI } from "@reduxjs/toolkit";
 import { BaseResponse } from "common/types";
 import { changeEntityStatus, Entity } from "common/utils";
 import { appActions } from "app/appSlice";
+import { ThunkDispatch } from "redux-thunk";
 
 // type ThunkApi = {
 //   dispatch: ThunkDispatch<AppRootStateType, undefined, any>;
