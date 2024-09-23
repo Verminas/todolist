@@ -8,14 +8,13 @@ import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { login } from "features/auth/authSlice";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectIsLoggedIn } from "features/auth/authSlice";
 import { PATH } from "common/router/router";
 import { textFieldErrorStyle } from "features/auth/Login.styles";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { BaseResponse } from "common/types";
+import { useActions } from "common/hooks/useActions";
 
 type FormikErrorType = {
   email?: string;
@@ -24,8 +23,8 @@ type FormikErrorType = {
 };
 
 export const Login = () => {
-  const dispatch = useAppDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const { login } = useActions();
 
   const formik = useFormik({
     initialValues: {
@@ -50,7 +49,7 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(login(values))
+      login(values)
         .unwrap()
         .then(() => formik.resetForm())
         .catch((err: BaseResponse) => {

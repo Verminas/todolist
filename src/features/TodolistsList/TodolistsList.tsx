@@ -2,8 +2,7 @@
 import * as React from "react";
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { todolistsActions } from "features/TodolistsList/todolistsSlice";
-import { TaskPropsType, tasksActions } from "features/TodolistsList/tasksSlice";
+import { TaskPropsType } from "features/TodolistsList/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import { Todolist } from "./Todolist/Todolist";
@@ -17,15 +16,25 @@ import { selectIsLoggedIn } from "features/auth/authSlice";
 import { selectTodolists } from "features/TodolistsList/todolistsSlice";
 import { selectTasks } from "features/TodolistsList/tasksSlice";
 import styled from "styled-components";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/types";
+import { useActions } from "common/hooks/useActions";
 
 type Props = {};
 export const TodolistsList = (props: Props) => {
   const todoLists = useSelector(selectTodolists);
   const tasks = useSelector(selectTasks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const dispatch = useAppDispatch();
+  const {
+    fetchTodolists,
+    removeAllTodolists,
+    createTodolist,
+    removeTask,
+    removeTodolist,
+    changeFilter,
+    updateTask,
+    createTask,
+    changeTitleTodolist,
+  } = useActions();
   // for style
   const [listRef] = useAutoAnimate<HTMLUnknownElement>();
 
@@ -34,61 +43,40 @@ export const TodolistsList = (props: Props) => {
       return;
     }
 
-    dispatch(todolistsActions.fetchTodolists());
-  }, [dispatch, isLoggedIn]);
+    fetchTodolists();
+  }, [isLoggedIn]);
 
   const removeAllTodoLists = useCallback(() => {
-    dispatch(todolistsActions.removeAllTodolists());
-  }, [dispatch]); // + tests
+    removeAllTodolists();
+  }, []); // + tests
 
-  const addTodoList = useCallback(
-    (title: string) => {
-      dispatch(todolistsActions.createTodolist(title));
-    },
-    [dispatch],
-  ); // + tests
+  const addTodoList = useCallback((title: string) => {
+    createTodolist(title);
+  }, []); // + tests
 
-  const removeTask = useCallback(
-    (arg: RemoveTaskArgType) => {
-      dispatch(tasksActions.removeTask(arg));
-    },
-    [dispatch],
-  ); // + tests
+  const removeTaskCallback = useCallback((arg: RemoveTaskArgType) => {
+    removeTask(arg);
+  }, []); // + tests
 
-  const removeTodolist = useCallback(
-    (todoId: string) => {
-      dispatch(todolistsActions.removeTodolist(todoId));
-    },
-    [dispatch],
-  ); // + tests
+  const removeTodolistCallback = useCallback((todoId: string) => {
+    removeTodolist(todoId);
+  }, []); // + tests
 
-  const changeFilter = useCallback(
-    (arg: ChangeTodolistFilterType) => {
-      dispatch(todolistsActions.changeFilter(arg));
-    },
-    [dispatch],
-  ); // + tests
+  const changeFilterCallback = useCallback((arg: ChangeTodolistFilterType) => {
+    changeFilter(arg);
+  }, []); // + tests
 
-  const updateTask = useCallback(
-    (task: TaskPropsType) => {
-      dispatch(tasksActions.updateTask(task));
-    },
-    [dispatch],
-  );
+  const updateTaskCallback = useCallback((task: TaskPropsType) => {
+    updateTask(task);
+  }, []);
 
-  const addTask = useCallback(
-    (arg: UpdateTodolistArgType) => {
-      dispatch(tasksActions.createTask(arg));
-    },
-    [dispatch],
-  ); // + tests
+  const addTask = useCallback((arg: UpdateTodolistArgType) => {
+    createTask(arg);
+  }, []); // + tests
 
-  const changeTitleTodolist = useCallback(
-    (arg: UpdateTodolistArgType) => {
-      dispatch(todolistsActions.changeTitleTodolist(arg));
-    },
-    [dispatch],
-  ); // + tests
+  const changeTitleTodolistCallback = useCallback((arg: UpdateTodolistArgType) => {
+    changeTitleTodolist(arg);
+  }, []); // + tests
 
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;
@@ -105,12 +93,12 @@ export const TodolistsList = (props: Props) => {
               <Todolist
                 todolist={tl}
                 tasks={tasks[tl.id]}
-                changeFilter={changeFilter}
-                removeTask={removeTask}
-                removeTodolist={removeTodolist}
+                changeFilter={changeFilterCallback}
+                removeTask={removeTaskCallback}
+                removeTodolist={removeTodolistCallback}
                 addTask={addTask}
-                changeTitleTodolist={changeTitleTodolist}
-                updateTask={updateTask}
+                changeTitleTodolist={changeTitleTodolistCallback}
+                updateTask={updateTaskCallback}
               />
             </Paper>
           </Grid>

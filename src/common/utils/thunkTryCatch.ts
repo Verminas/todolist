@@ -1,9 +1,9 @@
-import { setAppStatus } from "app/appSlice";
 import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { AppDispatch } from "app/store";
 import { GetThunkAPI } from "@reduxjs/toolkit";
 import { BaseResponse } from "common/types";
 import { changeEntityStatus, Entity } from "common/utils/changeEntityStatus";
+import { appActions } from "app/appSlice";
 
 // type ThunkApi = {
 //   dispatch: ThunkDispatch<AppRootStateType, undefined, any>;
@@ -40,7 +40,7 @@ export const thunkTryCatch = async <T>(
   entity: Entity = null,
 ): Promise<T | ReturnType<typeof thunkAPI.rejectWithValue>> => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  dispatch(setAppStatus({ status: "loading" }));
+  dispatch(appActions.setAppStatus({ status: "loading" }));
   changeEntityStatus(dispatch, entity, "loading");
 
   try {
@@ -49,7 +49,7 @@ export const thunkTryCatch = async <T>(
     handleServerNetworkError(err, dispatch as AppDispatch);
     return rejectWithValue(null);
   } finally {
-    dispatch(setAppStatus({ status: "idle" }));
+    dispatch(appActions.setAppStatus({ status: "idle" }));
     changeEntityStatus(dispatch, entity, "idle");
   }
 };

@@ -1,4 +1,4 @@
-import { authReducer, AuthReducerInitialType, login, logout } from "features/auth/authSlice";
+import { authActions, authReducer, AuthReducerInitialType } from "features/auth/authSlice";
 
 import { LoginParamsType } from "common/types";
 
@@ -15,7 +15,7 @@ beforeEach(() => {
 test("logged in app should be correct", () => {
   expect(initialState.isLoggedIn).toBeFalsy;
 
-  const action = login.fulfilled({ isLoggedIn: true }, "requestId", loginParams);
+  const action = authActions.login.fulfilled({ isLoggedIn: true }, "requestId", loginParams);
   const endState = authReducer(initialState, action);
 
   expect(endState.isLoggedIn).toBeDefined();
@@ -26,7 +26,7 @@ test("log out from app should be correct", () => {
   let initialState: AuthReducerInitialType = { isLoggedIn: true };
   expect(initialState.isLoggedIn).toBeTruthy();
 
-  const action = logout.fulfilled({ isLoggedIn: false }, "requestId");
+  const action = authActions.logout.fulfilled({ isLoggedIn: false }, "requestId");
   const endState = authReducer(initialState, action);
 
   expect(endState.isLoggedIn).toBeDefined();

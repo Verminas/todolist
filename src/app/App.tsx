@@ -6,21 +6,20 @@ import Container from "@mui/material/Container";
 import { AppHead } from "common/components/AppHead/AppHead";
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
-import { initializeApp } from "features/auth/authSlice";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { selectIsInitialized } from "app/appSlice";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useActions } from "common/hooks/useActions";
 
 type ThemeMode = "dark" | "light";
 
 function App() {
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
-  const dispatch = useAppDispatch();
   const isInitialized = useSelector(selectIsInitialized);
+  const { initializeApp } = useActions();
 
   useEffect(() => {
-    dispatch(initializeApp());
+    initializeApp();
   }, []);
 
   const changeModeHandler = () => {

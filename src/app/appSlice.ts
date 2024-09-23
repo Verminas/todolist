@@ -36,5 +36,4 @@ const slice = createAppSlice({
 export const appReducer = slice.reducer;
 export const appActions = slice.actions;
 export const { selectStatus, selectIsInitialized, selectError } = slice.selectors;
-export const { setAppInitialized, setAppError, setAppStatus } = slice.actions;
 export type AppInitialStateType = ReturnType<typeof slice.getInitialState>;

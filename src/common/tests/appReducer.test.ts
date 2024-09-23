@@ -1,4 +1,4 @@
-import { AppInitialStateType, appReducer, setAppError, setAppInitialized, setAppStatus } from "app/appSlice";
+import { appActions, AppInitialStateType, appReducer } from "app/appSlice";
 
 let initialState: AppInitialStateType;
 
@@ -13,7 +13,7 @@ beforeEach(() => {
 test("changing app status should be correct", () => {
   expect(initialState.status).toBe("idle");
 
-  const action = setAppStatus({ status: "loading" });
+  const action = appActions.setAppStatus({ status: "loading" });
   const endState = appReducer(initialState, action);
 
   expect(endState.status).toBeDefined();
@@ -23,7 +23,7 @@ test("changing app status should be correct", () => {
 test("changing app error message should be correct", () => {
   expect(initialState.error).toBe(null);
 
-  const action = setAppError({ error: "Some error occurred..." });
+  const action = appActions.setAppError({ error: "Some error occurred..." });
   const endState = appReducer(initialState, action);
 
   expect(endState.error).toBeTruthy();
@@ -33,7 +33,7 @@ test("changing app error message should be correct", () => {
 test("changing app initialization should be correct", () => {
   expect(initialState.isInitialized).toBeFalsy();
 
-  const action = setAppInitialized({ isInitialized: true });
+  const action = appActions.setAppInitialized({ isInitialized: true });
   const endState = appReducer(initialState, action);
 
   expect(endState.isInitialized).toBeDefined();
