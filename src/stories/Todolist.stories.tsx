@@ -19,30 +19,6 @@ const meta: Meta<typeof Todolist> = {
   argTypes: {
     todolist: {},
     // tasks: Array<TaskPropsType>,
-    changeTitleTodolist: {
-      description: "changeTitleTodolist",
-      action: action("changeTitleTodolist"),
-    },
-    updateTask: {
-      description: "updateTask",
-      action: action("updateTask"),
-    },
-    removeTask: {
-      description: "removeTask",
-      action: action("removeTask"),
-    },
-    changeFilter: {
-      description: "changeFilter",
-      action: action("changeFilter"),
-    },
-    removeTodolist: {
-      description: "removeTodolist",
-      action: action("removeTodolist"),
-    },
-    addTask: {
-      description: "addTask",
-      action: action("addTask"),
-    },
   },
 };
 

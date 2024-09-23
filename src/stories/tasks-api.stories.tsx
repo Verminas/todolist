@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { todolistAPI } from "features/TodolistsList/api/todolistsApi";
+import { tasksApi } from "features/TodolistsList/api/tasksApi";
 
 export default {
   title: "API Tasks",
@@ -9,7 +9,7 @@ export const GetTasks = () => {
   const [state, setState] = useState<any>(null);
   const todoID = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
   useEffect(() => {
-    todolistAPI.getTasks(todoID).then((res) => {
+    tasksApi.getTasks(todoID).then((res) => {
       setState(res);
     });
   }, []);
@@ -21,7 +21,7 @@ export const CreateTask = () => {
   const todoID = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
   const title = `New Task ${new Date().toISOString()}`;
   useEffect(() => {
-    todolistAPI.createTask({ title, todoId: todoID }).then((res) => {
+    tasksApi.createTask({ title, todoId: todoID }).then((res) => {
       setState(res);
     });
   }, []);
@@ -34,7 +34,7 @@ export const DeleteTask = () => {
   const todoId = "b99dbdd9-b81e-4680-aa7e-9ed553f81dbd";
   const taskId = "857cfd6a-2348-4adc-9926-8cf6e9490a9a";
   useEffect(() => {
-    todolistAPI.removeTask({ taskId, todoId }).then((res) => {
+    tasksApi.removeTask({ taskId, todoId }).then((res) => {
       setState(res.data);
     });
   }, []);
@@ -56,7 +56,7 @@ export const UpdateTaskTitle = () => {
     completed: false,
   };
   useEffect(() => {
-    todolistAPI.updateTask({ taskId, todoId, task }).then((res) => {
+    tasksApi.updateTask({ taskId, todoId, task }).then((res) => {
       setState(res);
     });
   }, []);

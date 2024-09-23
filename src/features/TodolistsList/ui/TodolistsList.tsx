@@ -2,7 +2,6 @@
 import * as React from "react";
 import { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { TaskPropsType } from "features/TodolistsList/model/tasks/tasksSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import { Todolist } from "features/TodolistsList/ui/Todolist/Todolist";
@@ -14,29 +13,17 @@ import { Navigate } from "react-router-dom";
 import { PATH } from "common/router";
 import { selectIsLoggedIn } from "features/auth/model/authSlice";
 import { selectTodolists } from "features/TodolistsList/model/todolists/todolistsSlice";
-import { selectTasks } from "features/TodolistsList/model/tasks/tasksSlice";
 import styled from "styled-components";
-import { ChangeTodolistFilterType, RemoveTaskArgType, UpdateTodolistArgType } from "common/types";
 import { useActions } from "common/hooks";
+import { buttonSx, gridHeadSx, paperSx } from "features/TodolistsList/ui/TodolistsList.styles";
 
-type Props = {};
-export const TodolistsList = (props: Props) => {
-  const todoLists = useSelector(selectTodolists);
-  const tasks = useSelector(selectTasks);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const {
-    fetchTodolists,
-    removeAllTodolists,
-    createTodolist,
-    removeTask,
-    removeTodolist,
-    changeFilter,
-    updateTask,
-    createTask,
-    changeTitleTodolist,
-  } = useActions();
+export const TodolistsList = () => {
   // for style
   const [listRef] = useAutoAnimate<HTMLUnknownElement>();
+  const todoLists = useSelector(selectTodolists);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const { fetchTodolists, removeAllTodolists, createTodolist } = useActions();
+  const isEmptyTodolistsList = todoLists.length === 0;
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -44,71 +31,40 @@ export const TodolistsList = (props: Props) => {
     }
 
     fetchTodolists();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, fetchTodolists]);
 
   const removeAllTodoLists = useCallback(() => {
     removeAllTodolists();
-  }, []); // + tests
+  }, [removeAllTodolists]); // + tests
 
-  const addTodoList = useCallback((title: string) => {
-    createTodolist(title);
-  }, []); // + tests
-
-  const removeTaskCallback = useCallback((arg: RemoveTaskArgType) => {
-    removeTask(arg);
-  }, []); // + tests
-
-  const removeTodolistCallback = useCallback((todoId: string) => {
-    removeTodolist(todoId);
-  }, []); // + tests
-
-  const changeFilterCallback = useCallback((arg: ChangeTodolistFilterType) => {
-    changeFilter(arg);
-  }, []); // + tests
-
-  const updateTaskCallback = useCallback((task: TaskPropsType) => {
-    updateTask(task);
-  }, []);
-
-  const addTask = useCallback((arg: UpdateTodolistArgType) => {
-    createTask(arg);
-  }, []); // + tests
-
-  const changeTitleTodolistCallback = useCallback((arg: UpdateTodolistArgType) => {
-    changeTitleTodolist(arg);
-  }, []); // + tests
+  const addTodoList = useCallback(
+    (title: string) => {
+      createTodolist(title);
+    },
+    [createTodolist],
+  ); // + tests
 
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;
   }
 
-  const todoListsElements =
-    todoLists.length === 0 ? (
-      <SpanMessage>There are no todolists</SpanMessage>
-    ) : (
-      todoLists.map((tl) => {
-        return (
-          <Grid key={tl.id}>
-            <Paper elevation={3} sx={{ p: "0 20px 20px 20px" }}>
-              <Todolist
-                todolist={tl}
-                tasks={tasks[tl.id]}
-                changeFilter={changeFilterCallback}
-                removeTask={removeTaskCallback}
-                removeTodolist={removeTodolistCallback}
-                addTask={addTask}
-                changeTitleTodolist={changeTitleTodolistCallback}
-                updateTask={updateTaskCallback}
-              />
-            </Paper>
-          </Grid>
-        );
-      })
-    );
+  const todoListsElements = isEmptyTodolistsList ? (
+    <SpanMessage>There are no todolists</SpanMessage>
+  ) : (
+    todoLists.map((tl) => {
+      return (
+        <Grid key={tl.id}>
+          <Paper elevation={3} sx={paperSx}>
+            <Todolist todolist={tl} />
+          </Paper>
+        </Grid>
+      );
+    })
+  );
 
   return (
     <>
-      <Grid container sx={{ mb: "30px", flexDirection: "column", alignItems: "baseline" }}>
+      <Grid container sx={gridHeadSx}>
         <AddItemForm
           addItem={addTodoList}
           placeholder={"Add a new todolists..."}
@@ -121,7 +77,7 @@ export const TodolistsList = (props: Props) => {
           variant="outlined"
           endIcon={<DeleteIcon />}
           color={"primary"}
-          sx={{ mt: "10px" }}
+          sx={buttonSx}
         />
       </Grid>
       <Grid container spacing={4} ref={listRef}>

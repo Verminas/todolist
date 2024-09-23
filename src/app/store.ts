@@ -3,6 +3,7 @@ import { todolistsSlice } from "features/TodolistsList/model/todolists/todolists
 import { appReducer } from "app/appSlice";
 import { authReducer } from "features/auth/model/authSlice";
 import { configureStore } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
 export type AppRootStateType = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+export const useAppSelector = useSelector.withTypes<AppRootStateType>();
 
 // @ts-ignore
 window.store = store;

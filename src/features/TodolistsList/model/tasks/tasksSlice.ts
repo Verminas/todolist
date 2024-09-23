@@ -1,5 +1,4 @@
-import { todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
-import { todolistAPI } from "features/TodolistsList/api/todolistsApi";
+import { FilterValueType, todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
 import { RequestStatusType } from "app/appSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode, TaskStatuses } from "common/enums";
@@ -13,6 +12,7 @@ import {
   UpdateTodolistArgType,
 } from "common/types";
 import { handleServerAppError, thunkTryCatch, getTaskUpdateModel } from "common/utils";
+import { tasksApi } from "features/TodolistsList/api/tasksApi";
 
 const createAppSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
@@ -33,7 +33,7 @@ const slice = createAppSlice({
       fetchTasks: createAThunk<FetchTasksArgType, string>(
         (todoId, thunkAPI) => {
           return thunkTryCatch(thunkAPI, async () => {
-            const res = await todolistAPI.getTasks(todoId);
+            const res = await tasksApi.getTasks(todoId);
             const tasks = res.items;
             return { todoId, tasks };
           });
@@ -53,7 +53,7 @@ const slice = createAppSlice({
           const { dispatch, rejectWithValue } = thunkAPI;
 
           return thunkTryCatch(thunkAPI, async () => {
-            const res = await todolistAPI.createTask(arg);
+            const res = await tasksApi.createTask(arg);
             if (res.resultCode === ResultCode.Success) {
               const task = res.data.item;
               return { task };
@@ -81,7 +81,7 @@ const slice = createAppSlice({
           return thunkTryCatch(
             thunkAPI,
             async () => {
-              const res = await todolistAPI.removeTask(arg);
+              const res = await tasksApi.removeTask(arg);
               if (res.resultCode === ResultCode.Success) {
                 return arg;
               } else {
@@ -109,7 +109,7 @@ const slice = createAppSlice({
           return thunkTryCatch(
             thunkAPI,
             async () => {
-              const res = await todolistAPI.updateTask({ todoId, taskId, task });
+              const res = await tasksApi.updateTask({ todoId, taskId, task });
 
               if (res.resultCode === ResultCode.Success) {
                 const updatedTask = res.data.item;
@@ -160,14 +160,31 @@ const slice = createAppSlice({
   },
   selectors: {
     selectTasks: (sliceState) => sliceState,
+    selectTodoTasks: (sliceState, args: SelectTodosTasksType) => {
+      const { filter, id } = args;
+
+      let tasks = sliceState[id];
+      if (filter === "active") {
+        tasks = tasks.filter((t) => !t.isDone);
+      }
+      if (filter === "completed") {
+        tasks = tasks.filter((t) => t.isDone);
+      }
+
+      return tasks;
+    },
   },
 });
 
 export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
-export const { selectTasks } = slice.selectors;
+export const { selectTasks, selectTodoTasks } = slice.selectors;
 
 export type TasksStateType = {
-  [key: string]: Array<TaskPropsType>;
+  [key: string]: TaskPropsType[];
 };
 export type TaskPropsType = TaskResponseType & { isDone: boolean; entityStatus: RequestStatusType };
+type SelectTodosTasksType = {
+  id: string;
+  filter: FilterValueType;
+};
