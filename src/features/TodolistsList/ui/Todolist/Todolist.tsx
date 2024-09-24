@@ -19,7 +19,7 @@ export const Todolist = memo(({ todolist }: TodolistPropsType) => {
 
   const addTaskHandler = useCallback(
     (title: string) => {
-      createTask({ todoId: id, title });
+      return createTask({ todoId: id, title });
     },
     [createTask, id],
   );

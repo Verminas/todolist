@@ -1,20 +1,15 @@
-import { appActions } from "app/appSlice";
 import axios from "axios";
-import { AppDispatch } from "app/store";
-
-// generic function
 
 /**
  * Handles errors related to server network communication in Redux.
  *
  * @param {unknown} err - The error object that occurred during the network request.
- * @param {AppDispatch} dispatch - The function used to dispatch actions to the Redux store.
  *
  * @remarks
  * This function checks for different types of errors, including Axios errors and native errors, and updates the app state accordingly.
  */
 
-export const handleServerNetworkError = (err: unknown, dispatch: AppDispatch): void => {
+export const handleServerNetworkError = (err: unknown): string => {
   let errorMessage = "Some error occurred";
 
   // ❗Проверка на наличие axios ошибки
@@ -30,6 +25,5 @@ export const handleServerNetworkError = (err: unknown, dispatch: AppDispatch): v
     errorMessage = JSON.stringify(err);
   }
 
-  dispatch(appActions.setAppError({ error: errorMessage }));
-  dispatch(appActions.setAppStatus({ status: "failed" }));
+  return errorMessage;
 };

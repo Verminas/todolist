@@ -2,9 +2,7 @@ import { BaseResponse } from "common/types";
 import { appActions } from "app/appSlice";
 import { Dispatch } from "redux";
 
-type ErrorUtilsDispatchType = Dispatch<
-  ReturnType<typeof appActions.setAppError> | ReturnType<typeof appActions.setAppStatus>
->;
+type ErrorUtilsDispatchType = Dispatch<ReturnType<typeof appActions.setAppError>>;
 
 /**
 
@@ -24,5 +22,5 @@ export const handleServerAppError = <T>(
     const error = data.messages.length ? data.messages[0] : "Some error occurred";
     dispatch(appActions.setAppError({ error }));
   }
-  dispatch(appActions.setAppStatus({ status: "failed" }));
+  // dispatch(appActions.setAppStatus({ status: "failed" }));
 };

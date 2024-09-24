@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Task } from "features/TodolistsList/ui/Todolist/TasksList/Task/Task";
 import { useAppSelector } from "app/store";
-import { selectTodoTasks } from "features/TodolistsList/model/tasks/tasksSlice";
 import { TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { selectTasks } from "features/TodolistsList/model/tasks/tasksSlice";
 
 type Props = {
   todolist: TodolistType;
@@ -17,7 +17,7 @@ export const TasksList = ({ todolistIsLoading, todolist }: Props) => {
   // animation for list tasks
   const [listRef] = useAutoAnimate<HTMLUListElement>();
   const { filter, id } = todolist;
-  const tasks = useAppSelector((state) => selectTodoTasks(state, { id, filter }));
+  const tasks = useAppSelector((state) => selectTasks(state, { id, filter }));
   const isTasksListEmpty = tasks.length === 0;
 
   const tasksElements = tasks.map((t) => {

@@ -2,9 +2,10 @@ import React, { ChangeEvent, KeyboardEvent, memo, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 type AddItemFormPropsType = {
-  addItem: (value: string) => void;
+  addItem: (value: string) => Promise<any>;
   placeholder?: string;
   textFieldLabel?: string;
   disabled: boolean;
@@ -12,6 +13,7 @@ type AddItemFormPropsType = {
 export const AddItemForm = memo(({ addItem, placeholder, textFieldLabel, disabled }: AddItemFormPropsType) => {
   const [title, setTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [isItemAdding, setIsItemAdding] = useState(false);
 
   function changeTitle(e: ChangeEvent<HTMLInputElement>) {
     setTitle(e.currentTarget.value);
@@ -28,8 +30,22 @@ export const AddItemForm = memo(({ addItem, placeholder, textFieldLabel, disable
   const addItemHandler = () => {
     if (disabled) return;
     if (title.trim().length > 0) {
-      addItem(title.trim());
-      setTitle("");
+      if (isItemAdding) return;
+
+      addItem(title.trim())
+        .then(unwrapResult)
+        .then(() => {
+          setIsItemAdding(false);
+          setTitle("");
+        })
+        .catch((err) => {
+          if (err?.resultCode) {
+            const errorMessage = err.messages?.length > 0 ? err.messages[0] : "Some error occurred";
+            setError(errorMessage);
+          }
+        });
+
+      setIsItemAdding(true);
     } else {
       setError("Title is required");
     }

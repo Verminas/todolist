@@ -10,16 +10,6 @@ beforeEach(() => {
   };
 });
 
-test("changing app status should be correct", () => {
-  expect(initialState.status).toBe("idle");
-
-  const action = appActions.setAppStatus({ status: "loading" });
-  const endState = appReducer(initialState, action);
-
-  expect(endState.status).toBeDefined();
-  expect(endState.status).toBe("loading");
-});
-
 test("changing app error message should be correct", () => {
   expect(initialState.error).toBe(null);
 

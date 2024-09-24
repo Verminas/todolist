@@ -13,7 +13,7 @@ import { ThunkDispatch } from "redux-thunk";
 // };
 
 type ThunkApi = GetThunkAPI<{
-  rejectValue: BaseResponse | null;
+  rejectValue: BaseResponse | null | unknown;
   state?: undefined;
   dispatch?: undefined;
   extra?: unknown;
@@ -41,16 +41,16 @@ export const thunkTryCatch = async <T>(
   entity: Entity = null,
 ): Promise<T | ReturnType<typeof thunkAPI.rejectWithValue>> => {
   const { dispatch, rejectWithValue } = thunkAPI;
-  dispatch(appActions.setAppStatus({ status: "loading" }));
   changeEntityStatus(dispatch, entity, "loading");
 
   try {
     return await callbackLogic();
-  } catch (err) {
-    handleServerNetworkError(err, dispatch as AppDispatch);
-    return rejectWithValue(null);
   } finally {
-    dispatch(appActions.setAppStatus({ status: "idle" }));
+    // catch (err) {
+    //   handleServerNetworkError(err, dispatch as AppDispatch);
+    //   return rejectWithValue(err as BaseResponse);
+    // }
+
     changeEntityStatus(dispatch, entity, "idle");
   }
 };

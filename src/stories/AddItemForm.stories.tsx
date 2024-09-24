@@ -28,6 +28,6 @@ type Story = StoryObj<typeof AddItemForm>;
 export const AddItemFormStory: Story = {
   // More on args: https://storybook.js.org/docs/react/writing-stories/args
   args: {
-    addItem: action("Button clicked inside form"),
+    addItem: () => Promise.resolve("Button clicked inside form"),
   },
 };

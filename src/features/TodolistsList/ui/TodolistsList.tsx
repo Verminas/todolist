@@ -39,7 +39,7 @@ export const TodolistsList = () => {
 
   const addTodoList = useCallback(
     (title: string) => {
-      createTodolist(title);
+      return createTodolist(title);
     },
     [createTodolist],
   ); // + tests
