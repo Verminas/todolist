@@ -6,11 +6,11 @@ import { FilterTasksButtons } from "features/TodolistsList/ui/Todolist/FilterTas
 import { TasksList } from "features/TodolistsList/ui/Todolist/TasksList/TasksList";
 import { TodolistTitle } from "features/TodolistsList/ui/Todolist/TodolistTitle/TodolistTitle";
 
-type TodolistPropsType = {
+type Props = {
   todolist: TodolistType;
 };
 
-export const Todolist = memo(({ todolist }: TodolistPropsType) => {
+export const Todolist = memo(({ todolist }: Props) => {
   const { createTask } = useActions();
   const { id, title, entityStatus } = todolist;
   console.log("title of todo", title);
