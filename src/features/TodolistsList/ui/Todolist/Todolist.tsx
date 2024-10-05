@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from "react";
 import { AddItemForm } from "common/components";
-import { TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { TodolistType } from "features/TodolistsList/model/todolistsSlice";
 import { useActions } from "common/hooks";
 import { FilterTasksButtons } from "features/TodolistsList/ui/Todolist/FilterTasksButtons/FilterTasksButtons";
 import { TasksList } from "features/TodolistsList/ui/Todolist/TasksList/TasksList";

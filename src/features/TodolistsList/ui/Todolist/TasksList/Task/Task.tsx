@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
 import { ChangeEvent, memo, useCallback } from "react";
-import { TaskPropsType } from "features/TodolistsList/model/tasks/tasksSlice";
+import { TaskPropsType } from "features/TodolistsList/model/tasksSlice";
 
 import { useActions } from "common/hooks";
 

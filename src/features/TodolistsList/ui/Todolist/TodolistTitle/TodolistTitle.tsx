@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import styled from "styled-components";
 import { useCallback } from "react";
 import { useActions } from "common/hooks";
-import { TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { TodolistType } from "features/TodolistsList/model/todolistsSlice";
 
 type Props = {
   todolist: TodolistType;

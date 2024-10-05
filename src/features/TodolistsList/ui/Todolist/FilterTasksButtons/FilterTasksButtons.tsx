@@ -4,7 +4,7 @@ import { filterButtonsContainerSx } from "features/TodolistsList/ui/Todolist/Tod
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useCallback } from "react";
-import { FilterValueType, TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { FilterValueType, TodolistType } from "features/TodolistsList/model/todolistsSlice";
 import { useActions } from "common/hooks";
 
 type Props = {

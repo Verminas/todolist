@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Task } from "features/TodolistsList/ui/Todolist/TasksList/Task/Task";
 import { useAppSelector } from "app/store";
-import { TodolistType } from "features/TodolistsList/model/todolists/todolistsSlice";
-import { selectTasks } from "features/TodolistsList/model/tasks/tasksSlice";
+import { TodolistType } from "features/TodolistsList/model/todolistsSlice";
+import { selectTasks } from "features/TodolistsList/model/tasksSlice";
 
 type Props = {
   todolist: TodolistType;

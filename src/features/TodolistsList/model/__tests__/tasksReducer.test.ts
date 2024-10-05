@@ -1,13 +1,8 @@
 import { v1 } from "uuid";
-import {
-  TaskPropsType,
-  tasksActions,
-  tasksReducer,
-  TasksStateType,
-} from "features/TodolistsList/model/tasks/tasksSlice";
+import { TaskPropsType, tasksActions, tasksReducer, TasksStateType } from "features/TodolistsList/model/tasksSlice";
 import { RequestStatusType } from "app/appSlice";
-import { todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
-import { getTodolist } from "features/TodolistsList/model/todolists/todolistsReducer.test";
+import { todolistsActions } from "features/TodolistsList/model/todolistsSlice";
+import { getTodolist } from "features/TodolistsList/model/__tests__/todolistsReducer.test";
 import { TaskPriorities, TaskStatuses } from "common/enums";
 import { TodoListTypeDomain } from "common/types";
 

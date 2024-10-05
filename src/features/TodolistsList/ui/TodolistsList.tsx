@@ -12,7 +12,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Navigate } from "react-router-dom";
 import { PATH } from "common/router";
 import { selectIsLoggedIn } from "features/auth/model/authSlice";
-import { selectTodolists } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { selectTodolists } from "features/TodolistsList/model/todolistsSlice";
 import styled from "styled-components";
 import { useActions } from "common/hooks";
 import { buttonSx, gridHeadSx, paperSx } from "features/TodolistsList/ui/TodolistsList.styles";

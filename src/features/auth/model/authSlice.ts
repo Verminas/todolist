@@ -1,6 +1,6 @@
 import { asyncThunkCreator, buildCreateSlice } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
-import { todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { todolistsActions } from "features/TodolistsList/model/todolistsSlice";
 import { authAPI, LoginParamsType } from "../api/authApi";
 import { BaseResponse } from "common/types";
 

@@ -1,4 +1,4 @@
-import { FilterValueType, todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { FilterValueType, todolistsActions } from "features/TodolistsList/model/todolistsSlice";
 import { RequestStatusType } from "app/appSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode, TaskStatuses } from "common/enums";

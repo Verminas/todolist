@@ -1,6 +1,6 @@
 import { todolistAPI } from "features/TodolistsList/api/todolistsApi";
 import { RequestStatusType } from "app/appSlice";
-import { tasksActions } from "features/TodolistsList/model/tasks/tasksSlice";
+import { tasksActions } from "features/TodolistsList/model/tasksSlice";
 import { asyncThunkCreator, buildCreateSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ResultCode } from "common/enums";
 import { AppRootStateType } from "app/store";

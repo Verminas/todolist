@@ -1,4 +1,4 @@
-import { FilterValueType } from "features/TodolistsList/model/todolists/todolistsSlice";
+import { FilterValueType } from "features/TodolistsList/model/todolistsSlice";
 
 export type ChangeTodolistFilterType = {
   filter: FilterValueType;

@@ -8,8 +8,8 @@ import {
   isRejected,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { todolistsActions } from "features/TodolistsList/model/todolists/todolistsSlice";
-import { tasksActions } from "features/TodolistsList/model/tasks/tasksSlice";
+import { todolistsActions } from "features/TodolistsList/model/todolistsSlice";
+import { tasksActions } from "features/TodolistsList/model/tasksSlice";
 import { authActions } from "features/auth/model/authSlice";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";

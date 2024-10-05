@@ -1,4 +1,4 @@
-import { TaskPropsType } from "features/TodolistsList/model/tasks/tasksSlice";
+import { TaskPropsType } from "features/TodolistsList/model/tasksSlice";
 import { TaskStatuses } from "common/enums";
 import { TaskUpdateModelType } from "common/types";
 
