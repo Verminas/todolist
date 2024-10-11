@@ -10,6 +10,7 @@ import { ChangeEvent, memo, useCallback } from "react";
 import { TaskPropsType } from "features/TodolistsList/model/tasksSlice";
 
 import { useActions } from "common/hooks";
+import styled from "styled-components";
 
 type Props = {
   task: TaskPropsType;
@@ -40,7 +41,7 @@ export const Task = memo(({ task, todolistIsLoading }: Props) => {
 
   return (
     <ListItem key={id} disablePadding disableGutters sx={getListItemSx(isDone)}>
-      <div>
+      <StyledWrapper>
         <Checkbox
           checked={isDone}
           onChange={changeTaskStatusHandler}
@@ -53,10 +54,20 @@ export const Task = memo(({ task, todolistIsLoading }: Props) => {
           textFieldLabel={"Task title"}
           disabled={taskIsLoading}
         />
-      </div>
+      </StyledWrapper>
       <IconButton aria-label="delete task" onClick={removeTaskHandler} size={"small"} disabled={taskIsLoading}>
         <DeleteIcon />
       </IconButton>
     </ListItem>
   );
 });
+
+const StyledWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 50px;
+  max-width: 300px;
+  word-wrap: break-word; /* Для поддержки старых браузеров */
+  overflow-wrap: break-word; /* Для современных браузеров */
+  word-break: break-all;
+`;

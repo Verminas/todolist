@@ -30,14 +30,14 @@ export const TodolistTitle = ({ todolist, todolistIsLoading }: Props) => {
 
   return (
     <WrapperTitle>
-      <h3>
+      <StyledTitle>
         <EditableSpan
           title={title}
           changeTitle={changeTitleTodolistHandler}
           textFieldLabel={"Todolist title"}
           disabled={todolistIsLoading}
         />
-      </h3>
+      </StyledTitle>
       <IconButton
         aria-label="delete todolist"
         onClick={removeTodolistHandler}
@@ -54,4 +54,9 @@ const WrapperTitle = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+`;
+
+const StyledTitle = styled.h3`
+  max-width: 350px;
+  min-width: 50px;
 `;

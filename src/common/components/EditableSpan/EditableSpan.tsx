@@ -1,5 +1,6 @@
 import { ChangeEvent, useState, KeyboardEvent, memo } from "react";
 import TextField from "@mui/material/TextField";
+import styled from "styled-components";
 
 type Props = {
   title: string;
@@ -43,8 +44,12 @@ export const EditableSpan = memo(({ title, changeTitle, textFieldLabel, disabled
           error={value.length > 100}
         />
       ) : (
-        <span onDoubleClick={activateEditMode}>{title}</span>
+        <StyledSpan onDoubleClick={activateEditMode}>{title}</StyledSpan>
       )}
     </>
   );
 });
+
+const StyledSpan = styled.span`
+  overflow-wrap: break-word;
+`;
